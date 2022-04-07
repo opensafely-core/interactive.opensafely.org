@@ -1,28 +1,12 @@
-# opensafely-interactive
+# OpenSAFELY Interactive
 
-This is a template for an OpenSAFELY Core repository.
+OpenSAFELY Interactive is an accessible and interactive, automated analysis pipeline.
 
-Put your project description here.
+Its aim is to:
 
-New repo checklist:
-- [ ] Does the repo require a Dockerfile?
-  If not, delete:
-  - Dockerfile -
-  - .dockerignore
-  - hadolint pre-commit hook from `.pre-commit-config.yaml`
-  - `lint-dockerfile` action from `.github/workflows/main.yml`
-- [ ] Is this a Django project?
-  If so, you probably need to add the following per-file ignores to `.flake8`
-  ```
-  per-file-ignores =
-    manage.py:INP001
-    gunicorn.conf.py:INP001
-  ```
-- [ ] Will this project be installed with pip?
-  If so, delete `requirements.prod.in` and switch references in the `justfile` to `pyproject.toml`
-- [ ] Update DEVELOPERS.md with any project-specific requirements and commands
-- [ ] Update commands in `justfile`
+1) support NHS Service analysts, who make decisions based on dashboards, which are currently normally produced in point-and-click environments
 
+2) make it easier and quicker for researchers to do exploratory analysis, so they understand the value of OpenSAFELY for their research
 
 ## Developer docs
 

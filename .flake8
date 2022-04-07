@@ -7,3 +7,7 @@ ignore = \
     E501 \ # line too long (black fixes long lines, except for long strings which may benefit from being long (eg URLs))
     W503   # line break before binary operator (black disagrees)
 max-line-length = 88
+#Django specific
+per-file-ignores =
+    manage.py:INP001
+    gunicorn.conf.py:INP001
