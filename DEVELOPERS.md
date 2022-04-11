@@ -22,13 +22,28 @@ just #  shortcut for just --list
 ## Local development environment
 
 
+### Native
+
+#### Prerequisites
+
+- **Python v3.10.x**
+- **virtualenv**
+- **pip**
+- **Docker (for running postgres)**
+
+#### Setup
 Set up a local development environment with:
 ```
-just dev_setup
+just devenv
 ```
 
 ## Tests
 Run the tests with:
 ```
 just test <args>
+```
+
+## Run the application
+```
+just run
 ```

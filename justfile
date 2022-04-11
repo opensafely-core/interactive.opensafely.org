@@ -108,4 +108,5 @@ fix: devenv
 
 # Run the dev project
 run: devenv
-    echo "Not implemented yet"
+    docker-compose up --detach
+    $BIN/python manage.py runserver

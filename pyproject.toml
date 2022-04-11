@@ -15,7 +15,14 @@ exclude = '''
 
 [tool.coverage.run]
 branch = true
-omit = [".venv/*"]
+omit = [
+  ".venv/*",
+  "*/migrations/*",
+  "opensafely_interactive/asgi.py",
+  "opensafely_interactive/settings.py",
+  "opensafely_interactive/wsgi.py",
+  "manage.py",
+]
 
 [tool.coverage.report]
 fail_under = 100
@@ -29,3 +36,4 @@ lines_after_imports = 2
 skip_glob = [".direnv", "venv", ".venv"]
 
 [tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "opensafely_interactive.settings"
