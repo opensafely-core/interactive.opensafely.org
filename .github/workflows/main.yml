@@ -28,7 +28,7 @@ jobs:
         env:
           POSTGRES_USER: user
           POSTGRES_PASSWORD: pass
-          POSTGRES_DB: os-interactive
+          POSTGRES_DB: interactive
         ports:
           - 5432:5432
 
@@ -41,7 +41,6 @@ jobs:
           cache-dependency-path: requirements.*.txt
       - uses: extractions/setup-just@v1
       - name: Run tests
-#       env:  # Add environment variables required for tests
         run: |
           just test
 
