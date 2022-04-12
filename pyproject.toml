@@ -18,9 +18,9 @@ branch = true
 omit = [
   ".venv/*",
   "*/migrations/*",
-  "opensafely_interactive/asgi.py",
-  "opensafely_interactive/settings.py",
-  "opensafely_interactive/wsgi.py",
+  "interactive/asgi.py",
+  "interactive/settings.py",
+  "interactive/wsgi.py",
   "manage.py",
 ]
 
@@ -36,4 +36,4 @@ lines_after_imports = 2
 skip_glob = [".direnv", "venv", ".venv"]
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "opensafely_interactive.settings"
+DJANGO_SETTINGS_MODULE = "interactive.settings"
