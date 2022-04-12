@@ -37,3 +37,6 @@ skip_glob = [".direnv", "venv", ".venv"]
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "interactive.settings"
+env = [
+  "SECRET_KEY=12345",
+]

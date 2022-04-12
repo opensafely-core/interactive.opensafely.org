@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+from environs import Env, EnvError
+
+
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +26,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-pf3sldl@y#p4zwn)u^_i&tjym!wso4z3lda2un#6zy%8f_!5sb"
+try:
+    SECRET_KEY = env.str("SECRET_KEY")
+except EnvError:
+    raise Exception(
+        "SECRET_KEY environment variable not found. Does a .env file exist? Have you copied the dotenv-sample file?"
+    )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -76,14 +86,9 @@ WSGI_APPLICATION = "interactive.wsgi.application"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "os-interactive",
-        "USER": "user",
-        "PASSWORD": "pass",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
-    }
+    "default": env.dj_db_url(
+        "DATABASE_URL", "postgres://user:pass@localhost:5432/interactive"
+    )
 }
 
 
