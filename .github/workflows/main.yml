@@ -54,7 +54,6 @@ jobs:
           POSTGRES_USER: user
           POSTGRES_PASSWORD: pass
           POSTGRES_DB: interactive
-          SECRET_KEY: e114ef23-9221-4d36-be0e-5aab4d28a526
         ports:
           - 5432:5432
 
@@ -74,6 +73,8 @@ jobs:
           path: assets/dist/bundle
 
       - name: Run tests
+        env:
+          SECRET_KEY: e114ef23-9221-4d36-be0e-5aab4d28a526
         run: |
           just test
 
