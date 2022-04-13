@@ -98,6 +98,7 @@ htmlcov
 
 # Django
 .env
+/staticfiles
 
 # Virtual environments
 .venv/

@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
@@ -15,6 +17,11 @@
     document.documentElement.classList.remove("no-js");
     document.documentElement.classList.add("js", "legacy-js");
   </script>
+
+  <link rel="manifest" href="{% static "manifest.webmanifest" %}">
+  <link rel="icon" href="{% static "favicon.ico" %}" sizes="any">
+  <link rel="icon" href="{% static "icon.svg" %}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{% static "apple-touch-icon.png" %}">
 
   <body>
     {% block content %}{% endblock %}
