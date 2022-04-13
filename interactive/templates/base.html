@@ -1,0 +1,39 @@
+{% load django_vite %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="no-js min-h-screen">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>OpenSAFELY Interactive</title>
+
+  <script type="module">
+    document.documentElement.classList.remove("no-js");
+    document.documentElement.classList.add("js", "modern-js");
+  </script>
+
+  <script nomodule>
+    document.documentElement.classList.remove("no-js");
+    document.documentElement.classList.add("js", "legacy-js");
+  </script>
+
+  <link rel="manifest" href="{% static "manifest.webmanifest" %}">
+  <link rel="icon" href="{% static "favicon.ico" %}" sizes="any">
+  <link rel="icon" href="{% static "icon.svg" %}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{% static "apple-touch-icon.png" %}">
+
+  {% vite_hmr_client %}
+  {% vite_asset 'assets/src/scripts/main.js' %}
+
+<body class="min-h-screen flex flex-col">
+  {% include "partials/header.html" %}
+
+  <main class="flex-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include "partials/footer.html" %}
+</body>
+</html>

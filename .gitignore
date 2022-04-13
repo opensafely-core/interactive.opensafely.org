@@ -96,7 +96,14 @@ htmlcov
 # IDEs
 .idea/
 
+# Django
+.env
+/staticfiles
 
 # Virtual environments
 .venv/
 venv/
+
+# Node
+node_modules
+/assets/dist

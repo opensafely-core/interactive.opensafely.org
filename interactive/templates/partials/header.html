@@ -1,0 +1,12 @@
+<header class="bg-oxford text-white py-4">
+  <div class="container mx-auto px-4">
+    {% url 'home' as url %}
+    <a
+      class="text-xl font-semibold"
+      href="{% url 'home' %}"
+      {% if request.path == url %}aria-current="true"{% endif %}
+    >
+      OpenSAFELY Interactive
+    </a>
+  </div>
+</header>
