@@ -107,3 +107,6 @@ venv/
 # Node
 node_modules
 /assets/dist
+
+# environment variables
+.env
