@@ -1,0 +1,20 @@
+{
+  "name": "opensafely-interactive",
+  "version": "1.0.0",
+  "description": "OpenSAFELY Interactive is an accessible and interactive, automated analysis pipeline.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opensafely-core/opensafely-interactive.git"
+  },
+  "author": "Bennett Institute for Applied Data Science",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-legacy": "^1.8.0",
+    "vite": "^2.9.1"
+  }
+}

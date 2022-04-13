@@ -100,3 +100,7 @@ htmlcov
 # Virtual environments
 .venv/
 venv/
+
+# Node
+node_modules
+/assets/dist
