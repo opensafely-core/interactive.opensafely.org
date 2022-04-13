@@ -96,6 +96,8 @@ htmlcov
 # IDEs
 .idea/
 
+# Django
+.env
 
 # Virtual environments
 .venv/
