@@ -2,49 +2,47 @@
 
 {% block content %}
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl">Hello world</h1>
+  <h1 class="text-3xl">Hello world</h1>
 
-    <section class="mt-4 border-t-2 py-4">
-        <h2 class="text-2xl mb-3">Counter</h2>
+  <section class="mt-4 border-t-2 py-4">
+    <h2 class="text-2xl mb-3">Counter</h2>
 
-        <div x-data="{ count: 0 }">
-            <button
-                class="inline-flex px-4 py-2 bg-oxford-100 text-oxford rounded-lg hover:bg-oxford-200"
-                x-on:click="count++"
-            >
-                Increment
-            </button>
-            <span class="flex mt-3 text-3xl font-mono" x-text="count"></span>
-        </div>
-    </section>
+    <div x-data="{ count: 0 }">
+      <button class="inline-flex px-4 py-2 bg-oxford-100 text-oxford rounded-lg hover:bg-oxford-200"
+        x-on:click="count++">
+        Increment
+      </button>
+      <span class="flex mt-3 text-3xl font-mono" x-text="count"></span>
+    </div>
+  </section>
 
-    <section class="mt-4 border-t-2 py-4">
-        <h2 class="text-2xl mb-3">Dropdown</h2>
-        <div x-data="{ open: false }">
-            <button @click="open = ! open">Toggle</button>
-            <div x-show="open" @click.outside="open = false">Contents...</div>
-        </div>
-    </section>
+  <section class="mt-4 border-t-2 py-4">
+    <h2 class="text-2xl mb-3">Dropdown</h2>
+    <div x-data="{ open: false }">
+      <button @click="open = ! open">Toggle</button>
+      <div x-show="open" @click.outside="open = false">Contents...</div>
+    </div>
+  </section>
 
-    <section class="mt-4 border-t-2 py-4">
-        <h2 class="text-2xl mb-3">Search input</h2>
-        <div x-data="{
-                search: '',
-                items: ['foo', 'bar', 'baz'],
-                get filteredItems() {
-                    return this.items.filter(
-                        i => i.startsWith(this.search)
-                    )
-                }
-        }">
-            <input x-model="search" placeholder="Search...">
+  <section class="mt-4 border-t-2 py-4">
+    <h2 class="text-2xl mb-3">Search input</h2>
+    <div x-data="{
+      search: '',
+      items: ['foo', 'bar', 'baz'],
+      get filteredItems() {
+        return this.items.filter(
+          i => i.startsWith(this.search)
+        )
+      }
+    }">
+      <input x-model="search" placeholder="Search...">
 
-            <ul>
-                <template x-for="item in filteredItems" :key="item">
-                    <li x-text="item"></li>
-                </template>
-            </ul>
-        </div>
-    </section>
+      <ul>
+        <template x-for="item in filteredItems" :key="item">
+          <li x-text="item"></li>
+        </template>
+      </ul>
+    </div>
+  </section>
 </div>
 {% endblock content %}

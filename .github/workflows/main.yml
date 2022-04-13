@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "16"
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install node_modules
         run: npm ci
@@ -74,7 +74,7 @@ jobs:
 
       - name: Run tests
         env:
-          SECRET_KEY: e114ef23-9221-4d36-be0e-5aab4d28a526
+          SECRET_KEY: 12345 # Fake key for GitHub Actions
         run: |
           just test
 
