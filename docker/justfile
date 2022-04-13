@@ -1,0 +1,21 @@
+export DOCKER_USERID := `id -u`
+export DOCKER_GROUPID := `id -g`
+
+# Load .env files by default
+set dotenv-load := true
+
+# enable modern docker build features
+export DOCKER_BUILDKIT := "1"
+export COMPOSE_DOCKER_CLI_BUILD := "1"
+
+export BIN := "/opt/venv/bin"
+
+build env="dev":
+    #!/usr/bin/env bash
+
+    # set build args for prod builds
+    export BUILD_DATE=$(date -u +'%y-%m-%dT%H:%M:%SZ')
+    export GITREF=$(git rev-parse --short HEAD)
+
+    # build the thing
+    docker build -f Dockerfile.{{ env }} ..

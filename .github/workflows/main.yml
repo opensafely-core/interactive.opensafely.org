@@ -1,8 +1,15 @@
 ---
 name: CI
 
+env:
+    IMAGE_NAME: interactive
+    PUBLIC_IMAGE_NAME: ghcr.io/opensafely-core/interactive
+    REGISTRY: ghcr.io
+    SSH_AUTH_SOCK: /tmp/agent.sock
+
 on:
   push:
+  workflow_dispatch:
 
 jobs:
   assets:
@@ -84,4 +91,47 @@ jobs:
       - uses: actions/checkout@v2
       - uses: hadolint/hadolint-action@v1.5.0
         with:
+          dockerfile: docker/Dockerfile.prod
           failure-threshold: error
+
+  deploy:
+    needs: [check, test, lint-dockerfile]
+    runs-on: ubuntu-latest
+
+    concurrency: deploy-production
+
+    permissions:
+      contents: read
+      packages: write
+
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: extractions/setup-just@aa5d15c144db4585980a44ebfdd2cf337c4f14cb  # v1.4.0
+
+      - name: Build docker image
+        run: |
+          just docker-build prod
+
+      - name: Login to Packages Container registry
+        run: |
+            docker login $REGISTRY -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+
+      - name: publish docker image
+        run: |
+            docker tag $IMAGE_NAME $PUBLIC_IMAGE_NAME:latest
+            docker push $PUBLIC_IMAGE_NAME:latest
+
+      - name: Setup SSH Agent
+        run: |
+            ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+            ssh-add - <<< "${{ secrets.DOKKU1_DEPLOY_SSH_KEY }}"
+
+      - name: Deploy to dokku
+        run: |
+            SHA=$(docker inspect --format='{{index .RepoDigests 0}}' $PUBLIC_IMAGE_NAME:latest)
+            ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" dokku@dokku.ebmdatalab.net git:from-image interactive $SHA
