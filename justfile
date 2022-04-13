@@ -91,6 +91,7 @@ upgrade env package="": virtualenv
 # *ARGS is variadic, 0 or more. This allows us to do `just test -k match`, for example.
 # Run the tests
 test *ARGS: devenv
+    $BIN/python manage.py collectstatic --no-input
     $BIN/python -m pytest --cov=. --cov-report html --cov-report term-missing:skip-covered {{ ARGS }}
 
 
