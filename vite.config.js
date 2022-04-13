@@ -10,7 +10,7 @@ export default defineConfig({
         main: "assets/src/scripts/main.js",
       },
     },
-    outDir: "assets/dist",
+    outDir: "assets/dist/bundle",
     emptyOutDir: true,
   },
   clearScreen: false,

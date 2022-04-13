@@ -1,3 +1,4 @@
+{% load django_vite %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -22,6 +23,9 @@
   <link rel="icon" href="{% static "favicon.ico" %}" sizes="any">
   <link rel="icon" href="{% static "icon.svg" %}" type="image/svg+xml">
   <link rel="apple-touch-icon" href="{% static "apple-touch-icon.png" %}">
+
+  {% vite_hmr_client %}
+  {% vite_asset 'assets/src/scripts/main.js' %}
 
   <body>
     {% block content %}{% endblock %}
