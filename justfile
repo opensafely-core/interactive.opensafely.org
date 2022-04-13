@@ -90,8 +90,7 @@ upgrade env package="": virtualenv
 
 # *ARGS is variadic, 0 or more. This allows us to do `just test -k match`, for example.
 # Run the tests
-test *ARGS: devenv
-    $BIN/python manage.py collectstatic --no-input
+test *ARGS: devenv assets-collect
     $BIN/python -m pytest --cov=. --cov-report html --cov-report term-missing:skip-covered {{ ARGS }}
 
 
@@ -112,8 +111,22 @@ run: devenv
     docker-compose up --detach
     $BIN/python manage.py runserver
 
-# update npm deps, build payload, and collect for Django
-rebuild-static:
-    npm ci
-    npm run build
-    $BIN/python manage.py collectstatic --no-input
+# Remove built assets and collected static files
+assets-clean:
+  rm -rf assets/dist
+  rm -rf staticfiles
+
+# Clean install the Node.js dependencies
+assets-install:
+  npm ci
+
+# Build the Node.js assets
+assets-build:
+  npm run build
+
+# Collect the static files
+assets-collect:
+  $BIN/python manage.py collectstatic --no-input
+
+# Clean, reinstall, build and collect all assets
+assets-rebuild: assets-clean assets-install assets-build assets-collect
