@@ -110,3 +110,9 @@ fix: devenv
 run: devenv
     docker-compose up --detach
     $BIN/python manage.py runserver
+
+# update npm deps, build payload, and collect for Django
+rebuild-static:
+    npm ci
+    npm run build
+    $BIN/python manage.py collectstatic --no-input

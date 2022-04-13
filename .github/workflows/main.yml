@@ -5,6 +5,30 @@ on:
   push:
 
 jobs:
+  assets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: 'npm'
+
+      - name: Install node_modules
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Store assets
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-assets
+          path: assets/dist/bundle
+
   check:
     runs-on: ubuntu-latest
 
@@ -20,6 +44,7 @@ jobs:
         run: just check
 
   test:
+    needs: [assets, check]
     runs-on: ubuntu-latest
 
     services:
@@ -40,6 +65,13 @@ jobs:
           cache: "pip"
           cache-dependency-path: requirements.*.txt
       - uses: extractions/setup-just@v1
+
+      - name: Retrieve assets
+        uses: actions/download-artifact@v2
+        with:
+          name: node-assets
+          path: assets/dist/bundle
+
       - name: Run tests
         run: |
           just test
