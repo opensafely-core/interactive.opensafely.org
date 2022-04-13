@@ -1,4 +1,7 @@
 // import "vite/modulepreload-polyfill";
+import Alpine from "alpinejs";
 import "../styles/main.css";
 
-console.log("Silence is golden");
+window.Alpine = Alpine;
+
+Alpine.start();
