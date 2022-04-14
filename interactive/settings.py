@@ -31,7 +31,7 @@ try:
     SECRET_KEY = env.str("SECRET_KEY")
 except EnvError:
     raise Exception(
-        "SECRET_KEY environment variable not found. Does a .env file exist? Have you copied the dotenv-sample file?"
+        "SECRET_KEY environment variable not found. Have the environment variables been set correctly?"
     )
 
 # SECURITY WARNING: don't run with debug turned on in production!

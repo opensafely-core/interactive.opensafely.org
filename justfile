@@ -60,11 +60,15 @@ prodenv: requirements-prod
     touch $VIRTUAL_ENV/.prod
 
 
+_env:
+    test -f .env || cp dotenv-sample .env
+
+
 # && dependencies are run after the recipe has run. Needs just>=0.9.9. This is
 # a killer feature over Makefiles.
 #
 # ensure dev requirements installed and up to date
-devenv: prodenv requirements-dev && install-precommit
+devenv: _env prodenv requirements-dev && install-precommit
     #!/usr/bin/env bash
     # exit if .txt file has not changed since we installed them (-nt == "newer than', but we negate with || to avoid error exit code)
     test requirements.dev.txt -nt $VIRTUAL_ENV/.dev || exit 0
