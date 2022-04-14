@@ -21,4 +21,6 @@ RUN pip install --no-cache-dir --require-hashes --requirement requirements.prod.
 
 COPY . /app
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+EXPOSE 5000
+
+ENTRYPOINT ["/app/docker/entrypoint.prod.sh"]
