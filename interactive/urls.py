@@ -13,15 +13,30 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from django.views.generic.base import RedirectView
 
 from interactive import views
 
 
-urlpatterns = [path("", views.index, name="home"), path("admin/", admin.site.urls)]
+urlpatterns = [
+    path("", views.index, name="home"),
+    path("admin/", admin.site.urls),
+    path("account/", include("django.contrib.auth.urls")),
+    path("login/", RedirectView.as_view(pattern_name="login")),
+]
 
 handler400 = views.bad_request
 handler403 = views.permission_denied
 handler404 = views.page_not_found
 handler500 = views.server_error
+
+if settings.DEBUG:
+    urlpatterns += (
+        path("400", views.bad_request, name="bad_request"),
+        path("403", views.permission_denied, name="permission_denied"),
+        path("404", views.page_not_found, name="page_not_found"),
+        path("500", views.server_error, name="server_error"),
+    )
