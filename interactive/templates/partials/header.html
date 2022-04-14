@@ -11,7 +11,7 @@
         <li>
           {% url 'home' as url %}
           <a
-            class="transition-all text-xl font-semibold outline outline-2 outline-offset-4 rounded outline-transparent hover:outline-oxford-500 focus-visible:outline-oxford-200"
+            class="transition-all text-xl font-semibold outline outline-2 outline-offset-4 rounded outline-transparent hover:outline-oxford-500 focus:outline-oxford-200"
             href="{% url 'home' %}"
             aria-label="OpenSAFELY Interactive: Home page"
             {% if request.path == url %}aria-current="true"{% endif %}
