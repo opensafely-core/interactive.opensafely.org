@@ -1,4 +1,34 @@
+# syntax=docker/dockerfile:1.2
+#################################################
+#
+# Create node image.
+#
+FROM node:16 AS node-builder
+
+WORKDIR /usr/src/app
+
+# copy just what npm ci needs
+COPY package-lock.json package.json ./
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+    npm set cache /usr/src/app/.npm && \
+    npm ci
+
+# copy just what npm build needs
+COPY vite.config.js tailwind.config.js postcss.config.js ./
+COPY assets ./assets
+COPY interactive/templates ./interactive/templates
+RUN --mount=type=cache,target=./npm npm run build
+
+##################################################
+#
+# Production image
+#
+# Copy the code in and add proper metadata
 FROM python:3.10-bullseye
+
+# Dokku is expecting to use port 5000
+# We need to expose it here so that dokku will setup the routing to our app correctly
+EXPOSE 5000
 
 # Don't cache PyPI downloads or wheels.
 # Don't use pyc files or __pycache__ folders.
@@ -6,6 +36,13 @@ FROM python:3.10-bullseye
 ENV PIP_NO_CACHE_DIR=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
+
+# Adjust this metadata to fit project. Note that the base-docker image does set
+# some basic metadata.
+LABEL org.opencontainers.image.title="interactive" \
+      org.opencontainers.image.description="OpenSafely Interactive" \
+      org.opencontainers.image.source="https://github.com/opensafely-core/opensafely-interactive"
+
 
 WORKDIR /app
 
@@ -21,6 +58,8 @@ RUN pip install --no-cache-dir --require-hashes --requirement requirements.prod.
 
 COPY . /app
 
-EXPOSE 5000
+# copy node assets over from node-builder image. These will have root:root ownership, but
+# are readable by all.
+COPY --from=node-builder /usr/src/app/assets /app/assets
 
-ENTRYPOINT ["/app/docker/entrypoint.prod.sh"]
+CMD ["/app/docker/entrypoint.prod.sh"]
