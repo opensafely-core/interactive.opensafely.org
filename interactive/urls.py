@@ -20,3 +20,8 @@ from interactive import views
 
 
 urlpatterns = [path("", views.index, name="home"), path("admin/", admin.site.urls)]
+
+handler400 = views.bad_request
+handler403 = views.permission_denied
+handler404 = views.page_not_found
+handler500 = views.server_error

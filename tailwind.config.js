@@ -3,6 +3,16 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   content: ["./interactive/templates/**/*.html"],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: "1rem",
+        sm: "1rem",
+        lg: "2rem",
+        xl: "4rem",
+        "2xl": "4rem",
+      },
+    },
     extend: {
       fontFamily: {
         sans: ["Public Sans", ...defaultTheme.fontFamily.sans],
