@@ -15,6 +15,8 @@ from pathlib import Path
 
 from environs import Env, EnvError
 
+from services.logging import logging_config_dict
+
 
 env = Env()
 env.read_env()
@@ -127,6 +129,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Logging
+LOGGING = logging_config_dict
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
