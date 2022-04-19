@@ -134,3 +134,7 @@ assets-collect:
 
 # Clean, reinstall, build and collect all assets
 assets-rebuild: assets-clean assets-install assets-build assets-collect
+
+# build docker image env=dev|prod
+docker-build env="dev": _env
+    {{ just_executable() }} docker/build {{ env }}

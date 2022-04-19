@@ -15,6 +15,8 @@ from pathlib import Path
 
 from environs import Env, EnvError
 
+from services.logging import logging_config_dict
+
 
 env = Env()
 env.read_env()
@@ -71,7 +73,7 @@ ROOT_URLCONF = "interactive.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -127,18 +129,11 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Logging
+LOGGING = logging_config_dict
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    os.path.join(BASE_DIR, "assets", "dist"),
-]
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATIC_URL = "/static/"
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     os.path.join(BASE_DIR, "assets", "dist"),
