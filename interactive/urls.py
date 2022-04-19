@@ -17,7 +17,6 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
-from django.views.generic.base import RedirectView
 
 from interactive import views
 
@@ -32,7 +31,7 @@ urlpatterns = [
     ),
     path(
         "logout/",
-        auth_views.LogoutView.as_view(),
+        views.LogoutView.as_view(),
         name="logout",
     ),
     # path(
@@ -45,7 +44,6 @@ urlpatterns = [
     #     auth_views.PasswordResetDoneView.as_view(),
     #     name="password_reset_done",
     # ),
-    path("login/", RedirectView.as_view(pattern_name="login")),
 ]
 
 handler400 = views.bad_request
