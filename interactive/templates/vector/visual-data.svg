@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 821.2 687.8" class="w-full lg:absolute lg:inset-y-0 lg:-right-8 lg:h-full lg:w-auto lg:max-w-none z-0">
+  <path class="text-yellow-100" fill="currentColor" d="M756 674.6h-12.3l-5.8-47.3H756v47.3z"/>
+  <path class="text-slate-800" fill="currentColor" d="M759.1 686.4h-39.5v-.5a15.4 15.4 0 0 1 15.4-15.3h24Z"/>
+  <path class="text-yellow-100" fill="currentColor" d="M709 674.6h-12.3l-5.8-47.3H709v47.3z"/>
+  <path class="text-slate-800" fill="currentColor" d="M712.1 686.4h-39.5v-.5a15.4 15.4 0 0 1 15.4-15.3h24Z"/>
+  <path class="text-slate-300" fill="currentColor" d="M179.3 684.6V304.8a8.8 8.8 0 0 1 8.9-8.8h39.3a8.8 8.8 0 0 1 8.8 8.8v380.8Z"/>
+  <path class="text-slate-300" fill="currentColor" d="M309.3 685.8v-302a8.8 8.8 0 0 1 8.9-8.8h39.3a8.8 8.8 0 0 1 8.8 8.8v301.4Z"/>
+  <path class="text-slate-300" fill="currentColor" d="M78.3 327a3 3 0 0 1-2.2-5l131.6-146.8L337.2 248 467.5 23.4l132.7 109.3a3 3 0 1 1-3.8 4.6L469.2 32.6 339.4 256 209 182.8 80.6 326a3 3 0 0 1-2.3 1Z"/>
+  <circle class="text-oxford-500" fill="currentColor" cx="77.8" cy="324" r="28"/>
+  <circle class="text-slate-200" fill="currentColor" cx="207.8" cy="179" r="28"/>
+  <circle class="text-oxford-300" fill="currentColor" cx="337.8" cy="252" r="28"/>
+  <circle class="text-oxford-500" fill="currentColor" cx="467.8" cy="28" r="28"/>
+  <circle class="text-oxford-500" fill="currentColor" cx="717.8" cy="236.5" r="28"/>
+  <path class="text-slate-700" fill="currentColor" d="M708 454.7c10.4 1.2 37.2-8.3 38.7 6.2 13.8 40.6 13.3 196.3 13.3 196.3l-21 1S722.3 534.5 714.3 508c-4 32.2-3.3 155.2-3.3 155.2l-19 1s-17-104.8-17-135.5c-2.2-22.5 3-55.9.7-77.6a83.2 83.2 0 0 0 32.2 3.6Z" data-name="Path 1507"/>
+  <path class="text-slate-300" fill="currentColor" d="M569.3 684.5V246.7c0-5.6 4-10.2 8.9-10.2h39.3c4.9 0 8.8 4.6 8.8 10.2v438.9Z"/>
+  <path class="text-yellow-100" fill="currentColor" d="M672.3 336.9a130.7 130.7 0 0 0-15.3-24.2 38.3 38.3 0 0 1-3.4-4.7c-2.2-3.7-2.8-8-4.2-12.1-3.8-11.5-13.3-20.7-15.6-32.5-.8-4.3-7.9 8.2-6 13.5 3.3 9.7 3.7 19.9 8 29.2s9.2 18.3 12.8 27.8c2.1 5.4 3.8 11 6.8 16s7.8 9.2 13.6 10a33.4 33.4 0 0 1 1.6-10.7c1.3-4 3.5-8.6 1.7-12.3Z"/>
+  <path class="text-yellow-100" fill="currentColor" d="M735.2 343.3a55.3 55.3 0 0 1 3.2-20.7c1-2.6 2-5.2 2-7.9-.2-2.5-1.4-4.8-2.5-7.1-3.7-7.9-6.4-16.2-9-24.5l-5-15.6c-1.6-1.2 8-1.6 10 1.2 6.6 9.2 11.6 19.8 16.9 29.9a50.6 50.6 0 0 1 3.4 7.4 41.2 41.2 0 0 1 1.8 13c0 8.2-1 16.3-2.2 24.5-.7 5-1.6 10.6-5.5 14a77 77 0 0 0-13.1-14.2Z"/>
+  <circle class="text-yellow-100" fill="currentColor" cx="708.8" cy="314.5" r="20.8"/>
+  <path class="text-amber-300" fill="currentColor" d="M691.9 293.8a3.6 3.6 0 0 1 .7-3.7l1.8-1a7.6 7.6 0 0 0 1.9-2.4 10.3 10.3 0 0 1 13-3.3c3.3 1.8 5.4 5.4 8.5 7.8 1.5 1.3 3.3 2.2 4.9 3.5A20.1 20.1 0 0 1 729 305a58.3 58.3 0 0 1 1.8 12 10.9 10.9 0 0 1-.2 3.8 10.3 10.3 0 0 1-1.4 2.8c-3 4.8-7.2 9-12.4 11.5s-11.5 2.9-16.6.3a2.8 2.8 0 0 1-1.3-1 3.7 3.7 0 0 1-.2-2.2 15 15 0 0 0-1.6-8.4c-1-1.9-2.4-3.5-3.1-5.5a19.2 19.2 0 0 1-1-6.8c0-6 .4-12-1.1-17.7Z"/>
+  <path class="text-slate-300" fill="currentColor" d="M49.3 685V473.7c0-2.7 4-4.9 8.9-4.9h39.3c4.9 0 8.8 2.2 8.8 5v211.8Z"/>
+  <path class="text-oxford-500" fill="currentColor" d="M439.3 684.3V187.5c0-6.3 4-11.5 8.9-11.5h39.3c4.9 0 8.8 5.2 8.8 11.5v498.1Z"/>
+  <circle class="text-yellow-200" fill="currentColor" cx="627.2" cy="265.4" r="9"/>
+  <circle class="text-yellow-200" fill="currentColor" cx="727.2" cy="261.4" r="9"/>
+  <path class="text-oxford-300" fill="currentColor" d="M749 372.8c1-.8 8-42.7 8-43.6 0-5.2-15.8-11-19-9-3 1.9-8.1 24-11.4 28.1l-3.6-6.1h-28l-1.6 3.1-8.2-5a5.3 5.3 0 0 0-1.3-.6 20.3 20.3 0 0 1-8-3.7c-2.3-1.8-13-20.3-15.9-19.8-3.2.5-14 10-14 19 1.4 0 19.3 35.6 19.5 37 1.4 5.6 6 87.5 7.4 91.3 6.7-.6 1.4-1.8 7.9 0 7 2 14.4-.1 21.6-.9a83.1 83.1 0 0 1 9-.4c11 0 26.8.7 37.4 3.4.1-7-6-22-8.3-28.7a19.2 19.2 0 0 1 0-6c.3-2.3 6.2-55.5 8.6-58.1Z"/>
+</svg>

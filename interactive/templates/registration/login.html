@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block html_class %}h-full bg-gray-50{% endblock html_class %}
+{% block html_class %}h-full bg-slate-50{% endblock html_class %}
 {% block body_class %}h-full{% endblock body_class %}
 
 {% block content %}
 <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <h2 class="text-center text-3xl font-extrabold text-gray-900">Log in to your account</h2>
-    <p class="mt-2 text-center text-sm text-gray-600">
+    <h2 class="text-center text-3xl font-extrabold text-slate-900">Log in to your account</h2>
+    <p class="mt-2 text-center text-sm text-slate-600">
       Or
       <a href="#" class="font-medium text-oxford-600 hover:text-oxford-500">
         register your interest
@@ -74,13 +74,13 @@
         {% csrf_token %}
 
         <div>
-          <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700">
+          <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-slate-700">
             {{ form.username.label }}
           </label>
           <div class="mt-1">
             <input
               autocomplete="username"
-              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-oxford-500 focus:border-oxford-500 sm:text-sm"
+              class="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-oxford-500 focus:border-oxford-500 sm:text-sm"
               id="{{ form.username.id_for_label }}"
               inputmode="email"
               name="username"
@@ -98,13 +98,13 @@
         </div>
 
         <div>
-          <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-gray-700">
+          <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-slate-700">
             {{ form.password.label }}
           </label>
           <div class="mt-1">
             <input
               autocomplete="current-password"
-              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-oxford-500 focus:border-oxford-500 sm:text-sm"
+              class="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-oxford-500 focus:border-oxford-500 sm:text-sm"
               id="{{ form.password.id_for_label }}"
               name="password"
               required

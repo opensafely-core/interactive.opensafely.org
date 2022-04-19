@@ -1,7 +1,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
-  content: ["./interactive/templates/**/*.html"],
+  content: ["./interactive/templates/**/*.{html,svg}"],
   theme: {
     container: {
       center: true,
