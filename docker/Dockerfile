@@ -32,6 +32,10 @@ RUN --mount=type=cache,target=/var/cache/apt \
 #
 FROM node:16 AS node-builder
 
+# Allow assets to be copied into the container for running and debugging locally
+COPY --from=base-python /root/docker-apt-install.sh /root/docker-apt-install.sh
+RUN /root/docker-apt-install.sh rsync
+
 WORKDIR /usr/src/app
 
 # copy just what npm ci needs
@@ -125,20 +129,6 @@ LABEL org.opencontainers.image.title="interactive" \
 # We need to expose it here so that dokku will setup the routing to our app correctly
 EXPOSE 5000
 
-# Don't cache PyPI downloads or wheels.
-# Don't use pyc files or __pycache__ folders.
-# Don't buffer stdout/stderr output.
-ENV PIP_NO_CACHE_DIR=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
-
-# Adjust this metadata to fit project. Note that the base-docker image does set
-# some basic metadata.
-LABEL org.opencontainers.image.title="interactive" \
-      org.opencontainers.image.description="OpenSafely Interactive" \
-      org.opencontainers.image.source="https://github.com/opensafely-core/interactive.opensafely.org"
-
-
 WORKDIR /app
 
 # copy application code
@@ -153,7 +143,7 @@ RUN SECRET_KEY=dummy-key python /app/manage.py collectstatic --no-input
 
 # We set command rather than entrypoint, to make it easier to run different
 # things from the cli
-CMD ["/app/docker/entrypoint.prod.sh"]
+CMD ["/app/docker/entrypoints/prod.sh"]
 
 # finally, tag with build information. These will change regularly, therefore
 # we do them as the last action.
@@ -161,3 +151,22 @@ ARG BUILD_DATE=unknown
 LABEL org.opencontainers.image.created=$BUILD_DATE
 ARG GITREF=unknown
 LABEL org.opencontainers.image.revision=$GITREF
+
+##################################################
+#
+# Dev image
+#
+# Now we build a dev image from our output-explorer-base image. This is basically
+# installing dev dependencies and changing the entrypoint
+#
+FROM interactive-base as interactive-dev
+
+# install development requirements
+COPY requirements.dev.txt /tmp/requirements.dev.txt
+# using cache mount instead
+# hadolint ignore=DL3042
+RUN --mount=type=cache,target=/root/.cache \
+    python -m pip install --require-hashes --requirement /tmp/requirements.dev.txt
+
+# Override ENTRYPOINT rather than CMD so we can pass arbitrary commands to the entrypoint script
+ENTRYPOINT ["/app/docker/entrypoints/dev.sh"]

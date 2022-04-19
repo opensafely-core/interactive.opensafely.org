@@ -91,11 +91,23 @@ jobs:
       - uses: actions/checkout@v3
       - uses: hadolint/hadolint-action@v1.5.0
         with:
-          dockerfile: docker/Dockerfile.prod
+          dockerfile: docker/Dockerfile
           failure-threshold: error
 
+  docker-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: extractions/setup-just@aa5d15c144db4585980a44ebfdd2cf337c4f14cb  # v1.4.0
+
+      - name: Build docker image and run tests in it
+        run: |
+          # build docker and run test
+          just docker-test
+
   deploy:
-    needs: [check, test, lint-dockerfile]
+    needs: [check, test, docker-test, lint-dockerfile]
     runs-on: ubuntu-latest
 
     concurrency: deploy-production
