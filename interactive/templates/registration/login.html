@@ -6,12 +6,13 @@
 {% block content %}
 <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+    <h2 class="text-center text-3xl font-extrabold text-gray-900">Log in to your account</h2>
     <p class="mt-2 text-center text-sm text-gray-600">
       Or
       <a href="#" class="font-medium text-oxford-600 hover:text-oxford-500">
         register your interest
       </a>
+      to create an account.
     </p>
   </div>
 
@@ -19,8 +20,7 @@
     {% if next %}
       {% if user.is_authenticated %}
         {# Logged in users will be redirected automatically #}
-        <p>Your account doesn't have access to this page. To proceed,
-        please login with an account that has access.</p>
+        <p>Your account doesn't have access to this page. To proceed, log in with an account that has access.</p>
       {% else %}
       <div class="rounded-md bg-yellow-50 p-4 mb-6">
         <div class="flex">
@@ -30,7 +30,7 @@
             </svg>
           </div>
           <div class="ml-3">
-            <h3 class="text-sm font-medium text-yellow-800">Login required</h3>
+            <h3 class="text-sm font-medium text-yellow-800">Account required</h3>
             <div class="mt-2 text-sm text-yellow-700">
               <p>Log in to your account to see this page</p>
             </div>
@@ -124,7 +124,7 @@
           <input
             class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-oxford-600 hover:bg-oxford-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-oxford-500"
             type="submit"
-            value="Sign in"
+            value="Log in"
           />
           <input
             type="hidden"
