@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render
 
 
@@ -21,6 +21,12 @@ def page_not_found(request, exception=None):
 
 def server_error(request):
     return render(request, "500.html", status=500)
+
+
+class LoginView(LoginView):
+    def form_valid(self, form):
+        messages.success(self.request, "You have successfully logged in.")
+        return super().form_valid(form)
 
 
 class LogoutView(LogoutView):
