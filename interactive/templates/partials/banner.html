@@ -1,6 +1,6 @@
 <div
   class="absolute z-20 w-full bg-amber-300"
-  x-data="{ isBetaBannerVisible: true }"
+  x-data="{ isBetaBannerVisible: $persist(true) }"
   x-show="isBetaBannerVisible"
   x-transition:leave="transition ease-in duration-500"
   x-transition:leave-start="opacity-100 scale-100"
