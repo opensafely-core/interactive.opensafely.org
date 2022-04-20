@@ -1,8 +1,18 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
-  content: ["./interactive/templates/**/*.html"],
+  content: ["./interactive/templates/**/*.{html,svg}"],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: "1rem",
+        sm: "1rem",
+        lg: "2rem",
+        xl: "4rem",
+        "2xl": "4rem",
+      },
+    },
     extend: {
       fontFamily: {
         sans: ["Public Sans", ...defaultTheme.fontFamily.sans],
@@ -24,5 +34,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/aspect-ratio"),
+  ],
 };

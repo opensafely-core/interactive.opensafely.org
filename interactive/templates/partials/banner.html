@@ -1,0 +1,22 @@
+<div
+  class="absolute top-[92px] md:top-[60px] z-20 w-full bg-amber-300"
+  x-data="{ isBetaBannerVisible: $persist(true) }"
+  x-show="isBetaBannerVisible"
+  x-transition:leave="transition ease-in duration-500"
+  x-transition:leave-start="opacity-100 scale-100"
+  x-transition:leave-end="opacity-0 scale-100"
+>
+  <div class="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
+    <div class="pr-16 sm:text-center sm:px-16">
+      <p class="font-medium text-amber-800">
+        OpenSAFELY Interactive is under construction. You should not use this site unless the OpenSAFELY team have contacted you.
+      </p>
+    </div>
+    <div class="absolute inset-y-0 right-0 pt-1 pr-1 flex items-start sm:pt-1 sm:pr-2 sm:items-start">
+      <button x-on:click="isBetaBannerVisible = false" type="button" class="flex p-2 rounded-md transition-colors hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-white">
+        <span class="sr-only">Dismiss</span>
+        {% include "icons/outline-x.svg" with html_class="h-6 w-6 text-amber-800" %}
+      </button>
+    </div>
+  </div>
+</div>

@@ -192,3 +192,10 @@ WHITENOISE_SKIP_COMPRESS_EXTENSIONS = (
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Authentication
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
+
+# CSRF
+CSRF_FAILURE_VIEW = "interactive.views.csrf_failure"

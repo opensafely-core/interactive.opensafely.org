@@ -2,7 +2,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en" class="no-js min-h-screen">
+<html lang="en" class="no-js min-h-screen {% block html_class %}{% endblock html_class %}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,10 +27,12 @@
   {% vite_hmr_client %}
   {% vite_asset 'assets/src/scripts/main.js' %}
 
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col {% block body_class %}{% endblock body_class %}">
   {% include "partials/header.html" %}
+  {% include "partials/toast.html" %}
+  {% include "partials/banner.html" %}
 
-  <main class="flex-1">
+  <main id="content" class="flex-1">
     {% block content %}{% endblock %}
   </main>
 

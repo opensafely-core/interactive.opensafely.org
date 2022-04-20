@@ -13,10 +13,40 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
 from django.urls import path
 
 from interactive import views
 
 
-urlpatterns = [path("", views.index, name="home"), path("admin/", admin.site.urls)]
+urlpatterns = [
+    path("", views.index, name="home"),
+    path("protected/", views.protected, name="protected"),
+    path("admin/", admin.site.urls),
+    path(
+        "login/",
+        views.LoginView.as_view(redirect_authenticated_user=True),
+        name="login",
+    ),
+    path(
+        "logout/",
+        views.LogoutView.as_view(),
+        name="logout",
+    ),
+]
+
+handler400 = views.bad_request
+handler403 = views.permission_denied
+handler404 = views.page_not_found
+handler500 = views.server_error
+
+if not settings.DEBUG:
+    urlpatterns += (
+        path("400", views.bad_request, name="bad_request"),
+        path("403", views.permission_denied, name="permission_denied"),
+        path("404", views.page_not_found, name="page_not_found"),
+        path("500", views.server_error, name="server_error"),
+    )
+else:
+    pass  # pragma: no cover

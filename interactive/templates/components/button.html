@@ -1,0 +1,26 @@
+{% if el == "link" %}
+  <a href="{{ href }}"
+{% elif el == "input" %}
+  <input
+    type="{{ type }}"
+    value="{{ text }}"
+{% elif el == "button" %}
+  <button
+    type="{{ type }}"
+{% endif %}
+    class="
+      inline-flex items-center justify-center border border-transparent font-semibold rounded-md pointer transition-colors outline outline-offset-2 outline-transparent
+
+      {% if color == 'oxford-50' %}text-oxford-700 bg-oxford-50 hover:bg-white hover:text-oxford-800 focus:outline-oxford-100{% endif %}
+      {% if color == 'oxford-100' %}text-oxford-700 bg-oxford-100 hover:bg-white hover:text-oxford-800 focus:outline-oxford-100{% endif %}
+      {% if color == 'oxford-100--dark' %}text-oxford-700 bg-oxford-100 hover:bg-oxford-200 hover:text-oxford-800 focus:outline-oxford-100{% endif %}
+      {% if color == 'oxford' %}text-white bg-oxford-600 hover:bg-oxford-500 focus:outline-oxford-100{% endif %}
+
+      {% if size == 'md' %}text-sm px-4 py-2{% endif %}
+      {% if size == 'lg' %}text-base px-5 py-3{% endif %}
+
+      {{ html_class }}
+    "
+  >
+{% if el == "link" %}{{ text }}</a>{% endif %}
+{% if el == "button" %}{{ text }}</button>{% endif %}

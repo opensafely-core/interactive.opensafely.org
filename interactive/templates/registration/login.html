@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block html_class %}h-full bg-slate-50{% endblock html_class %}
+{% block body_class %}h-full{% endblock body_class %}
+
+{% block content %}
+<div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 class="text-center text-3xl font-extrabold text-slate-900">Log in to your account</h2>
+    <p class="mt-2 text-center text-sm text-slate-600">
+      Or
+      <a href="#" class="font-medium text-oxford-600 hover:text-oxford-500">
+        register your interest
+      </a>
+      to create an account.
+    </p>
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    {% if next %}
+      <div class="rounded-md bg-yellow-50 p-4 mb-6">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            {% include "icons/solid-exclamation.svg" with html_class="h-5 w-5 text-yellow-500" %}
+          </div>
+          <div class="ml-3">
+            {% if user.is_authenticated %}
+              {# Logged in users will be redirected automatically #}
+              <p class="text-sm text-yellow-700">Your account doesn't have access to this page. To proceed, log in with an account that has access.</p>
+            {% else %}
+              <h3 class="text-sm font-medium text-yellow-800">Account required</h3>
+              <div class="mt-2 text-sm text-yellow-700">
+                <p>Log in to your account to see this page</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if form.errors %}
+    <div class="shadow sm:rounded-lg bg-red-50 p-4 mt-3 mb-6">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          {% include "icons/solid-x-circle.svg" with html_class="h-5 w-5 text-red-400" %}
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-bold text-red-800">
+            There {{ form.errors|pluralize:"was,were" }} {{ form.errors|length }} error{{form.errors|pluralize}}:
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul role="list" class="list-disc pl-5 space-y-1">
+              {% for field in form %}
+                {% for error in field.errors %}
+                <li><strong>{{ field.label }}: </strong>{{ error }}</li>
+                {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <form class="space-y-6" method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        <div>
+          {% include "components/form-field.html" with autocomplete="username" id=form.username.id_for_label label=form.username.label inputmode="email" name="username" required=True type="text" %}
+          {% if form.username.errors %}
+            <ul class="mt-2">
+              {% for error in form.username.errors %}
+                <li class="text-sm text-red-700">{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+
+        <div>
+          {% include "components/form-field.html" with autocomplete="current-password" id=form.password.id_for_label label=form.password.label name="password" required=True type="password" %}
+          {% if form.password.errors %}
+            <ul class="mt-2">
+              {% for error in form.password.errors %}
+                <li class="text-sm text-red-700">{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+
+        <div>
+          {% include "components/button.html" with el="input" color="oxford" html_class="w-full" size="md" type="submit" text="Log in" %}
+          <input
+            type="hidden"
+            name="next"
+            value="{{ next }}"
+          />
+        </div>
+
+        {# <div> #}
+          {# <div class="text-sm text-center"> #}
+            {# <a href="{% url 'password_reset' %}" class="font-medium text-oxford-600 hover:text-oxford-500"> #}
+              {# Forgot your password? #}
+            {# </a> #}
+          {# </div> #}
+        {# </div> #}
+
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

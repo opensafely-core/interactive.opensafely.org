@@ -1,12 +1,36 @@
-<header class="bg-oxford text-white py-4">
-  <div class="container mx-auto px-4">
-    {% url 'home' as url %}
-    <a
-      class="text-xl font-semibold"
-      href="{% url 'home' %}"
-      {% if request.path == url %}aria-current="true"{% endif %}
-    >
-      OpenSAFELY Interactive
-    </a>
+<a
+  href="#content"
+  class="sr-only focus:not-sr-only focus:z-50 focus:absolute focus:bg-oxford-500 focus:text-white focus:py-2 focus:px-4 focus:top-2 focus:left-2 focus:outline-oxford-200">
+  Skip to content
+</a>
+
+<header class="bg-oxford shadow-lg text-white py-4" aria-label="Header">
+  <div class="container">
+    <nav aria-label="Main">
+      <ul class="flex flex-col md:flex-row items-center">
+        <li>
+          {% url 'home' as url %}
+          <a
+            class="transition-all text-xl font-semibold outline outline-2 outline-offset-4 rounded outline-transparent hover:outline-oxford-500 focus:outline-oxford-200"
+            href="{% url 'home' %}"
+            aria-label="OpenSAFELY Interactive: Home page"
+            {% if request.path == url %}aria-current="true"{% endif %}
+          >
+            OpenSAFELY Interactive
+          </a>
+        </li>
+        <li class="mt-2 md:mt-0 md:ml-auto">
+          {% if user.is_authenticated %}
+            <a class="text-sm font-semibold outline outline-offset-2 rounded outline-transparent hover:outline-oxford-500 focus:outline-oxford-200" href="{% url 'logout' %}">
+              Log out
+            </a>
+          {% else %}
+            <a class="text-sm font-semibold outline outline-offset-2 rounded outline-transparent hover:outline-oxford-500 focus:outline-oxford-200" href="{% url 'login' %}" >
+              Log in
+            </a>
+          {% endif %}
+        </li>
+      </ul>
+    </nav>
   </div>
 </header>

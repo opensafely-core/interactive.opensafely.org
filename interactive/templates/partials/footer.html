@@ -1,11 +1,45 @@
-<footer class="mt-auto pt-4">
-  <div class="bg-gray-50 py-8">
-    <div class="container mx-auto px-4">
-      <p class="text-sm text-gray-600">
-        © University of Oxford for the Bennett Institute for Applied Data Science 2022.
+<footer class="mt-auto" aria-label="Footer">
+  <div class="bg-slate-50 shadow-inner py-8 md:py-12 text-sm">
+    <div class="container">
+      <ul class="flex flex-col md:flex-row md:flex-wrap gap-4 md:gap-x-6 font-semibold mb-8 text-center justify-center" aria-label="Footer links">
+        <li>
+          <a
+            href="https://www.opensafely.org/"
+            class="text-slate-700 transition-all rounded-sm outline outline-offset-2 outline-transparent hover:text-oxford-600 hover:outline-oxford-400 focus:text-oxford-600 focus:outline-oxford-400"
+          >
+            OpenSAFELY
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.opencodelists.org/"
+            class="text-slate-700 transition-all rounded-sm outline outline-offset-2 outline-transparent hover:text-oxford-600 hover:outline-oxford-400 focus:text-oxford-600 focus:outline-oxford-400"
+          >
+            OpenCodelists
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.bennett.ox.ac.uk/"
+            class="text-slate-700 transition-all rounded-sm outline outline-offset-2 outline-transparent hover:text-oxford-600 hover:outline-oxford-400 focus:text-oxford-600 focus:outline-oxford-400"
+          >
+            Bennett Institute for Applied Science
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.ox.ac.uk/"
+            class="text-slate-700 transition-all rounded-sm outline outline-offset-2 outline-transparent hover:text-oxford-600 hover:outline-oxford-400 focus:text-oxford-600 focus:outline-oxford-400"
+          >
+            University of Oxford
+          </a>
+        </li>
+      </ul>
+      <p class="text-slate-600 max-w-prose mx-auto text-center" aria-label="Copyright statement">
+        © University of Oxford for the Bennett Institute for Applied Data Science {% now "Y" %}.
         This work may be copied freely for non-commercial research and study.
         If you wish to do any of the other acts restricted by the copyright you should apply in writing to
-        <a href="mailto:ebmdatalab@phc.ox.ac.uk" class="text-blue-600 underline">ebmdatalab@phc.ox.ac.uk</a>.
+        <a href="mailto:ebmdatalab@phc.ox.ac.uk" class="font-semibold text-slate-700 transition-all rounded-sm outline outline-transparent hover:text-oxford-600 hover:outline-oxford-400 focus:text-oxford-600 focus:outline-oxford-400">ebmdatalab@phc.ox.ac.uk</a>.
       </p>
     </div>
   </div>
