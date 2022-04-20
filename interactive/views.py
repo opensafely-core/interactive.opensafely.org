@@ -1,10 +1,18 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.shortcuts import render
 
 
 def index(request):
+    return render(request, "index.html")
+
+
+# This view only exists to support testing that logging in and out actually work, and
+# should be removed once we have a real view to test with.
+@login_required
+def protected(request):
     return render(request, "index.html")
 
 
@@ -19,8 +27,7 @@ class LoginView(DjangoLoginView):
 
 class LogoutView(DjangoLogoutView):
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            messages.success(request, "You have successfully logged out.")
+        messages.success(request, "You have successfully logged out.")
         return super().dispatch(request, *args, **kwargs)
 
 
