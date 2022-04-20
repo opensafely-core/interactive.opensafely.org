@@ -33,16 +33,6 @@ urlpatterns = [
         views.LogoutView.as_view(),
         name="logout",
     ),
-    # path(
-    #     "accounts/password-reset/",
-    #     auth_views.PasswordResetView.as_view(),
-    #     name="password_reset",
-    # ),
-    # path(
-    #     "accounts/password-reset/done/",
-    #     auth_views.PasswordResetDoneView.as_view(),
-    #     name="password_reset_done",
-    # ),
 ]
 
 handler400 = views.bad_request
