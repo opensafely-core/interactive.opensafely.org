@@ -1,5 +1,9 @@
 from django.urls import reverse
 
+from interactive.models import AnalysisRequest
+
+from .assertions import assert_difference, assert_no_difference
+
 
 def test_index(client):
     response = client.get(reverse("home"))
@@ -35,6 +39,40 @@ def test_logout(client, user):
     response = client.get(reverse("logout"), follow=True)
     assert b"You have successfully logged out" in response.content
     assert_not_logged_in(client, user)
+
+
+def test_new_analysis_request_get(client, user):
+    client.force_login(user)
+    response = client.get(reverse("new_analysis_request"))
+    assert response.status_code == 200
+
+
+def test_new_analysis_request_get_not_logged_in(client, user):
+    response = client.get(reverse("new_analysis_request"))
+    assert response.status_code == 302
+
+
+def test_new_analysis_request_post_success(client, user):
+    client.force_login(user)
+    with assert_difference(AnalysisRequest.objects.count, expected_difference=1):
+        response = client.post(
+            reverse("new_analysis_request"),
+            {"title": "An Analysis"},
+            follow=True,
+        )
+    assert b"Request submitted successfully" in response.content
+
+
+def test_new_analysis_request_post_failure(client, user):
+    client.force_login(user)
+    with assert_no_difference(AnalysisRequest.objects.count):
+        response = client.post(reverse("new_analysis_request"), {"title": ""})
+    assert b"This field is required" in response.content
+
+
+def test_new_analysis_request_post_not_logged_in(client, user):
+    response = client.post(reverse("new_analysis_request"))
+    assert response.status_code == 302
 
 
 def test_bad_request(client):

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div>
+                {{ form.title.errors }}
+                <label for="{{ form.title.id_for_label }}">Analysis title</label>
+                {{ form.title }}
+        </div>
+        <input type="submit" value="Submit">
+</form>
+{% endblock %}
