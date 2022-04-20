@@ -4,7 +4,7 @@
   "description": "OpenSAFELY Interactive is an accessible and interactive, automated analysis pipeline.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/opensafely-core/opensafely-interactive.git"
+    "url": "git+https://github.com/opensafely-core/interactive.opensafely.org.git"
   },
   "author": "Bennett Institute for Applied Data Science",
   "license": "MIT",

@@ -41,7 +41,7 @@ ENV PIP_NO_CACHE_DIR=1 \
 # some basic metadata.
 LABEL org.opencontainers.image.title="interactive" \
       org.opencontainers.image.description="OpenSafely Interactive" \
-      org.opencontainers.image.source="https://github.com/opensafely-core/opensafely-interactive"
+      org.opencontainers.image.source="https://github.com/opensafely-core/interactive.opensafely.org"
 
 
 WORKDIR /app
