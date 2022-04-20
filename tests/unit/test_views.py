@@ -40,32 +40,32 @@ def test_logout(client, user):
 def test_bad_request(client):
     response = client.get(reverse("bad_request"))
     assert response.status_code == 400
-    assert b"Bad request"
+    assert b"Bad request" in response.content
 
 
 def test_permission_denied(client):
     response = client.get(reverse("permission_denied"))
     assert response.status_code == 403
-    assert b"Permission denied"
+    assert b"Permission denied" in response.content
 
 
 def test_page_not_found(client):
     response = client.get(reverse("page_not_found"))
     assert response.status_code == 404
-    assert b"Page not found"
+    assert b"Page not found" in response.content
 
 
 def test_server_error(client):
     response = client.get(reverse("server_error"))
     assert response.status_code == 500
-    assert b"Server error"
+    assert b"Server error" in response.content
 
 
 def test_csrf_failure(client):
     client.handler.enforce_csrf_checks = True
     response = client.post(reverse("home"), {})
     assert response.status_code == 400
-    assert b"CSRF Failed"
+    assert b"CSRF Failed" in response.content
 
 
 def assert_logged_in(client, user):
