@@ -12,13 +12,6 @@ def index(request):
     return render(request, "index.html")
 
 
-# This view only exists to support testing that logging in and out actually work, and
-# should be removed once we have a real view to test with.
-@login_required
-def protected(request):
-    return render(request, "index.html")
-
-
 @login_required
 def new_analysis_request(request):
     if request.method == "POST":

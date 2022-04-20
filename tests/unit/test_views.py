@@ -107,10 +107,10 @@ def test_csrf_failure(client):
 
 
 def assert_logged_in(client, user):
-    response = client.get("/protected/")
+    response = client.get(reverse("new_analysis_request"))
     assert response.status_code == 200
 
 
 def assert_not_logged_in(client, user):
-    response = client.get("/protected/")
+    response = client.get(reverse("new_analysis_request"))
     assert response.status_code == 302

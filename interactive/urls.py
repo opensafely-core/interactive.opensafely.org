@@ -23,7 +23,6 @@ from interactive import views
 urlpatterns = [
     path("", views.index, name="home"),
     path("request-analysis/", views.new_analysis_request, name="new_analysis_request"),
-    path("protected/", views.protected, name="protected"),
     path("admin/", admin.site.urls),
     path(
         "login/",
