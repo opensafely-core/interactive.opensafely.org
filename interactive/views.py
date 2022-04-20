@@ -2,7 +2,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.contrib.auth.views import LogoutView as DjangoLogoutView
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
+
+from .forms import AnalysisRequestForm
 
 
 def index(request):
@@ -14,6 +17,20 @@ def index(request):
 @login_required
 def protected(request):
     return render(request, "index.html")
+
+
+@login_required
+def new_analysis_request(request):
+    if request.method == "POST":
+        form = AnalysisRequestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Request submitted successfully")
+            return redirect(reverse("home"))
+    else:
+        form = AnalysisRequestForm()
+
+    return render(request, "interactive/new_analysis_request.html", {"form": form})
 
 
 #
