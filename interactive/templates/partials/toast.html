@@ -6,6 +6,7 @@
       aria-live="assertive"
       class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
       x-data="{ show: true }"
+      {% if 'autohide' in message.tags %}x-init="setTimeout(() => show = false, 5000)"{% endif %}
       x-show="show"
       x-transition:enter="transform ease-out duration-300 transition"
       x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"

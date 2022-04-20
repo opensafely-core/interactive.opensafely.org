@@ -21,13 +21,17 @@ def protected(request):
 #
 class LoginView(DjangoLoginView):
     def form_valid(self, form):
-        messages.success(self.request, "You have successfully logged in.")
+        messages.success(
+            self.request, "You have successfully logged in.", extra_tags="autohide"
+        )
         return super().form_valid(form)
 
 
 class LogoutView(DjangoLogoutView):
     def dispatch(self, request, *args, **kwargs):
-        messages.success(request, "You have successfully logged out.")
+        messages.success(
+            request, "You have successfully logged out.", extra_tags="autohide"
+        )
         return super().dispatch(request, *args, **kwargs)
 
 
