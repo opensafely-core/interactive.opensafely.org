@@ -70,20 +70,7 @@
         {% csrf_token %}
 
         <div>
-          <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-slate-700">
-            {{ form.username.label }}
-          </label>
-          <div class="mt-1">
-            <input
-              autocomplete="username"
-              class="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-oxford-500 focus:border-oxford-500 sm:text-sm"
-              id="{{ form.username.id_for_label }}"
-              inputmode="email"
-              name="username"
-              required
-              type="text"
-            >
-          </div>
+          {% include "components/form-field.html" with autocomplete="username" id=form.username.id_for_label label=form.username.label inputmode="email" name="username" required=True type="text" %}
           {% if form.username.errors %}
             <ul class="mt-2">
               {% for error in form.username.errors %}
@@ -94,19 +81,7 @@
         </div>
 
         <div>
-          <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-slate-700">
-            {{ form.password.label }}
-          </label>
-          <div class="mt-1">
-            <input
-              autocomplete="current-password"
-              class="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-oxford-500 focus:border-oxford-500 sm:text-sm"
-              id="{{ form.password.id_for_label }}"
-              name="password"
-              required
-              type="password"
-            >
-          </div>
+          {% include "components/form-field.html" with autocomplete="current-password" id=form.password.id_for_label label=form.password.label name="password" required=True type="password" %}
           {% if form.password.errors %}
             <ul class="mt-2">
               {% for error in form.password.errors %}
@@ -117,11 +92,7 @@
         </div>
 
         <div>
-          <input
-            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-oxford-600 hover:bg-oxford-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-oxford-500"
-            type="submit"
-            value="Log in"
-          />
+          {% include "components/button.html" with el="input" color="oxford" html_class="w-full" size="md" type="submit" text="Log in" %}
           <input
             type="hidden"
             name="next"

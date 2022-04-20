@@ -11,8 +11,9 @@
           <p class="mt-1 text-base text-slate-500">{{ error_message }}</p>
         </div>
         <div class="mt-10 flex space-x-3 sm:border-l sm:border-transparent sm:pl-6">
-          <a href="{% url 'home' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-oxford-600 hover:bg-oxford-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-oxford-500">Go to the home page</a>
-          <a href="mailto:tech@opensafely.org" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-oxford-700 bg-oxford-100 hover:bg-oxford-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-oxford-500">Contact support</a>
+          {% url 'home' as home_url %}
+          {% include "components/button.html" with el="link" size="md" color="oxford" text="Go to the home page" href=home_url %}
+          {% include "components/button.html" with el="link" size="md" color="oxford-100--dark" text="Contact support" href="mailto:tech@opensafely.org" %}
         </div>
       </div>
     </div>
