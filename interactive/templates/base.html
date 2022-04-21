@@ -37,5 +37,8 @@
   </main>
 
   {% include "partials/footer.html" %}
+
+  {% vite_legacy_polyfills %}
+  {% vite_legacy_asset 'assets/src/scripts/main.js' %}
 </body>
 </html>
