@@ -39,6 +39,8 @@ except EnvError:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", False)
 
+BASE_URL = env.str("BASE_URL", default="http://localhost:8000")
+
 ALLOWED_HOSTS = ["*"]
 
 
@@ -194,8 +196,14 @@ WHITENOISE_SKIP_COMPRESS_EXTENSIONS = (
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Authentication
+# https://docs.djangoproject.com/en/4.0/ref/settings/#auth
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
-# CSRF
+# Security
+# https://docs.djangoproject.com/en/4.0/ref/settings/#core-settings
+# https://docs.djangoproject.com/en/4.0/ref/settings/#sessions
+CSRF_COOKIE_SECURE = not DEBUG
 CSRF_FAILURE_VIEW = "interactive.views.csrf_failure"
+CSRF_TRUSTED_ORIGINS = [BASE_URL]
+SESSION_COOKIE_SECURE = not DEBUG

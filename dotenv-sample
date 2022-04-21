@@ -9,3 +9,6 @@ SECRET_KEY=12345
 
 # Turn on local Vite Dev Server
 DJANGO_VITE_DEV_MODE=False
+
+# Site URL
+BASE_URL=http://localhost:8000
