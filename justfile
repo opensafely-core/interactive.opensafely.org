@@ -112,7 +112,7 @@ fix: devenv
 
 # Run the dev project
 run: devenv
-    docker-compose up --detach
+    cd docker && docker-compose up --detach db
     $BIN/python manage.py runserver
 
 # Remove built assets and collected static files
@@ -138,3 +138,19 @@ assets-rebuild: assets-clean assets-install assets-build assets-collect
 # build docker image env=dev|prod
 docker-build env="dev": _env
     {{ just_executable() }} docker/build {{ env }}
+
+# run tests in docker container
+docker-test *args="": _env
+    {{ just_executable() }} docker/test {{ args }}
+
+# run dev server in docker container
+docker-serve: _env
+    {{ just_executable() }} docker/serve
+
+# run cmd in dev docker continer
+docker-run *args="bash": _env
+    {{ just_executable() }} docker/run {{ args }}
+
+# exec command in an existing dev docker container
+docker-exec *args="bash": _env
+    {{ just_executable() }} docker/exec {{ args }}
