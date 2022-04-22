@@ -21,7 +21,7 @@
     "vite": "^2.9.1"
   },
   "dependencies": {
-    "@alpinejs/persist": "^3.10.1",
+    "@alpinejs/persist": "^3.10.2",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/typography": "^0.5.2",
     "alpinejs": "^3.9.6",
