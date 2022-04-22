@@ -44,7 +44,7 @@ handler403 = views.permission_denied
 handler404 = views.page_not_found
 handler500 = views.server_error
 
-if not settings.DEBUG:
+if settings.DEBUG:
     urlpatterns += (
         path("400", views.bad_request, name="bad_request"),
         path("403", views.permission_denied, name="permission_denied"),
