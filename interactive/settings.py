@@ -199,6 +199,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+LOGIN_URL = "/login"
 
 # Security
 # https://docs.djangoproject.com/en/4.0/ref/settings/#core-settings
