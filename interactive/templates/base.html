@@ -27,6 +27,8 @@
   {% vite_hmr_client %}
   {% vite_asset 'assets/src/scripts/main.js' defer=true %}
 
+  <script id="plausible" defer data-domain="interactive.opensafely.org" src="https://plausible.io/js/script.compat.js"></script>
+</head>
 <body class="min-h-screen flex flex-col {% block body_class %}{% endblock body_class %}">
   {% include "partials/header.html" %}
   {% include "partials/toast.html" %}
