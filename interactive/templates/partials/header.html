@@ -19,17 +19,66 @@
             OpenSAFELY Interactive
           </a>
         </li>
-        <li class="mt-2 md:mt-0 md:ml-auto">
-          {% if user.is_authenticated %}
-            <a class="text-sm font-semibold outline outline-offset-2 rounded outline-transparent hover:outline-oxford-500 focus:outline-oxford-200" href="{% url 'logout' %}">
-              Log out
-            </a>
-          {% else %}
-            <a class="text-sm font-semibold outline outline-offset-2 rounded outline-transparent hover:outline-oxford-500 focus:outline-oxford-200" href="{% url 'login' %}" >
+        {% if user.is_authenticated %}
+          <div
+            class="mt-2 md:mt-0 md:ml-auto relative inline-block text-left"
+            x-data="{ isAccountMenuOpen: false }"
+            x-title="account-menu"
+            >
+            <div>
+              <button
+                type="button"
+                class="inline-flex justify-center w-full rounded-md border border-oxford-200/25 shadow-sm px-4 py-2 text-sm font-semibold transition-colors text-white hover:bg-oxford-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-oxford-500"
+                id="menu-button"
+                aria-expanded="false"
+                aria-haspopup="true"
+                x-on:click="isAccountMenuOpen = !isAccountMenuOpen"
+              >
+                Account
+                <!-- Heroicon name: solid/chevron-down -->
+                <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+
+            <ul
+              aria-labelledby="menu-button"
+              aria-orientation="vertical"
+              class="origin-top-right absolute z-50 overflow-hidden right-0 flex flex-col mt-2 w-56 rounded-md shadow-lg bg-white text-slate-800 text-sm ring-1 ring-black ring-opacity-5 divide-y divide-slate-100 focus:outline-none"
+              role="menu"
+              @click.outside="isAccountMenuOpen = false"
+              x-show="isAccountMenuOpen"
+              x-transition:enter-start="transform opacity-0 scale-95"
+              x-transition:enter="transition ease-out duration-100"
+              x-transition:enter-end="transform opacity-100 scale-100"
+              x-transition:leave-start="transform opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-75"
+              x-transition:leave-end="transform opacity-0 scale-95"
+            >
+              <li class="px-4 py-3">
+                <p>Signed in as</p>
+                <p class="font-medium text-slate-900 truncate">
+                  {{ user.email }}
+                </p>
+              </li>
+              {# <li class="flex"> #}
+                {# <a href="#" class="w-full px-4 py-2 text-slate-700 hover:bg-oxford-50 hover:text-oxford-700">Account settings</a> #}
+              {# </li> #}
+              <li class="flex">
+                <a href="{% url 'logout' %}" class="w-full px-4 py-2 text-slate-700 hover:bg-oxford-50 hover:text-oxford-700">
+                  Log out
+                </a>
+              </li>
+            </ul>
+          </div>
+        {% else %}
+          <li class="mt-2 md:mt-0 md:ml-auto">
+            <a class="inline-flex justify-center w-full rounded-md border border-oxford-200/25 shadow-sm px-4 py-2 text-sm font-semibold transition-colors text-white hover:bg-oxford-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-oxford-500" href="{% url 'login' %}" >
               Log in
             </a>
-          {% endif %}
-        </li>
+          </li>
+        {% endif %}
       </ul>
     </nav>
   </div>
