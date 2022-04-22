@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import include, path
+from django.urls import path
 from django.views.generic.base import RedirectView
 
 from interactive import views
@@ -36,11 +36,24 @@ urlpatterns = [
         views.LogoutView.as_view(),
         name="logout",
     ),
-    path("accounts/", include("django.contrib.auth.urls")),
-    path("password-reset/", auth_views.PasswordResetView.as_view()),
-    path("password-reset/done", auth_views.PasswordResetDoneView.as_view()),
-    path("password-reset/confirm", auth_views.PasswordResetConfirmView.as_view()),
-    path("password-reset/complete", auth_views.PasswordResetCompleteView.as_view()),
+    path(
+        "password-reset/", auth_views.PasswordResetView.as_view(), name="password_reset"
+    ),
+    path(
+        "password-reset/done",
+        auth_views.PasswordResetDoneView.as_view(),
+        name="password_reset_done",
+    ),
+    path(
+        "password-reset/confirm",
+        auth_views.PasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
+    path(
+        "password-reset/complete",
+        auth_views.PasswordResetCompleteView.as_view(),
+        name="password_reset_complete",
+    ),
     path("favicon.ico", RedirectView.as_view(url=settings.STATIC_URL + "favicon.ico")),
     path("robots.txt", RedirectView.as_view(url=settings.STATIC_URL + "robots.txt")),
 ]
@@ -50,6 +63,7 @@ handler403 = views.permission_denied
 handler404 = views.page_not_found
 handler500 = views.server_error
 
+# Allow the error pages to be previewed when running in debug mode
 if settings.DEBUG:
     urlpatterns += (
         path("400", views.bad_request, name="bad_request"),
