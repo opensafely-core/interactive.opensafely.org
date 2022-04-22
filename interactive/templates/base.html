@@ -25,7 +25,7 @@
   <link rel="apple-touch-icon" href="{% static "apple-touch-icon.png" %}">
 
   {% vite_hmr_client %}
-  {% vite_asset 'assets/src/scripts/main.js' %}
+  {% vite_asset 'assets/src/scripts/main.js' defer=true %}
 
 <body class="min-h-screen flex flex-col {% block body_class %}{% endblock body_class %}">
   {% include "partials/header.html" %}
@@ -37,5 +37,8 @@
   </main>
 
   {% include "partials/footer.html" %}
+
+  {% vite_legacy_polyfills %}
+  {% vite_legacy_asset 'assets/src/scripts/main.js' %}
 </body>
 </html>
