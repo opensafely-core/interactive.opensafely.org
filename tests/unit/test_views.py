@@ -59,7 +59,10 @@ def test_new_analysis_request_post_success(client, user):
     with assert_difference(AnalysisRequest.objects.count, expected_difference=1):
         response = client.post(
             reverse("new_analysis_request"),
-            {"title": "An Analysis"},
+            {
+                "title": "An Analysis",
+                "codelist": "opensafely/systolic-blood-pressure-qof",
+            },
             follow=True,
         )
     assert b"Request submitted successfully" in response.content
@@ -68,7 +71,10 @@ def test_new_analysis_request_post_success(client, user):
 def test_new_analysis_request_post_failure(client, user):
     client.force_login(user)
     with assert_no_difference(AnalysisRequest.objects.count):
-        response = client.post(reverse("new_analysis_request"), {"title": ""})
+        response = client.post(
+            reverse("new_analysis_request"),
+            {"title": "", "codelist": "opensafely/systolic-blood-pressure-qof"},
+        )
     assert b"This field is required" in response.content
 
 
