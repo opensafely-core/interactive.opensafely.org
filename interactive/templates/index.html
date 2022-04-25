@@ -28,7 +28,8 @@ for NHS electronic health records{% endblock meta_title %}
                     {% include "components/button.html" with el="link" size="lg" color="oxford" text="Log in" href=login_url %}
                   </li>
                   <li class="ml-3 inline-flex">
-                    {% include "components/button.html" with el="link" size="lg" color="oxford-100" text="Request access" href="#" %}
+                    {% url 'register_interest' as register_interest_url %}
+                    {% include "components/button.html" with el="link" size="lg" color="oxford-100" text="Register your interest" href=register_interest_url %}
                   </li>
                 {% endif %}
               </ul>
@@ -125,7 +126,8 @@ for NHS electronic health records{% endblock meta_title %}
                   {% include "components/button.html" with el="link" size="lg" color="oxford-50" text="Log in" href=login_url %}
                 </li>
                 <li class="ml-3 inline-flex">
-                  {% include "components/button.html" with el="link" size="lg" color="oxford-50" text="Request access" href="#" %}
+                  {% url 'register_interest' as register_interest_url %}
+                  {% include "components/button.html" with el="link" size="lg" color="oxford-50" text="Register your interst" href=register_interest_url %}
                 </li>
               {% endif %}
             </ul>
