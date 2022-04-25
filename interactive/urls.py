@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.views.generic.base import RedirectView
 
@@ -35,6 +36,24 @@ urlpatterns = [
         views.LogoutView.as_view(),
         name="logout",
     ),
+    path(
+        "password-reset/", auth_views.PasswordResetView.as_view(), name="password_reset"
+    ),
+    path(
+        "password-reset/done",
+        auth_views.PasswordResetDoneView.as_view(),
+        name="password_reset_done",
+    ),
+    path(
+        "password-reset/confirm/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
+    path(
+        "password-reset/complete",
+        auth_views.PasswordResetCompleteView.as_view(),
+        name="password_reset_complete",
+    ),
     path("favicon.ico", RedirectView.as_view(url=settings.STATIC_URL + "favicon.ico")),
     path("robots.txt", RedirectView.as_view(url=settings.STATIC_URL + "robots.txt")),
 ]
@@ -44,12 +63,11 @@ handler403 = views.permission_denied
 handler404 = views.page_not_found
 handler500 = views.server_error
 
-if not settings.DEBUG:
-    urlpatterns += (
+# Allow the error pages to be previewed when running in debug mode
+if settings.DEBUG:
+    urlpatterns += (  # pragma: no cover
         path("400", views.bad_request, name="bad_request"),
         path("403", views.permission_denied, name="permission_denied"),
         path("404", views.page_not_found, name="page_not_found"),
         path("500", views.server_error, name="server_error"),
     )
-else:
-    pass  # pragma: no cover

@@ -1,5 +1,7 @@
+from django.test.client import RequestFactory
 from django.urls import reverse
 
+from interactive import views
 from interactive.models import AnalysisRequest
 
 from .assertions import assert_difference, assert_no_difference
@@ -75,26 +77,34 @@ def test_new_analysis_request_post_not_logged_in(client, user):
     assert response.status_code == 302
 
 
-def test_bad_request(client):
-    response = client.get(reverse("bad_request"))
+def test_bad_request():
+    factory = RequestFactory()
+    request = factory.get("/")
+    response = views.bad_request(request)
     assert response.status_code == 400
     assert b"Bad request" in response.content
 
 
-def test_permission_denied(client):
-    response = client.get(reverse("permission_denied"))
+def test_permission_denied():
+    factory = RequestFactory()
+    request = factory.get("/")
+    response = views.permission_denied(request)
     assert response.status_code == 403
     assert b"Permission denied" in response.content
 
 
-def test_page_not_found(client):
-    response = client.get(reverse("page_not_found"))
+def test_page_not_found():
+    factory = RequestFactory()
+    request = factory.get("/")
+    response = views.page_not_found(request)
     assert response.status_code == 404
     assert b"Page not found" in response.content
 
 
-def test_server_error(client):
-    response = client.get(reverse("server_error"))
+def test_server_error():
+    factory = RequestFactory()
+    request = factory.get("/")
+    response = views.server_error(request)
     assert response.status_code == 500
     assert b"Server error" in response.content
 

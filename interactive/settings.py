@@ -49,6 +49,7 @@ ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     "interactive",
     "whitenoise.runserver_nostatic",
+    "anymail",
     "django.contrib.staticfiles",
     "django_extensions",
     "django_vite",
@@ -199,6 +200,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+LOGIN_URL = "/login"
 
 # Security
 # https://docs.djangoproject.com/en/4.0/ref/settings/#core-settings
@@ -207,3 +209,20 @@ CSRF_COOKIE_SECURE = not DEBUG
 CSRF_FAILURE_VIEW = "interactive.views.csrf_failure"
 CSRF_TRUSTED_ORIGINS = [BASE_URL]
 SESSION_COOKIE_SECURE = not DEBUG
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
+# THIRD PARTY SETTINGS
+
+# Anymail
+ANYMAIL = {
+    "MAILGUN_API_KEY": env.str("MAILGUN_API_KEY", default=None),
+    "MAILGUN_API_URL": "https://api.eu.mailgun.net/v3",
+    "MAILGUN_SENDER_DOMAIN": "mg.interactive.opensafely.org",
+}
+EMAIL_BACKEND = env.str(
+    "EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
+)
+DEFAULT_FROM_EMAIL = "OpenSAFELY Interactive <noreply@mg.interactive.opensafely.org>"
+SERVER_EMAIL = "OpenSAFELY Interactive <noreply@mg.interactive.opensafely.org>"
