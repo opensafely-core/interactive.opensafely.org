@@ -49,10 +49,10 @@ ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     "interactive",
     "whitenoise.runserver_nostatic",
+    "anymail",
     "django.contrib.staticfiles",
     "django_extensions",
     "django_vite",
-    "anymail",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
