@@ -65,11 +65,9 @@ handler500 = views.server_error
 
 # Allow the error pages to be previewed when running in debug mode
 if settings.DEBUG:
-    urlpatterns += (
+    urlpatterns += (  # pragma: no cover
         path("400", views.bad_request, name="bad_request"),
         path("403", views.permission_denied, name="permission_denied"),
         path("404", views.page_not_found, name="page_not_found"),
         path("500", views.server_error, name="server_error"),
     )
-else:
-    pass  # pragma: no cover
