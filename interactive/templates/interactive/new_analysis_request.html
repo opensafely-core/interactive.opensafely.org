@@ -6,11 +6,9 @@
         {{ form.non_field_errors }}
         <div>
                 {{ form.title.errors }}
-                <label for="{{ form.title.id_for_label }}">Analysis title</label>
-                {{ form.title }}
-                <label for="{{ form.codelist.id_for_label }}">Codelist</label>
-                {{ form.codelist }}
+                {{ form.as_p }}
         </div>
+        <p>Codelist selection have been published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system</p>
         <input type="submit" value="Submit">
 </form>
 {% endblock %}
