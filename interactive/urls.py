@@ -56,6 +56,13 @@ urlpatterns = [
     ),
     path("favicon.ico", RedirectView.as_view(url=settings.STATIC_URL + "favicon.ico")),
     path("robots.txt", RedirectView.as_view(url=settings.STATIC_URL + "robots.txt")),
+    path(
+        "register-interest/",
+        RedirectView.as_view(
+            url="https://docs.google.com/forms/d/e/1FAIpQLScuaBMu6LdVZaDml1KvcVLmSDvOGCUaPTnDtbL_4UdeW-F6Hw/viewform?usp=sf_link"
+        ),
+        name="register_interest",
+    ),
 ]
 
 handler400 = views.bad_request
