@@ -67,6 +67,12 @@ def test_new_analysis_request_post_success(client, user):
         )
     assert b"Request submitted successfully" in response.content
 
+    request = AnalysisRequest.objects.last()
+    assert request.title == "An Analysis"
+    assert request.codelist == "opensafely/systolic-blood-pressure-qof"
+    assert str(request.start_date) == "2020-01-01"
+    assert str(request.end_date) == "2021-12-31"
+
 
 def test_new_analysis_request_post_failure(client, user):
     client.force_login(user)
