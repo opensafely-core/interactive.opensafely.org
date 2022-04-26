@@ -14,7 +14,8 @@ class AnalysisRequestForm(forms.ModelForm):
         if codelists:
             self.fields["codelist"] = forms.ChoiceField(choices=codelists)
 
-    def save(self):
+    def save(self, user):
         self.instance.start_date = START_DATE
         self.instance.end_date = END_DATE
+        self.instance.user = user
         super().save()
