@@ -20,7 +20,7 @@ def new_analysis_request(request):
     if request.method == "POST":
         form = AnalysisRequestForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save(user=request.user)
             messages.success(request, "Request submitted successfully")
             return redirect(reverse("home"))
     else:
