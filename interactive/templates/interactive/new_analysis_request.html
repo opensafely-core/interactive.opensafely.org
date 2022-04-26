@@ -1,15 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form method="post">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <div>
-                {{ form.title.errors }}
-                {{ form.as_p }}
-        </div>
-        <p>Codelist selection have been published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system</p>
-        <p>Analysis will cover period between {{ start_date }} and {{ end_date }}</p>
-        <input type="submit" value="Submit">
-</form>
+
+<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl">
+  <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div>
+        {% include "components/form-field.html" with id=form.title.id_for_label label=form.title.label name="title" required=True type="text" %}
+      </div>
+
+      <div>
+        {% include "components/form-field-select.html" with id=form.codelist.id_for_label label=form.codelist.label name="codelist" required=True choices=form.codelist.field.choices %}
+      </div>
+      <p>Codelist selection have been published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system</p>
+      <p>Analysis will cover period between {{ start_date }} and {{ end_date }}</p>
+      {% include "components/button.html" with el="input" type="submit" text="Submit" size="lg" color="oxford" %}
+    </form>
+
+  </div>
+</div>
 {% endblock %}

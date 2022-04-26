@@ -75,14 +75,16 @@ def test_new_analysis_request_post_success(client, user):
     assert str(request.end_date) == "2021-12-31"
 
 
-def test_new_analysis_request_post_failure(client, user):
+def test_new_analysis_request_post_failure_returns_unsaved_form(client, user):
     client.force_login(user)
     with assert_no_difference(AnalysisRequest.objects.count):
         response = client.post(
             reverse("new_analysis_request"),
             {"title": "", "codelist": "opensafely/systolic-blood-pressure-qof"},
         )
-    assert b"This field is required" in response.content
+
+    assert b"Analysis title" in response.content
+    assert b"Submit" in response.content
 
 
 def test_new_analysis_request_post_not_logged_in(client, user):
