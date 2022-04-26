@@ -9,5 +9,6 @@ django-vite
 environs[django]
 gunicorn
 psycopg2-binary
+requests
 structlog
 whitenoise[brotli]

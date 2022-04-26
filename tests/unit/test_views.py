@@ -12,7 +12,7 @@ def test_index(client):
     assert response.status_code == 200
 
 
-def test_login_success(client, user):
+def test_login_success(client, user, mock_codelists_response):
     response = client.post(
         reverse("login"), {"username": "alice", "password": "password"}, follow=True
     )
@@ -43,7 +43,7 @@ def test_logout(client, user):
     assert_not_logged_in(client, user)
 
 
-def test_new_analysis_request_get(client, user):
+def test_new_analysis_request_get(client, user, mock_codelists_response):
     client.force_login(user)
     response = client.get(reverse("new_analysis_request"))
     assert response.status_code == 200
@@ -59,7 +59,10 @@ def test_new_analysis_request_post_success(client, user):
     with assert_difference(AnalysisRequest.objects.count, expected_difference=1):
         response = client.post(
             reverse("new_analysis_request"),
-            {"title": "An Analysis"},
+            {
+                "title": "An Analysis",
+                "codelist": "opensafely/systolic-blood-pressure-qof",
+            },
             follow=True,
         )
     assert b"Request submitted successfully" in response.content
@@ -68,7 +71,10 @@ def test_new_analysis_request_post_success(client, user):
 def test_new_analysis_request_post_failure(client, user):
     client.force_login(user)
     with assert_no_difference(AnalysisRequest.objects.count):
-        response = client.post(reverse("new_analysis_request"), {"title": ""})
+        response = client.post(
+            reverse("new_analysis_request"),
+            {"title": "", "codelist": "opensafely/systolic-blood-pressure-qof"},
+        )
     assert b"This field is required" in response.content
 
 

@@ -5,6 +5,8 @@ from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from services import opencodelists
+
 from .forms import AnalysisRequestForm
 
 
@@ -21,7 +23,8 @@ def new_analysis_request(request):
             messages.success(request, "Request submitted successfully")
             return redirect(reverse("home"))
     else:
-        form = AnalysisRequestForm()
+        codelists = [("", "---")] + opencodelists.fetch()
+        form = AnalysisRequestForm(codelists=codelists)
 
     return render(request, "interactive/new_analysis_request.html", {"form": form})
 
