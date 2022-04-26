@@ -8,6 +8,7 @@ from django.urls import reverse
 from services import opencodelists
 
 from .forms import AnalysisRequestForm
+from .models import END_DATE, START_DATE
 
 
 def index(request):
@@ -19,14 +20,19 @@ def new_analysis_request(request):
     if request.method == "POST":
         form = AnalysisRequestForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save(user=request.user)
             messages.success(request, "Request submitted successfully")
             return redirect(reverse("home"))
     else:
         codelists = [("", "---")] + opencodelists.fetch()
         form = AnalysisRequestForm(codelists=codelists)
 
-    return render(request, "interactive/new_analysis_request.html", {"form": form})
+    ctx = {
+        "form": form,
+        "start_date": START_DATE,
+        "end_date": END_DATE,
+    }
+    return render(request, "interactive/new_analysis_request.html", ctx)
 
 
 #
