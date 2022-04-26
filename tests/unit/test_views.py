@@ -12,7 +12,7 @@ def test_index(client):
     assert response.status_code == 200
 
 
-def test_login_success(client, user, mock_response):
+def test_login_success(client, user, mock_codelists_response):
     response = client.post(
         reverse("login"), {"username": "alice", "password": "password"}, follow=True
     )
@@ -43,7 +43,7 @@ def test_logout(client, user):
     assert_not_logged_in(client, user)
 
 
-def test_new_analysis_request_get(client, user, mock_response):
+def test_new_analysis_request_get(client, user, mock_codelists_response):
     client.force_login(user)
     response = client.get(reverse("new_analysis_request"))
     assert response.status_code == 200

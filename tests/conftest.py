@@ -18,7 +18,7 @@ def no_requests(monkeypatch):
     monkeypatch.delattr("requests.sessions.Session.request")
 
 
-class MockResponse:
+class MockCodeListsResponse:
     def __init__(*args, **kwargs):
         pass
 
@@ -47,5 +47,18 @@ class MockResponse:
 
 
 @pytest.fixture
-def mock_response(monkeypatch):
-    monkeypatch.setattr(requests, "get", MockResponse)
+def mock_codelists_response(monkeypatch):
+    monkeypatch.setattr(requests, "get", MockCodeListsResponse)
+
+
+class MockErrorResponse:
+    def __init__(*args, **kwargs):
+        pass
+
+    def raise_for_status(self):
+        raise requests.HTTPError()
+
+
+@pytest.fixture
+def mock_response_raises(monkeypatch):
+    monkeypatch.setattr(requests, "get", MockErrorResponse)
