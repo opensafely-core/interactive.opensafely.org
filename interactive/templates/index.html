@@ -20,7 +20,8 @@ for NHS electronic health records{% endblock meta_title %}
               <ul class="mt-8 flex sm:justify-center lg:justify-start">
                 {% if user.is_authenticated %}
                   <li class="inline-flex rounded-md shadow">
-                    {% include "components/button.html" with el="link" size="lg" color="oxford-50" text="Get started" href="#" %}
+                    {% url 'new_analysis_request' as analysis_request_url %}
+                    {% include "components/button.html" with el="link" size="lg" color="oxford-50" text="Get started" href=analysis_request_url %}
                   </li>
                 {% else %}
                   <li class="inline-flex rounded-md shadow">
