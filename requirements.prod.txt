@@ -116,6 +116,10 @@ environs[django]==9.5.0 \
     --hash=sha256:1e549569a3de49c05f856f40bce86979e7d5ffbbc4398e7f338574c220189124 \
     --hash=sha256:a76307b36fbe856bdca7ee9161e6c466fd7fcffc297109a118c59b54e27e30c9
     # via -r requirements.prod.in
+furl==2.1.3 \
+    --hash=sha256:5a6188fe2666c484a12159c18be97a1977a71d632ef5bb867ef15f54af39cc4e \
+    --hash=sha256:9ab425062c4217f9802508e45feb4a83e54324273ac4b202f1850363309666c0
+    # via -r requirements.prod.in
 gunicorn==20.1.0 \
     --hash=sha256:9dcc4547dbb1cb284accfb15ab5667a0e5d1881cc443e0677b4882a4067a807e \
     --hash=sha256:e0a968b5ba15f8a328fdfd7ab1fcb5af4470c28aaf7e55df02a99bc13138e6e8
@@ -128,6 +132,10 @@ marshmallow==3.15.0 \
     --hash=sha256:2aaaab4f01ef4f5a011a21319af9fce17ab13bf28a026d1252adab0e035648d5 \
     --hash=sha256:ff79885ed43b579782f48c251d262e062bce49c65c52412458769a4fb57ac30f
     # via environs
+orderedmultidict==1.0.1 \
+    --hash=sha256:04070bbb5e87291cc9bfa51df413677faf2141c73c61d2a5f7b26bea3cd882ad \
+    --hash=sha256:43c839a17ee3cdd62234c47deca1a8508a3f2ca1d0678a3bf791c87cf84adbf3
+    # via furl
 packaging==21.3 \
     --hash=sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb \
     --hash=sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522
@@ -204,6 +212,16 @@ requests==2.27.1 \
     # via
     #   -r requirements.prod.in
     #   django-anymail
+six==1.16.0 \
+    --hash=sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926 \
+    --hash=sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254
+    # via
+    #   furl
+    #   orderedmultidict
+slack-sdk==3.15.2 \
+    --hash=sha256:128f3bb0b5b91454a3d5f140a61f3db370a0e1b50ffe0a8d9e9ebe0e894faed7 \
+    --hash=sha256:e1fa26786169176e707676decc287fd9d3d547bbc43c0a1a4f99eb373b07da94
+    # via -r requirements.prod.in
 sqlparse==0.4.2 \
     --hash=sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae \
     --hash=sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d

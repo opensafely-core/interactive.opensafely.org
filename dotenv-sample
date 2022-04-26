@@ -12,3 +12,8 @@ DJANGO_VITE_DEV_MODE=False
 
 # Site URL
 BASE_URL=http://localhost:8000
+
+SLACK_BOT_TOKEN=fake_token
+
+# URL to run jobs manually on job-server, used for the slack notification
+JOB_SERVER_JOBS_URL=https://jobs.opensafely.org/datalab/opensafely-interactive/opensafely-interactive/run-jobs/

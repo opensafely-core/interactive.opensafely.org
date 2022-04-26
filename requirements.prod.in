@@ -7,8 +7,10 @@ django-anymail[mailgun]
 django-extensions
 django-vite
 environs[django]
+furl
 gunicorn
 psycopg2-binary
 requests
+slack-sdk
 structlog
 whitenoise[brotli]
