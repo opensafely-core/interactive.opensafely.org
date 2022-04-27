@@ -19,6 +19,10 @@ def index(request):
     return render(request, "index.html")
 
 
+def register_interest(request):
+    return render(request, "interactive/register_interest.html")
+
+
 @login_required
 def new_analysis_request(request):
     if request.method == "POST":

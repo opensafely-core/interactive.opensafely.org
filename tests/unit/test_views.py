@@ -43,6 +43,11 @@ def test_logout(client, user):
     assert_not_logged_in(client, user)
 
 
+def test_register_interest(client):
+    response = client.get(reverse("register_interest"))
+    assert response.status_code == 200
+
+
 def test_new_analysis_request_get(client, user, mock_codelists_response):
     client.force_login(user)
     response = client.get(reverse("new_analysis_request"))
