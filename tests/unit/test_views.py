@@ -49,12 +49,13 @@ def test_new_analysis_request_get(client, user, mock_codelists_response):
     assert response.status_code == 200
 
 
-def test_new_analysis_request_get_not_logged_in(client, user):
+def test_new_analysis_request_get_not_logged_in(client):
     response = client.get(reverse("new_analysis_request"))
     assert response.status_code == 302
 
 
-def test_new_analysis_request_post_success(client, user):
+def test_new_analysis_request_post_success(client, user, mocker):
+    mocker.patch("interactive.views.notify_analysis_request_submitted", autospec=True)
     client.force_login(user)
     with assert_difference(AnalysisRequest.objects.count, expected_difference=1):
         response = client.post(
@@ -75,6 +76,24 @@ def test_new_analysis_request_post_success(client, user):
     assert str(request.end_date) == "2021-12-31"
 
 
+def test_new_analysis_request_post_success_calls_notify(client, user, mocker):
+    mock_notify = mocker.patch(
+        "interactive.views.notify_analysis_request_submitted", autospec=True
+    )
+
+    client.force_login(user)
+    client.post(
+        reverse("new_analysis_request"),
+        {
+            "title": "An Analysis",
+            "codelist": "opensafely/systolic-blood-pressure-qof",
+        },
+        follow=True,
+    )
+
+    mock_notify.assert_called_once()
+
+
 def test_new_analysis_request_post_failure_returns_unsaved_form(client, user):
     client.force_login(user)
     with assert_no_difference(AnalysisRequest.objects.count):
@@ -85,6 +104,20 @@ def test_new_analysis_request_post_failure_returns_unsaved_form(client, user):
 
     assert b"Analysis title" in response.content
     assert b"Submit" in response.content
+
+
+def test_new_analysis_request_post_failure_doesnt_call_notify(client, user, mocker):
+    mock_notify = mocker.patch(
+        "interactive.views.notify_analysis_request_submitted", autospec=True
+    )
+
+    client.force_login(user)
+    client.post(
+        reverse("new_analysis_request"),
+        {"title": "", "codelist": "opensafely/systolic-blood-pressure-qof"},
+    )
+
+    mock_notify.assert_not_called()
 
 
 def test_new_analysis_request_post_not_logged_in(client, user):
@@ -129,6 +162,12 @@ def test_csrf_failure(client):
     response = client.post(reverse("home"), {})
     assert response.status_code == 400
     assert b"CSRF Failed" in response.content
+
+
+def test_notify_analysis_request_submitted(mocker):
+    mock = mocker.patch("interactive.views.slack", autospec=True)
+    views.notify_analysis_request_submitted("A title", "codelist", "username")
+    mock.post.assert_called_once()
 
 
 def assert_logged_in(client, user):

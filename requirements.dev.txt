@@ -221,6 +221,7 @@ pytest==7.1.2 \
     #   pytest-django
     #   pytest-env
     #   pytest-freezegun
+    #   pytest-mock
 pytest-cov==3.0.0 \
     --hash=sha256:578d5d15ac4a25e5f961c938b85a05b09fdaae9deef3bb6de9a6e766622ca7a6 \
     --hash=sha256:e7f0f5b1617d2210a2cabc266dfe2f4c75a8d32fb89eafb7ad9d06f6d076d470
@@ -235,6 +236,10 @@ pytest-env==0.6.2 \
 pytest-freezegun==0.4.2 \
     --hash=sha256:19c82d5633751bf3ec92caa481fb5cffaac1787bd485f0df6436fd6242176949 \
     --hash=sha256:5318a6bfb8ba4b709c8471c94d0033113877b3ee02da5bfcd917c1889cde99a7
+    # via -r requirements.dev.in
+pytest-mock==3.7.0 \
+    --hash=sha256:5112bd92cc9f186ee96e1a92efc84969ea494939c3aead39c50f421c4cc69534 \
+    --hash=sha256:6cff27cec936bf81dc5ee87f07132b807bcda51106b5ec4b90a04331cba76231
     # via -r requirements.dev.in
 python-dateutil==2.8.2 \
     --hash=sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86 \
@@ -275,6 +280,7 @@ six==1.16.0 \
     --hash=sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926 \
     --hash=sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254
     # via
+    #   -c requirements.prod.txt
     #   python-dateutil
     #   virtualenv
 toml==0.10.2 \

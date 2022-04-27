@@ -4,11 +4,15 @@ from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from environs import Env
 
-from services import opencodelists
+from services import opencodelists, slack
 
 from .forms import AnalysisRequestForm
 from .models import END_DATE, START_DATE
+
+
+env = Env()
 
 
 def index(request):
@@ -21,6 +25,9 @@ def new_analysis_request(request):
         form = AnalysisRequestForm(request.POST)
         if form.is_valid():
             form.save(user=request.user)
+            notify_analysis_request_submitted(
+                form.instance.title, form.instance.codelist, request.user.username
+            )
             messages.success(request, "Request submitted successfully")
             return redirect(reverse("home"))
     else:
@@ -120,3 +127,15 @@ def csrf_failure(request, reason=""):
             "error_message": "The form was not able to submit.",
         },
     )
+
+
+def notify_analysis_request_submitted(title, codelist, created_by):
+    job_server_url = slack.link(
+        env.str("JOB_SERVER_JOBS_URL", default=""),
+        "job server",
+    )
+    message = (
+        f"{created_by} submitted an analysis request called {title} for {codelist}\n"
+    )
+    message += f"Please start the job in {job_server_url}"
+    slack.post(text=message)
