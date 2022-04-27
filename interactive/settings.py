@@ -13,7 +13,10 @@ import os
 import re
 from pathlib import Path
 
+import sentry_sdk
 from environs import Env, EnvError
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.logging import ignore_logger
 
 from services.logging import logging_config_dict
 
@@ -226,3 +229,17 @@ EMAIL_BACKEND = env.str(
 )
 DEFAULT_FROM_EMAIL = "OpenSAFELY Interactive <noreply@mg.interactive.opensafely.org>"
 SERVER_EMAIL = "OpenSAFELY Interactive <noreply@mg.interactive.opensafely.org>"
+
+
+# Sentry
+# ignore the request logging middleware, it creates ungrouped events by default
+# https://docs.sentry.io/platforms/python/guides/logging/#ignoring-a-logger
+ignore_logger("django_structlog.middlewares.request")
+
+SENTRY_DSN = os.environ.get("SENTRY_DSN")
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        send_default_pii=True,
+    )

@@ -34,6 +34,7 @@ skip_covered = true
 profile = "black"
 lines_after_imports = 2
 skip_glob = [".direnv", "venv", ".venv"]
+known_third_party = ["debug_toolbar", "django", "environs", "furl", "lxml", "pytest", "sentry_sdk", "structlog"]
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "interactive.settings"
