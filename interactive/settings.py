@@ -15,6 +15,7 @@ from pathlib import Path
 
 from environs import Env, EnvError
 
+from services import sentry
 from services.logging import logging_config_dict
 
 
@@ -23,10 +24,6 @@ env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 try:
@@ -214,6 +211,8 @@ EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
 # THIRD PARTY SETTINGS
+
+sentry.initialise_sentry()
 
 # Anymail
 ANYMAIL = {

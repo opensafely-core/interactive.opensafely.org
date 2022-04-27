@@ -11,6 +11,7 @@ furl
 gunicorn
 psycopg2-binary
 requests
+sentry-sdk
 slack-sdk
 structlog
 whitenoise[brotli]
