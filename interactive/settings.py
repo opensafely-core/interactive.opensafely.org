@@ -13,11 +13,9 @@ import os
 import re
 from pathlib import Path
 
-import sentry_sdk
 from environs import Env, EnvError
-from sentry_sdk.integrations.django import DjangoIntegration
-from sentry_sdk.integrations.logging import ignore_logger
 
+from services import sentry
 from services.logging import logging_config_dict
 
 
@@ -26,10 +24,6 @@ env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 try:
@@ -218,6 +212,8 @@ EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
 # THIRD PARTY SETTINGS
 
+sentry.initialise_sentry()
+
 # Anymail
 ANYMAIL = {
     "MAILGUN_API_KEY": env.str("MAILGUN_API_KEY", default=None),
@@ -229,17 +225,3 @@ EMAIL_BACKEND = env.str(
 )
 DEFAULT_FROM_EMAIL = "OpenSAFELY Interactive <noreply@mg.interactive.opensafely.org>"
 SERVER_EMAIL = "OpenSAFELY Interactive <noreply@mg.interactive.opensafely.org>"
-
-
-# Sentry
-# ignore the request logging middleware, it creates ungrouped events by default
-# https://docs.sentry.io/platforms/python/guides/logging/#ignoring-a-logger
-ignore_logger("django_structlog.middlewares.request")
-
-SENTRY_DSN = os.environ.get("SENTRY_DSN")
-if SENTRY_DSN:
-    sentry_sdk.init(
-        dsn=SENTRY_DSN,
-        integrations=[DjangoIntegration()],
-        send_default_pii=True,
-    )

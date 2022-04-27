@@ -21,6 +21,7 @@ omit = [
   "interactive/asgi.py",
   "interactive/settings.py",
   "interactive/wsgi.py",
+  "services/sentry.py",
   "manage.py",
 ]
 
