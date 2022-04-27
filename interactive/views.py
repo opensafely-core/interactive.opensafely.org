@@ -6,10 +6,14 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from environs import Env
 
-from services import opencodelists, slack
+from services import opencodelists
 
-from .forms import AnalysisRequestForm
+from .forms import AnalysisRequestForm, RegisterInterestForm
 from .models import END_DATE, START_DATE
+from .notifications import (
+    notify_analysis_request_submitted,
+    notify_register_interest_submitted,
+)
 
 
 env = Env()
@@ -20,7 +24,21 @@ def index(request):
 
 
 def register_interest(request):
-    return render(request, "interactive/register_interest.html")
+    if request.method == "POST":
+        form = RegisterInterestForm(request.POST)
+        if form.is_valid():
+            form.save()
+            notify_register_interest_submitted(
+                form.instance.full_name,
+                form.instance.job_title,
+                form.instance.organisation,
+                form.instance.email,
+            )
+            messages.success(request, "Request submitted successfully")
+            return redirect(reverse("home"))
+    else:
+        form = RegisterInterestForm()
+    return render(request, "interactive/register_interest.html", {"form": form})
 
 
 @login_required
@@ -131,15 +149,3 @@ def csrf_failure(request, reason=""):
             "error_message": "The form was not able to submit.",
         },
     )
-
-
-def notify_analysis_request_submitted(title, codelist, created_by):
-    job_server_url = slack.link(
-        env.str("JOB_SERVER_JOBS_URL", default=""),
-        "job server",
-    )
-    message = (
-        f"{created_by} submitted an analysis request called {title} for {codelist}\n"
-    )
-    message += f"Please start the job in {job_server_url}"
-    slack.post(text=message)
