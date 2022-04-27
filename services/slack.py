@@ -22,7 +22,8 @@ def post(text, channel="interactive-requests"):
     try:
         client.chat_postMessage(channel=channel, text=text)
     except SlackApiError:
-        # failing to slack is never fatal, so log and do not error
+        # failing to slack is never fatal, but is something we need to take action on
+        # so any problems should appear in Sentry
         logger.exception("Failed to notify slack")
 
 
