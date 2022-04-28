@@ -1,4 +1,4 @@
-from interactive.models import AnalysisRequest, RegisterInterest
+from interactive.models import AnalysisRequest, RegistrationRequest
 
 
 def test_analysis_request_string_repr():
@@ -9,7 +9,7 @@ def test_analysis_request_string_repr():
 
 
 def test_register_interest_string_repr():
-    request = RegisterInterest()
+    request = RegistrationRequest()
     request.full_name = "Alice"
     request.email = "alice@test.com"
     request.organisation = "The Bennett Institute"

@@ -5,7 +5,7 @@ START_DATE = "2020-01-01"
 END_DATE = "2021-12-31"
 
 
-class RegisterInterest(models.Model):
+class RegistrationRequest(models.Model):
     full_name = models.CharField(max_length=100, verbose_name="Full name")
     email = models.CharField(max_length=100, verbose_name="Email")
     organisation = models.CharField(max_length=100, verbose_name="Organisation")

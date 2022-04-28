@@ -8,11 +8,11 @@ from environs import Env
 
 from services import opencodelists
 
-from .forms import AnalysisRequestForm, RegisterInterestForm
+from .forms import AnalysisRequestForm, RegistrationRequestForm
 from .models import END_DATE, START_DATE
 from .notifications import (
     notify_analysis_request_submitted,
-    notify_register_interest_submitted,
+    notify_registration_request_submitted,
 )
 
 
@@ -25,10 +25,10 @@ def index(request):
 
 def register_interest(request):
     if request.method == "POST":
-        form = RegisterInterestForm(request.POST)
+        form = RegistrationRequestForm(request.POST)
         if form.is_valid():
             form.save()
-            notify_register_interest_submitted(
+            notify_registration_request_submitted(
                 form.instance.full_name,
                 form.instance.job_title,
                 form.instance.organisation,
@@ -40,7 +40,7 @@ def register_interest(request):
             )
             return redirect(reverse("home"))
     else:
-        form = RegisterInterestForm()
+        form = RegistrationRequestForm()
     return render(request, "interactive/register_interest.html", {"form": form})
 
 

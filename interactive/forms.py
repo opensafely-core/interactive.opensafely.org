@@ -1,11 +1,11 @@
 from django import forms
 
-from .models import END_DATE, START_DATE, AnalysisRequest, RegisterInterest
+from .models import END_DATE, START_DATE, AnalysisRequest, RegistrationRequest
 
 
-class RegisterInterestForm(forms.ModelForm):
+class RegistrationRequestForm(forms.ModelForm):
     class Meta:
-        model = RegisterInterest
+        model = RegistrationRequest
         fields = ["full_name", "email", "organisation", "job_title"]
 
 

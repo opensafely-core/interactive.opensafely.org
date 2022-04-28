@@ -2,7 +2,7 @@ from django.test.client import RequestFactory
 from django.urls import reverse
 
 from interactive import views
-from interactive.models import AnalysisRequest, RegisterInterest
+from interactive.models import AnalysisRequest, RegistrationRequest
 
 from .assertions import assert_difference, assert_no_difference
 
@@ -49,8 +49,10 @@ def test_register_interest_get(client):
 
 
 def test_register_interest_post_success(client, user, mocker):
-    mocker.patch("interactive.views.notify_register_interest_submitted", autospec=True)
-    with assert_difference(RegisterInterest.objects.count, expected_difference=1):
+    mocker.patch(
+        "interactive.views.notify_registration_request_submitted", autospec=True
+    )
+    with assert_difference(RegistrationRequest.objects.count, expected_difference=1):
         response = client.post(
             reverse("register_interest"),
             {
@@ -63,13 +65,13 @@ def test_register_interest_post_success(client, user, mocker):
         )
     assert b"Thank you for your interest" in response.content
 
-    request = RegisterInterest.objects.last()
+    request = RegistrationRequest.objects.last()
     assert request.full_name == "Alice"
 
 
 def test_register_interest_post_success_calls_notify(client, user, mocker):
     mock_notify = mocker.patch(
-        "interactive.views.notify_register_interest_submitted", autospec=True
+        "interactive.views.notify_registration_request_submitted", autospec=True
     )
 
     client.post(
@@ -87,7 +89,7 @@ def test_register_interest_post_success_calls_notify(client, user, mocker):
 
 
 def test_register_interest_post_failure_returns_unsaved_form(client, user):
-    with assert_no_difference(RegisterInterest.objects.count):
+    with assert_no_difference(RegistrationRequest.objects.count):
         response = client.post(
             reverse("register_interest"),
             {
@@ -102,7 +104,7 @@ def test_register_interest_post_failure_returns_unsaved_form(client, user):
 
 def test_register_interest_post_failure_doesnt_call_notify(client, user, mocker):
     mock_notify = mocker.patch(
-        "interactive.views.notify_register_interest_submitted", autospec=True
+        "interactive.views.notify_registration_request_submitted", autospec=True
     )
 
     client.post(
