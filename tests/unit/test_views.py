@@ -61,7 +61,7 @@ def test_register_interest_post_success(client, user, mocker):
             },
             follow=True,
         )
-    assert b"Request submitted successfully" in response.content
+    assert b"Thank you for your interest" in response.content
 
     request = RegisterInterest.objects.last()
     assert request.full_name == "Alice"

@@ -34,7 +34,10 @@ def register_interest(request):
                 form.instance.organisation,
                 form.instance.email,
             )
-            messages.success(request, "Request submitted successfully")
+            messages.success(
+                request,
+                "Thank you for your interest. Someone will get back to you soon about your request",
+            )
             return redirect(reverse("home"))
     else:
         form = RegisterInterestForm()

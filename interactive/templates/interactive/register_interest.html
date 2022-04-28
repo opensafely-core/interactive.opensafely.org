@@ -4,9 +4,9 @@
 
 <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl">
   <h2 class="text-xl font-extrabold text-slate-900">Register your interest in using the OpenSAFELY Interactive platform</h2>
-  <div class="bg-white mt-2 py-8 px-4 shadow sm:rounded-lg sm:px-10">
-
-    <form method="post">
+  <p class="mt-2 mb-2 text-base text-slate-500">We are currently working with NHS England to cautiously on-board a small number of NHS England staff to run analyses using OpenSAFELY Interactive in its early development phase.</p>
+  <div class="bg-white mt-2 mb-2 py-4 px-4 shadow sm:rounded-lg sm:px-10">
+    <form class="space-y-6" method="post">
       {% csrf_token %}
       {{ form.non_field_errors }}
       <div>
@@ -21,10 +21,12 @@
       <div>
         {% include "components/form-field.html" with id=form.job_title.id_for_label label=form.job_title.label name="job_title" required=True type="text" %}
       </div>
-      <p class="mt-2 mb-2 text-base text-slate-500">Someone will respond to your request shortly</p>
-      {% include "components/button.html" with el="input" type="submit" text="Submit" size="lg" color="oxford" %}
-    </form>
+      <p class="mt-2 mb-2 text-base text-slate-500">We will use your details to check your eligibility and register you for the OpenSAFELY Interactive platform and to contact you about the platform. You can  <a style="text-decoration: underline;" href="mailto:team@opensafely.org">contact us</a> to opt out at any time.</p>
 
+      <div class="mt-2 mb-2">
+      {% include "components/button.html" with el="input" type="submit" text="Submit" size="lg" color="oxford" %}
+      </div>
+    </form>
   </div>
 </div>
 {% endblock %}

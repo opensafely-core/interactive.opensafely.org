@@ -31,7 +31,7 @@ for NHS electronic health records{% endblock meta_title %}
                   </li>
                   <li class="ml-3 inline-flex">
                     {% url 'register_interest' as register_interest_url %}
-                    {% include "components/button.html" with el="link" size="lg" color="oxford-100" text="Request access" href=register_interest_url %}
+                    {% include "components/button.html" with el="link" size="lg" color="oxford-100" text="Register your interest" href=register_interest_url %}
                   </li>
                 {% endif %}
               </ul>
@@ -130,7 +130,7 @@ for NHS electronic health records{% endblock meta_title %}
                 </li>
                 <li class="ml-3 inline-flex">
                   {% url 'register_interest' as register_interest_url %}
-                  {% include "components/button.html" with el="link" size="lg" color="oxford-50" text="Request access" href=register_interest_url %}
+                  {% include "components/button.html" with el="link" size="lg" color="oxford-50" text="Register your interest" href=register_interest_url %}
                 </li>
               {% endif %}
             </ul>
