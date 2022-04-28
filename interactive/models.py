@@ -11,6 +11,11 @@ class RegisterInterest(models.Model):
     organisation = models.CharField(max_length=100, verbose_name="Organisation")
     job_title = models.CharField(max_length=100, verbose_name="Job title")
 
+    def __str__(self) -> str:
+        return (
+            f"{self.full_name} ({self.email}), {self.job_title} at {self.organisation}"
+        )
+
 
 class AnalysisRequest(models.Model):
 
