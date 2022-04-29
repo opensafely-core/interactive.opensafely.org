@@ -11,12 +11,13 @@ for NHS electronic health records{% endblock meta_title %}
       <div class="container">
         <div class="lg:grid lg:grid-cols-2 lg:gap-8">
           <div class="z-10 mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:px-0 lg:text-left lg:flex lg:items-center">
-            <div class="lg:py-24">
+            <div class="lg:py-16">
               <h1 id="heroHeading" class="mt-4 text-4xl tracking-tight font-extrabold text-white sm:mt-5 sm:text-6xl lg:mt-6 lg:text-5xl xl:text-6xl">
                 <span class="md:block text-white">An automated analytics pipeline</span>
                 <span class="md:block text-oxford-300">for NHS electronic health records</span>
               </h1>
               <p class="mt-3 text-base text-oxford-50 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">Securely delivering research across over 58 million people's health records, always respecting patient confidentiality.</p>
+              <p class="mt-3 text-base text-oxford-50 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">OpenSAFELY Interactive is a new service in development to offer analysis of patient records via simple point-and-click tools.</p>
               <ul class="mt-8 flex sm:justify-center lg:justify-start">
                 {% if user.is_authenticated %}
                   <li class="inline-flex rounded-md shadow">
@@ -46,59 +47,60 @@ for NHS electronic health records{% endblock meta_title %}
   </section>
 
   {# Features section #}
-  <section class="hidden bg-white" aria-labelledby="featuresHeading">
+  <section class="bg-white" aria-labelledby="featuresHeading">
     <div class="container py-16 px-4 sm:px-6 lg:py-24 lg:px-8">
       <div class="max-w-3xl mx-auto text-center">
         <h2 class="text-3xl font-extrabold text-slate-900" id="featuresHeading">All-in-one platform</h2>
-        <p class="mt-4 text-lg text-slate-500">Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis vel nulla nec.</p>
+        <p class="mt-4 text-lg text-slate-500">OpenSAFELY Interactive is built upon the OpenSAFELY secure analytics platform for
+          NHS electronic health records</p>
       </div>
       <dl class="mt-12 space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-8">
         <div class="relative">
           <dt>
             {% include "icons/outline-check.svg" with html_class="absolute h-6 w-6 text-green-500" %}
-            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Invite team members</p>
+            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Analysis</p>
           </dt>
-          <dd class="mt-2 ml-9 text-base text-slate-500">Tempor tellus in aliquet eu et sit nulla tellus. Suspendisse est, molestie blandit quis ac. Lacus.</dd>
+          <dd class="mt-2 ml-9 text-base text-slate-500">Our tools support high-quality, open research. Allowing researchers and policy makers to conduct analyses in a simple no-code environment.</dd>
         </div>
 
         <div class="relative">
           <dt>
             {% include "icons/outline-check.svg" with html_class="absolute h-6 w-6 text-green-500" %}
-            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Notifications</p>
+            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Protecting privacy</p>
           </dt>
-          <dd class="mt-2 ml-9 text-base text-slate-500">Ornare donec rhoncus vitae nisl velit, neque, mauris dictum duis. Nibh urna non parturient.</dd>
+          <dd class="mt-2 ml-9 text-base text-slate-500">We never let requesters download patient data. OpenSAFELY Interactive allows researchers to analyse patient data without accessing the raw records.</dd>
         </div>
 
         <div class="relative">
           <dt>
             {% include "icons/outline-check.svg" with html_class="absolute h-6 w-6 text-green-500" %}
-            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">List view</p>
+            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Auditable by the public</p>
           </dt>
-          <dd class="mt-2 ml-9 text-base text-slate-500">Etiam cras augue ornare pretium sit malesuada morbi orci, venenatis. Dictum lacus.</dd>
+          <dd class="mt-2 ml-9 text-base text-slate-500">It is a privilege to use patient data for the public good. OpenSAFELY Interactive respects patients by carefully considering this in every part of its design.</dd>
         </div>
 
         <div class="relative">
           <dt>
             {% include "icons/outline-check.svg" with html_class="absolute h-6 w-6 text-green-500" %}
-            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Boards</p>
+            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Better, open science</p>
           </dt>
-          <dd class="mt-2 ml-9 text-base text-slate-500">Interdum quam pulvinar turpis tortor, egestas quis diam amet, natoque. Mauris sagittis.</dd>
+          <dd class="mt-2 ml-9 text-base text-slate-500">OpenSAFELY requires publication of all analytic code, including that used by OpenSAFELY Interactive.</dd>
         </div>
 
         <div class="relative">
           <dt>
             {% include "icons/outline-check.svg" with html_class="absolute h-6 w-6 text-green-500" %}
-            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Keyboard shortcuts</p>
+            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Maintaining public trust and transparency</p>
           </dt>
-          <dd class="mt-2 ml-9 text-base text-slate-500">Ullamcorper in ipsum ac feugiat. Senectus at aliquam vulputate mollis nec. In at risus odio.</dd>
+          <dd class="mt-2 ml-9 text-base text-slate-500">All platform activity is publicly logged. All software for data management and analysis is shared, automatically and openly, for scientific review and efficient re-use.</dd>
         </div>
 
         <div class="relative">
           <dt>
             {% include "icons/outline-check.svg" with html_class="absolute h-6 w-6 text-green-500" %}
-            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Reporting</p>
+            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Feedback</p>
           </dt>
-          <dd class="mt-2 ml-9 text-base text-slate-500">Magna a vel sagittis aliquam eu amet. Et lorem auctor quam nunc odio. Sed bibendum.</dd>
+          <dd class="mt-2 ml-9 text-base text-slate-500">During this initial phase of development we're seeking feedback from researchers about new analysis features.</dd>
         </div>
 
       </dl>
@@ -106,7 +108,7 @@ for NHS electronic health records{% endblock meta_title %}
   </section>
 
   {# CTA section #}
-  <section class="hidden bg-white" aria-labelledby="ctaHeading">
+  <section class="bg-white" aria-labelledby="ctaHeading">
     <div class="container py-16 px-4 sm:px-6 lg:px-8">
       <div class="bg-oxford-700 rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
         <div class="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16 lg:pr-0 xl:py-20 xl:px-20">
@@ -114,7 +116,7 @@ for NHS electronic health records{% endblock meta_title %}
             <h2 class="text-3xl font-extrabold text-white sm:text-4xl" id="ctaHeading">
               <span class="block">Ready to start?</span>
             </h2>
-            <p class="mt-4 text-lg leading-6 text-oxford-100">Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis vel nulla nec.</p>
+            <p class="mt-4 text-lg leading-6 text-oxford-100">Use the power of the OpenSAFELY platform to conduct analyses on electronic patients records in a no-code environment.</p>
             <ul class="mt-8 flex sm:justify-center lg:justify-start">
               {% if user.is_authenticated %}
                 <li class="inline-flex rounded-md shadow">
@@ -134,7 +136,7 @@ for NHS electronic health records{% endblock meta_title %}
         </div>
         <div class="-mt-6 aspect-w-5 aspect-h-3 md:aspect-w-2 md:aspect-h-1">
           {# TODO: This should be replaced with a screenshot of the app #}
-          <img class="drop-shadow-[-20px_-20px_20px_rgba(0,0,0,0.25)] transform translate-x-6 translate-y-6 rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20" src="{% static 'img/chris-ried-ieic5Tq8YMk-unsplash.jpg' %}" alt="">
+          <img class="drop-shadow-[-20px_-20px_20px_rgba(0,0,0,0.25)] transform translate-x-6 translate-y-6 rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20" src="{% static 'img/lagos-techie-IgUR1iX0mqM-unsplash_hu5742a3aba77b61890d2614f8f43ff88e_2803415_3eb6dd101c7829ff94e8b92071911a6b.jpg' %}" alt="">
         </div>
       </div>
     </div>
