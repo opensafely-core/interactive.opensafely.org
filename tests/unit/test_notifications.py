@@ -3,7 +3,7 @@ from interactive import notifications
 
 def test_notify_analysis_request_submitted(mocker):
     mock = mocker.patch("interactive.notifications.slack", autospec=True)
-    notifications.notify_analysis_request_submitted("A title", "codelist", "username")
+    notifications.notify_analysis_request_submitted("A title", "codelist", "email")
     mock.post.assert_called_once()
 
 

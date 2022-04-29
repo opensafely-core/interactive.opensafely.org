@@ -14,7 +14,9 @@ def test_index(client):
 
 def test_login_success(client, user, mock_codelists_response):
     response = client.post(
-        reverse("login"), {"username": "alice", "password": "password"}, follow=True
+        reverse("login"),
+        {"username": "alice@test.com", "password": "password"},
+        follow=True,
     )
     assert b"You have successfully logged in" in response.content
     assert_logged_in(client, user)
@@ -24,15 +26,17 @@ def test_login_failure_wrong_username(client, user):
     response = client.post(
         reverse("login"), {"username": "malice", "password": "password"}, follow=True
     )
-    assert b"Please enter a correct username and password" in response.content
+    assert b"Please enter a correct email address and password" in response.content
     assert_not_logged_in(client, user)
 
 
 def test_login_failure_wrong_password(client, user):
     response = client.post(
-        reverse("login"), {"username": "alice", "password": "wordpass"}, follow=True
+        reverse("login"),
+        {"username": "alice@test.com", "password": "wordpass"},
+        follow=True,
     )
-    assert b"Please enter a correct username and password" in response.content
+    assert b"Please enter a correct email address and password" in response.content
     assert_not_logged_in(client, user)
 
 
