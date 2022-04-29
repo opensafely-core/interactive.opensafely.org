@@ -27,12 +27,15 @@ def post(text, channel="interactive-requests"):
         logger.exception("Failed to notify slack")
 
 
-def link(url, text=None):
+def link(url, text=None, is_email=False):
     """Because no one can remember this"""
     if url.startswith("/"):
         base_url = furl(settings.BASE_URL)
         base_url.path = url
         url = base_url.url
+
+    if is_email:
+        url = f"mailto:{url}"
 
     if text is None:
         return f"<{url}>"

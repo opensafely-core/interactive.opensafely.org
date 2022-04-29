@@ -35,3 +35,8 @@ def test_link_with_url_and_text():
 
 def test_link_with_relative_url():
     assert slack.link("/analysis-request") == "<http://localhost:8000/analysis-request>"
+
+
+def test_link_with_email():
+    slack_link = slack.link("admin@test.com", "Contact us", is_email=True)
+    assert slack_link == "<mailto:admin@test.com|Contact us>"

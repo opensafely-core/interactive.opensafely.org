@@ -2,7 +2,7 @@ from django.test.client import RequestFactory
 from django.urls import reverse
 
 from interactive import views
-from interactive.models import AnalysisRequest
+from interactive.models import AnalysisRequest, RegistrationRequest
 
 from .assertions import assert_difference, assert_no_difference
 
@@ -41,6 +41,81 @@ def test_logout(client, user):
     response = client.get(reverse("logout"), follow=True)
     assert b"You have successfully logged out" in response.content
     assert_not_logged_in(client, user)
+
+
+def test_register_interest_get(client):
+    response = client.get(reverse("register_interest"))
+    assert response.status_code == 200
+
+
+def test_register_interest_post_success(client, user, mocker):
+    mocker.patch(
+        "interactive.views.notify_registration_request_submitted", autospec=True
+    )
+    with assert_difference(RegistrationRequest.objects.count, expected_difference=1):
+        response = client.post(
+            reverse("register_interest"),
+            {
+                "full_name": "Alice",
+                "job_title": "Software engineer",
+                "email": "alice@test.com",
+                "organisation": "Unit test",
+            },
+            follow=True,
+        )
+    assert b"Thank you for your interest" in response.content
+
+    request = RegistrationRequest.objects.last()
+    assert request.full_name == "Alice"
+
+
+def test_register_interest_post_success_calls_notify(client, user, mocker):
+    mock_notify = mocker.patch(
+        "interactive.views.notify_registration_request_submitted", autospec=True
+    )
+
+    client.post(
+        reverse("register_interest"),
+        {
+            "full_name": "Alice",
+            "job_title": "Software engineer",
+            "email": "alice@test.com",
+            "organisation": "Unit test",
+        },
+        follow=True,
+    )
+
+    mock_notify.assert_called_once()
+
+
+def test_register_interest_post_failure_returns_unsaved_form(client, user):
+    with assert_no_difference(RegistrationRequest.objects.count):
+        response = client.post(
+            reverse("register_interest"),
+            {
+                "full_name": "Alice",
+                "email": "",
+            },
+        )
+
+    assert b"Register your interest" in response.content
+    assert b"Submit" in response.content
+
+
+def test_register_interest_post_failure_doesnt_call_notify(client, user, mocker):
+    mock_notify = mocker.patch(
+        "interactive.views.notify_registration_request_submitted", autospec=True
+    )
+
+    client.post(
+        reverse("register_interest"),
+        {
+            "full_name": "Alice",
+            "email": "",
+        },
+    )
+
+    mock_notify.assert_not_called()
 
 
 def test_new_analysis_request_get(client, user, mock_codelists_response):
@@ -162,12 +237,6 @@ def test_csrf_failure(client):
     response = client.post(reverse("home"), {})
     assert response.status_code == 400
     assert b"CSRF Failed" in response.content
-
-
-def test_notify_analysis_request_submitted(mocker):
-    mock = mocker.patch("interactive.views.slack", autospec=True)
-    views.notify_analysis_request_submitted("A title", "codelist", "username")
-    mock.post.assert_called_once()
 
 
 def assert_logged_in(client, user):

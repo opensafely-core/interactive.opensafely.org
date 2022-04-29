@@ -3,9 +3,10 @@
 {% block content %}
 
 <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl">
-  <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+  <h2 class="text-xl font-extrabold text-slate-900">Request an analysis</h2>
+  <div class="bg-white py-4 px-4 shadow sm:rounded-lg sm:px-10">
 
-    <form method="post">
+    <form  class="space-y-6" method="post">
       {% csrf_token %}
       {{ form.non_field_errors }}
       <div>
@@ -15,8 +16,8 @@
       <div>
         {% include "components/form-field-select.html" with id=form.codelist.id_for_label label=form.codelist.label name="codelist" required=True choices=form.codelist.field.choices %}
       </div>
-      <p>Codelist selection have been published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system</p>
-      <p>Analysis will cover period between {{ start_date }} and {{ end_date }}</p>
+      <p class="mt-2 mb-2 text-base text-slate-500">Codelist selection have been published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system</p>
+      <p class="mt-2 mb-2 text-base text-slate-500">Analysis will cover period between {{ start_date }} and {{ end_date }}</p>
       {% include "components/button.html" with el="input" type="submit" text="Submit" size="lg" color="oxford" %}
     </form>
 

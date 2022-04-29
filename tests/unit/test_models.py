@@ -1,8 +1,17 @@
-from interactive.models import AnalysisRequest
+from interactive.models import AnalysisRequest, RegistrationRequest
 
 
-def test_model_string_repr():
+def test_analysis_request_string_repr():
     analysis = AnalysisRequest()
     analysis.title = "Analysis title"
     analysis.codelist = "Test Codelist"
     assert str(analysis) == "Analysis title (Test Codelist)"
+
+
+def test_register_interest_string_repr():
+    request = RegistrationRequest()
+    request.full_name = "Alice"
+    request.email = "alice@test.com"
+    request.organisation = "The Bennett Institute"
+    request.job_title = "Tester"
+    assert str(request) == "Alice (alice@test.com), Tester at The Bennett Institute"

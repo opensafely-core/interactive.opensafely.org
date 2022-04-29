@@ -16,14 +16,34 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import include, path
 from django.views.generic.base import RedirectView
 
 from interactive import views
 
 
+password_reset_urls = [
+    path("", auth_views.PasswordResetView.as_view(), name="password_reset"),
+    path(
+        "done",
+        auth_views.PasswordResetDoneView.as_view(),
+        name="password_reset_done",
+    ),
+    path(
+        "confirm/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
+    path(
+        "complete",
+        auth_views.PasswordResetCompleteView.as_view(),
+        name="password_reset_complete",
+    ),
+]
+
 urlpatterns = [
     path("", views.index, name="home"),
+    path("register-interest/", views.register_interest, name="register_interest"),
     path("request-analysis/", views.new_analysis_request, name="new_analysis_request"),
     path("admin/", admin.site.urls),
     path(
@@ -36,24 +56,7 @@ urlpatterns = [
         views.LogoutView.as_view(),
         name="logout",
     ),
-    path(
-        "password-reset/", auth_views.PasswordResetView.as_view(), name="password_reset"
-    ),
-    path(
-        "password-reset/done",
-        auth_views.PasswordResetDoneView.as_view(),
-        name="password_reset_done",
-    ),
-    path(
-        "password-reset/confirm/<uidb64>/<token>/",
-        auth_views.PasswordResetConfirmView.as_view(),
-        name="password_reset_confirm",
-    ),
-    path(
-        "password-reset/complete",
-        auth_views.PasswordResetCompleteView.as_view(),
-        name="password_reset_complete",
-    ),
+    path("password-reset/", include(password_reset_urls)),
     path("favicon.ico", RedirectView.as_view(url=settings.STATIC_URL + "favicon.ico")),
     path("robots.txt", RedirectView.as_view(url=settings.STATIC_URL + "robots.txt")),
 ]
