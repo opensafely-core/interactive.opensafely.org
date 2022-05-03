@@ -15,7 +15,7 @@
     </p>
   </div>
 
-  <div class="bg-white sm:mx-auto sm:w-full sm:max-w-xl py-4 px-4 shadow sm:rounded-lg sm:px-10">
+  <div class="bg-white sm:mx-auto sm:w-full sm:max-w-xl py-8 px-4 shadow sm:rounded-lg sm:px-10">
     <form class="space-y-6" method="post">
       {% csrf_token %}
       {{ form.non_field_errors }}
@@ -31,14 +31,14 @@
       <div>
         {% include "components/form-field.html" with id=form.job_title.id_for_label label=form.job_title.label name="job_title" required=True type="text" autocomplete="organization-title" %}
       </div>
-      <p class="mt-2 mb-2 text-base text-slate-500">
+      <p class="pt-2 mb-2 text-sm text-slate-600">
         We will use your details to check your eligibility and register you for the OpenSAFELY Interactive platform and to contact you about the platform. You can
         {% include "components/link.html" with href="mailto:team@opensafely.org" content="contact us" %}
         to opt out at any time.
       </p>
 
-      <div class="mt-2 mb-2">
-      {% include "components/button.html" with el="input" type="submit" text="Submit" size="lg" color="oxford" %}
+      <div class="">
+        {% include "components/button.html" with el="input" color="oxford" html_class="w-full" size="md" type="submit" text="Submit" %}
       </div>
     </form>
   </div>
