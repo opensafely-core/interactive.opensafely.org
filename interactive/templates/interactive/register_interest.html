@@ -20,7 +20,7 @@
       {% csrf_token %}
       {{ form.non_field_errors }}
       <div>
-        {% include "components/form-field.html" with id=form.full_name.id_for_label label=form.full_name.label name="full_name" required=True type="text" autocomplete="name" %}
+        {% include "components/form-field.html" with id=form.full_name.id_for_label label=form.full_name.label name="full_name" required=True type="text" autocomplete="name" autocapitalize="words" autocorrect="off" %}
       </div>
       <div>
         {% include "components/form-field.html" with id=form.email.id_for_label label=form.email.label name="email" required=True type="email" autocomplete="email" inputmode="email" %}
