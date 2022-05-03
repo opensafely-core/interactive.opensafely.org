@@ -20,16 +20,16 @@
       {% csrf_token %}
       {{ form.non_field_errors }}
       <div>
-        {% include "components/form-field.html" with id=form.full_name.id_for_label label=form.full_name.label name="full_name" required=True type="text" %}
+        {% include "components/form-field.html" with id=form.full_name.id_for_label label=form.full_name.label name="full_name" required=True type="text" autocomplete="name" %}
       </div>
       <div>
-        {% include "components/form-field.html" with id=form.email.id_for_label label=form.email.label name="email" required=True type="text" %}
+        {% include "components/form-field.html" with id=form.email.id_for_label label=form.email.label name="email" required=True type="email" autocomplete="email" inputmode="email" %}
       </div>
       <div>
-        {% include "components/form-field.html" with id=form.organisation.id_for_label label=form.organisation.label name="organisation" required=True type="text" %}
+        {% include "components/form-field.html" with id=form.organisation.id_for_label label=form.organisation.label name="organisation" required=True type="text" autocomplete="organization" %}
       </div>
       <div>
-        {% include "components/form-field.html" with id=form.job_title.id_for_label label=form.job_title.label name="job_title" required=True type="text" %}
+        {% include "components/form-field.html" with id=form.job_title.id_for_label label=form.job_title.label name="job_title" required=True type="text" autocomplete="organization-title" %}
       </div>
       <p class="mt-2 mb-2 text-base text-slate-500">
         We will use your details to check your eligibility and register you for the OpenSAFELY Interactive platform and to contact you about the platform. You can
