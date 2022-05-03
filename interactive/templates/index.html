@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block meta_title %}OpenSAFELY Interactive | Automated analytics pipeline
-for NHS electronic health records{% endblock meta_title %}
+{% block meta_title %}OpenSAFELY Interactive | Automated analytics pipeline for NHS electronic health records{% endblock meta_title %}
 
 {% block content %}
   {# Hero section #}
@@ -52,58 +51,15 @@ for NHS electronic health records{% endblock meta_title %}
     <div class="container py-16 px-4 sm:px-6 lg:py-24 lg:px-8">
       <div class="max-w-3xl mx-auto text-center">
         <h2 class="text-3xl font-extrabold text-slate-900" id="featuresHeading">All-in-one platform</h2>
-        <p class="mt-4 text-lg text-slate-500">OpenSAFELY Interactive is built upon the OpenSAFELY secure analytics platform for
-          NHS electronic health records</p>
+        <p class="mt-4 text-lg text-slate-500">OpenSAFELY Interactive is built upon the OpenSAFELY secure analytics platform for <span class="md:block">NHS electronic health records</span></p>
       </div>
       <dl class="mt-12 space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-3 lg:gap-x-8">
-        <div class="relative">
-          <dt>
-            {% include "icons/outline-check.svg" with html_class="absolute h-6 w-6 text-green-500" %}
-            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Analysis</p>
-          </dt>
-          <dd class="mt-2 ml-9 text-base text-slate-500">Our tools support high-quality, open research. Allowing researchers and policy makers to conduct analyses in a simple no-code environment.</dd>
-        </div>
-
-        <div class="relative">
-          <dt>
-            {% include "icons/outline-check.svg" with html_class="absolute h-6 w-6 text-green-500" %}
-            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Protecting privacy</p>
-          </dt>
-          <dd class="mt-2 ml-9 text-base text-slate-500">We never let requesters download patient data. OpenSAFELY Interactive allows researchers to analyse patient data without accessing the raw records.</dd>
-        </div>
-
-        <div class="relative">
-          <dt>
-            {% include "icons/outline-check.svg" with html_class="absolute h-6 w-6 text-green-500" %}
-            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Auditable by the public</p>
-          </dt>
-          <dd class="mt-2 ml-9 text-base text-slate-500">It is a privilege to use patient data for the public good. OpenSAFELY Interactive respects patients by carefully considering this in every part of its design.</dd>
-        </div>
-
-        <div class="relative">
-          <dt>
-            {% include "icons/outline-check.svg" with html_class="absolute h-6 w-6 text-green-500" %}
-            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Better, open science</p>
-          </dt>
-          <dd class="mt-2 ml-9 text-base text-slate-500">OpenSAFELY requires publication of all analytic code, including that used by OpenSAFELY Interactive.</dd>
-        </div>
-
-        <div class="relative">
-          <dt>
-            {% include "icons/outline-check.svg" with html_class="absolute h-6 w-6 text-green-500" %}
-            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Maintaining public trust and transparency</p>
-          </dt>
-          <dd class="mt-2 ml-9 text-base text-slate-500">All platform activity is publicly logged. All software for data management and analysis is shared, automatically and openly, for scientific review and efficient re-use.</dd>
-        </div>
-
-        <div class="relative">
-          <dt>
-            {% include "icons/outline-check.svg" with html_class="absolute h-6 w-6 text-green-500" %}
-            <p class="ml-9 text-lg leading-6 font-medium text-slate-900">Feedback</p>
-          </dt>
-          <dd class="mt-2 ml-9 text-base text-slate-500">During this initial phase of development we're seeking feedback from researchers about new analysis features.</dd>
-        </div>
-
+        {% include "components/cta-checkbox.html" with title="Analysis" description="Our tools support high-quality, open research. Allowing researchers and policy makers to conduct analyses in a simple no-code environment." %}
+        {% include "components/cta-checkbox.html" with title="Protecting privacy" description="We never let requesters download patient data. OpenSAFELY Interactive allows researchers to analyse patient data without accessing the raw records." %}
+        {% include "components/cta-checkbox.html" with title="Auditable by the public" description="It is a privilege to use patient data for the public good. OpenSAFELY Interactive respects patients by carefully considering this in every part of its design." %}
+        {% include "components/cta-checkbox.html" with title="Better, open science" description="OpenSAFELY requires publication of all analytic code, including that used by OpenSAFELY Interactive." %}
+        {% include "components/cta-checkbox.html" with title="Trust and transparency" description="All platform activity is publicly logged. All software for analysis is shared openly for scientific review and re-use." %}
+        {% include "components/cta-checkbox.html" with title="Feedback" description="During this initial phase of development we're seeking feedback from researchers about new analysis features." %}
       </dl>
     </div>
   </section>
