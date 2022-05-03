@@ -1,30 +1,44 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block meta_title %}Register your interest | OpenSAFELY Interactive{% endblock meta_title %}
+{% block html_class %}h-full bg-slate-50{% endblock html_class %}
+{% block body_class %}h-full{% endblock body_class %}
 
-<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl">
-  <h2 class="text-xl font-extrabold text-slate-900">Register your interest in using the OpenSAFELY Interactive platform</h2>
-  <p class="mt-2 mb-2 text-base text-slate-500">We are currently working with NHS England to cautiously on-board a small number of NHS England staff to run analyses using OpenSAFELY Interactive in its early development phase.</p>
-  <div class="bg-white mt-2 mb-2 py-4 px-4 shadow sm:rounded-lg sm:px-10">
+{% block content %}
+<div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="flex flex-col mb-6 sm:mx-auto">
+    <h1 class="text-center text-3xl font-extrabold text-slate-900 sm:w-full sm:max-w-lg mx-auto">
+      Register your interest in using the OpenSAFELY Interactive platform
+    </h1>
+    <p class="mt-3 text-center text-lg text-slate-600 max-w-prose mx-auto">
+      We are currently working with NHS England to cautiously on-board a small number of NHS England staff to run analyses using OpenSAFELY Interactive in its early development phase.
+    </p>
+  </div>
+
+  <div class="bg-white sm:mx-auto sm:w-full sm:max-w-xl py-8 px-4 shadow sm:rounded-lg sm:px-10">
     <form class="space-y-6" method="post">
       {% csrf_token %}
       {{ form.non_field_errors }}
       <div>
-        {% include "components/form-field.html" with id=form.full_name.id_for_label label=form.full_name.label name="full_name" required=True type="text" %}
+        {% include "components/form-field.html" with id=form.full_name.id_for_label label=form.full_name.label name="full_name" required=True type="text" autocomplete="name" autocapitalize="words" autocorrect="off" %}
       </div>
       <div>
-        {% include "components/form-field.html" with id=form.email.id_for_label label=form.email.label name="email" required=True type="text" %}
+        {% include "components/form-field.html" with id=form.email.id_for_label label=form.email.label name="email" required=True type="email" autocomplete="email" inputmode="email" %}
       </div>
       <div>
-        {% include "components/form-field.html" with id=form.organisation.id_for_label label=form.organisation.label name="organisation" required=True type="text" %}
+        {% include "components/form-field.html" with id=form.organisation.id_for_label label=form.organisation.label name="organisation" required=True type="text" autocomplete="organization" %}
       </div>
       <div>
-        {% include "components/form-field.html" with id=form.job_title.id_for_label label=form.job_title.label name="job_title" required=True type="text" %}
+        {% include "components/form-field.html" with id=form.job_title.id_for_label label=form.job_title.label name="job_title" required=True type="text" autocomplete="organization-title" %}
       </div>
-      <p class="mt-2 mb-2 text-base text-slate-500">We will use your details to check your eligibility and register you for the OpenSAFELY Interactive platform and to contact you about the platform. You can  <a style="text-decoration: underline;" href="mailto:team@opensafely.org">contact us</a> to opt out at any time.</p>
+      <p class="pt-2 mb-2 text-sm text-slate-600">
+        We will use your details to check your eligibility and register you for the OpenSAFELY Interactive platform and to contact you about the platform. You can
+        {% include "components/link.html" with href="mailto:team@opensafely.org" content="contact us" %}
+        to opt out at any time.
+      </p>
 
-      <div class="mt-2 mb-2">
-      {% include "components/button.html" with el="input" type="submit" text="Submit" size="lg" color="oxford" %}
+      <div class="">
+        {% include "components/button.html" with el="input" color="oxford" html_class="w-full" size="md" type="submit" text="Submit" %}
       </div>
     </form>
   </div>

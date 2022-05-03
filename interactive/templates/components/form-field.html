@@ -3,7 +3,9 @@
 </label>
 <div class="mt-1">
   <input
+    {% if autocapitalize %}autocapitalize="{{ autocapitalize }}"{% endif %}
     {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %}
+    {% if autocorrect %}autocorrect="{{ autocorrect }}"{% endif %}
     class="appearance-none block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-oxford-500 focus:border-oxford-500 sm:text-sm"
     id="{{ id }}"
     {% if inputmode %}inputmode="{{ inputmode }}"{% endif %}
