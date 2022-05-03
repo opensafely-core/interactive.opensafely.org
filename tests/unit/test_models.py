@@ -1,4 +1,31 @@
-from interactive.models import AnalysisRequest, RegistrationRequest
+import pytest
+
+from interactive.models import AnalysisRequest, RegistrationRequest, User
+
+
+def test_user_manager_create_user_successfully():
+    user = User.objects.create_user("alice@test.com", "password")
+    assert str(user) == "alice@test.com"
+
+
+def test_user_manager_create_user_missing_email_raises_error():
+    with pytest.raises(ValueError):
+        User.objects.create_user("", "password")
+
+
+def test_user_manager_create_superuser_with_correct_permissions():
+    user = User.objects.create_superuser("admin@test.com", "password")
+    assert user.is_active
+    assert user.is_staff
+    assert user.is_superuser
+    assert user.has_perm(None)
+    assert user.has_module_perms(None)
+
+
+def test_user_string_repr():
+    user = User()
+    user.email = "alice@test.com"
+    assert str(user) == "alice@test.com"
 
 
 def test_analysis_request_string_repr():
