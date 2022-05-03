@@ -55,6 +55,13 @@ just test <args>
 just run
 ```
 
+## Development DB
+
+By default, the `justfile` will use the configuration in `docker/docker-compose.yaml` to run a local dev postgres instance.
+
+You can use the normal `./manage dbshell` will provide psql console if needed.
+
+
 ## Frontend development (CSS/JS)
 
 This project uses [Vite](https://vitejs.dev/), a modern build tool and development server, to build the frontend assets.
