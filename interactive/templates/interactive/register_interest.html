@@ -31,7 +31,11 @@
       <div>
         {% include "components/form-field.html" with id=form.job_title.id_for_label label=form.job_title.label name="job_title" required=True type="text" %}
       </div>
-      <p class="mt-2 mb-2 text-base text-slate-500">We will use your details to check your eligibility and register you for the OpenSAFELY Interactive platform and to contact you about the platform. You can  <a style="text-decoration: underline;" href="mailto:team@opensafely.org">contact us</a> to opt out at any time.</p>
+      <p class="mt-2 mb-2 text-base text-slate-500">
+        We will use your details to check your eligibility and register you for the OpenSAFELY Interactive platform and to contact you about the platform. You can
+        {% include "components/link.html" with href="mailto:team@opensafely.org" content="contact us" %}
+        to opt out at any time.
+      </p>
 
       <div class="mt-2 mb-2">
       {% include "components/button.html" with el="input" type="submit" text="Submit" size="lg" color="oxford" %}
