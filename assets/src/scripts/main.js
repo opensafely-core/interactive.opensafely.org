@@ -1,3 +1,4 @@
+import("vite/modulepreload-polyfill");
 import persist from "@alpinejs/persist";
 import Alpine from "alpinejs";
 import "../styles/main.css";
