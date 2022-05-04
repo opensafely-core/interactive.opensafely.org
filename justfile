@@ -1,3 +1,5 @@
+set dotenv-load := true
+
 # just has no idiom for setting a default value for an environment variable
 # so we shell out, as we need VIRTUAL_ENV in the justfile environment
 export VIRTUAL_ENV  := `echo ${VIRTUAL_ENV:-.venv}`
@@ -59,6 +61,9 @@ prodenv: requirements-prod
     $PIP install -r requirements.prod.txt
     touch $VIRTUAL_ENV/.prod
 
+# ensure dev db is running
+db:
+    docker-compose -f docker/docker-compose.yml up --detach db
 
 _env:
     test -f .env || cp dotenv-sample .env
@@ -94,7 +99,7 @@ upgrade env package="": virtualenv
 
 # *ARGS is variadic, 0 or more. This allows us to do `just test -k match`, for example.
 # Run the tests
-test *ARGS: devenv assets-collect
+test *ARGS: devenv assets-collect db
     $BIN/python -m pytest --cov=. --cov-report html --cov-report term-missing:skip-covered {{ ARGS }}
 
 
@@ -111,8 +116,7 @@ fix: devenv
     $BIN/isort .
 
 # Run the dev project
-run: devenv
-    cd docker && docker-compose up --detach db
+run: devenv db
     $BIN/python manage.py runserver
 
 # Remove built assets and collected static files
