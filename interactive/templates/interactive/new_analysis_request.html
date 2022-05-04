@@ -18,7 +18,7 @@
       {{ form.non_field_errors }}
 
       <div>
-        {% include "components/form-field.html" with id=form.title.id_for_label label=form.title.label name="title" required=True type="text" hint="For example: This is my title" %}
+        {% include "components/form-field.html" with id=form.title.id_for_label label=form.title.label name="title" required=True type="text" hint="For example: Systolic code usage" %}
       </div>
 
       <div x-title="codelist-select" x-data="{
