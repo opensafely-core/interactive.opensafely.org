@@ -9,8 +9,8 @@ from interactive.models import AnalysisRequest, RegistrationRequest, User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    fields = ["name", "email", "is_admin"]
-    list_display = ["name", "email", "is_admin"]
+    fields = ["name", "email"]
+    list_display = ["name", "email"]
     search_fields = ["email", "name"]
 
 
