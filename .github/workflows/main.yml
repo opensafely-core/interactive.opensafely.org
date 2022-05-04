@@ -54,16 +54,6 @@ jobs:
     needs: [assets, check]
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: pass
-          POSTGRES_DB: interactive
-        ports:
-          - 5432:5432
-
     steps:
       - uses: actions/checkout@v3
       - uses: "actions/setup-python@v3"

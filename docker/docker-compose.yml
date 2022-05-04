@@ -70,6 +70,7 @@ services:
   test:
     extends:
       service: dev
+    depends_on: [db]
     container_name: interactive-test
     env_file:
       - ../.env
