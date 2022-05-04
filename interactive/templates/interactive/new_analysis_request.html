@@ -21,8 +21,31 @@
         {% include "components/form-field.html" with id=form.title.id_for_label label=form.title.label name="title" required=True type="text" hint="For example: This is my title" %}
       </div>
 
-      <div>
-        {% include "components/form-field-select.html" with id=form.codelist.id_for_label label=form.codelist.label name="codelist" required=True choices=form.codelist.field.choices hint="Codelist selection have been published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" %}
+      <div x-title="codelist-select" x-data="{
+          codelist: '',
+          get codelistURL() {
+            return `https://www.opencodelists.org/codelist/${this.codelist}`
+          }
+        }">
+        {% include "components/form-field-select.html" with id=form.codelist.id_for_label label=form.codelist.label name="codelist" required=True choices=form.codelist.field.choices hint="Codelist selection have been published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" x_model="codelist" %}
+
+        <p
+          class="mt-2 p-4 border border-slate-100 border-l-4 border-l-oxford-400 text-slate-900"
+          x-show="codelist"
+        >
+          <span class="block font-semibold pb-1">View this codelist:</span>
+          <a
+            class="
+              text-oxford-600 font-semibold underline underline-offset-1 transition-colors
+              hover:text-oxford-700 hover:no-underline
+              focus:text-oxford-900 focus:no-underline
+            "
+            rel="noopener noreferrer"
+            target="_blank"
+            x-bind:href="codelistURL"
+            x-text="codelist"
+            ></a>
+        </p>
       </div>
 
       <div>
