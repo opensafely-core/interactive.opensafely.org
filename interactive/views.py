@@ -46,8 +46,9 @@ def register_interest(request):
 
 @login_required
 def new_analysis_request(request):
+    codelists = [("", "---")] + opencodelists.fetch()
     if request.method == "POST":
-        form = AnalysisRequestForm(request.POST)
+        form = AnalysisRequestForm(request.POST, codelists=codelists)
         if form.is_valid():
             form.save(user=request.user)
             notify_analysis_request_submitted(
@@ -56,7 +57,6 @@ def new_analysis_request(request):
             messages.success(request, "Request submitted successfully")
             return redirect(reverse("home"))
     else:
-        codelists = [("", "---")] + opencodelists.fetch()
         form = AnalysisRequestForm(codelists=codelists)
 
     ctx = {
