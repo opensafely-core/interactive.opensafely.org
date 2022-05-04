@@ -1,4 +1,5 @@
 from django.db import models
+from timeflake.extensions.django import TimeflakePrimaryKeyBinary
 
 
 START_DATE = "2020-01-01"
@@ -6,6 +7,7 @@ END_DATE = "2021-12-31"
 
 
 class RegistrationRequest(models.Model):
+    id = TimeflakePrimaryKeyBinary()  # noqa: A003
     full_name = models.CharField(max_length=100, verbose_name="Full name")
     email = models.CharField(max_length=100, verbose_name="Email")
     organisation = models.CharField(max_length=100, verbose_name="Organisation")
@@ -18,7 +20,7 @@ class RegistrationRequest(models.Model):
 
 
 class AnalysisRequest(models.Model):
-
+    id = TimeflakePrimaryKeyBinary()  # noqa: A003
     user = models.ForeignKey("auth.User", on_delete=models.PROTECT)
     title = models.CharField(max_length=100, verbose_name="Analysis title")
     codelist = models.CharField(max_length=255, verbose_name="Codelist")
