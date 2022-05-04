@@ -98,6 +98,8 @@ DATABASES = {
     )
 }
 
+# Use our custom user class
+AUTH_USER_MODEL = "interactive.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

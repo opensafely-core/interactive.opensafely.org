@@ -1,9 +1,73 @@
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.db import models
 from timeflake.extensions.django import TimeflakePrimaryKeyBinary
 
 
 START_DATE = "2020-01-01"
 END_DATE = "2021-12-31"
+
+
+class CustomUserManager(BaseUserManager):
+    use_in_migrations = True
+
+    def create_user(self, email, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
+
+        if not email:
+            raise ValueError("The Email must be set")
+
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_active", True)
+
+        return self.create_user(email, password, **extra_fields)
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    objects = CustomUserManager()
+
+    id = TimeflakePrimaryKeyBinary()  # noqa: A003
+    name = models.CharField(max_length=100)
+    email = models.EmailField(
+        verbose_name="email address",
+        max_length=100,
+        unique=True,
+        error_messages={"unique": "A user with this email address already exists."},
+    )
+    is_staff = models.BooleanField(
+        "staff status",
+        default=False,
+        help_text="Designates whether the user can log into this admin site.",
+    )
+    is_active = models.BooleanField(
+        "active",
+        default=True,
+        help_text=(
+            "Designates whether this user should be treated as active. "
+            "Unselect this instead of deleting accounts."
+        ),
+    )
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
+    def get_full_name(self):
+        return self.name
+
+    def __str__(self):
+        return self.email
 
 
 class RegistrationRequest(models.Model):
@@ -21,7 +85,7 @@ class RegistrationRequest(models.Model):
 
 class AnalysisRequest(models.Model):
     id = TimeflakePrimaryKeyBinary()  # noqa: A003
-    user = models.ForeignKey("auth.User", on_delete=models.PROTECT)
+    user = models.ForeignKey("interactive.User", on_delete=models.PROTECT)
     title = models.CharField(max_length=100, verbose_name="Analysis title")
     codelist = models.CharField(max_length=255, verbose_name="Codelist")
     start_date = models.DateField()
