@@ -1,26 +1,39 @@
 {% extends "base.html" %}
 
+{% block meta_title %}Request an analysis | OpenSAFELY Interactive{% endblock meta_title %}
+{% block html_class %}h-full bg-slate-50{% endblock html_class %}
+{% block body_class %}h-full{% endblock body_class %}
+
 {% block content %}
+<div class="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="flex flex-col mb-6 sm:mx-auto">
+    <h1 class="text-center text-3xl font-extrabold text-slate-900 sm:w-full sm:max-w-lg mx-auto">
+      Request an analysis
+    </h1>
+  </div>
 
-<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl">
-  <h2 class="text-xl font-extrabold text-slate-900">Request an analysis</h2>
-  <div class="bg-white py-4 px-4 shadow sm:rounded-lg sm:px-10">
-
-    <form  class="space-y-6" method="post">
+  <div class="bg-white sm:mx-auto sm:w-full sm:max-w-xl py-8 px-4 shadow sm:rounded-lg sm:px-10">
+    <form class="space-y-6" method="post">
       {% csrf_token %}
       {{ form.non_field_errors }}
+
       <div>
-        {% include "components/form-field.html" with id=form.title.id_for_label label=form.title.label name="title" required=True type="text" %}
+        {% include "components/form-field.html" with id=form.title.id_for_label label=form.title.label name="title" required=True type="text" hint="For example: This is my title" %}
       </div>
 
       <div>
-        {% include "components/form-field-select.html" with id=form.codelist.id_for_label label=form.codelist.label name="codelist" required=True choices=form.codelist.field.choices %}
+        {% include "components/form-field-select.html" with id=form.codelist.id_for_label label=form.codelist.label name="codelist" required=True choices=form.codelist.field.choices hint="Codelist selection have been published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" %}
       </div>
-      <p class="mt-2 mb-2 text-base text-slate-500">Codelist selection have been published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system</p>
-      <p class="mt-2 mb-2 text-base text-slate-500">Analysis will cover period between {{ start_date }} and {{ end_date }}</p>
-      {% include "components/button.html" with el="input" type="submit" text="Submit" size="lg" color="oxford" %}
+
+      <div>
+        <h2 class="text-base font-semibold text-slate-700">
+          Date range
+        </h2>
+        <p class="mt-1 text-base text-slate-600">Analysis will cover period between <time datetime="{{ start_date }}">{{ start_date }}</time> and <time datetime="{{ end_date }}">{{ end_date }}</time></p>
+      </div>
+
+      {% include "components/button.html" with el="input" color="oxford" html_class="w-full" size="lg" type="submit" text="Submit" %}
     </form>
-
   </div>
 </div>
 {% endblock %}
