@@ -1,0 +1,8 @@
+{% autoescape off %}
+Hi {{ name }},
+
+Please click on the link to finish setting up your account
+{% block reset_link %}
+    {{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+{% endblock %}
+{% endautoescape %}

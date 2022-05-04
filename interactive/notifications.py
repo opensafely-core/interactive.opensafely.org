@@ -1,3 +1,5 @@
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from environs import Env
 
 from services import slack
@@ -22,3 +24,18 @@ def notify_registration_request_submitted(full_name, job_title, organisation, em
     full_name_link = slack.link(email, full_name, is_email=True)
     message = f"{full_name_link} ({job_title}) from {organisation} has registered their interest in using OpenSAFELY Interactive"
     slack.post(text=message)
+
+
+def send_welcome_email(email, context):
+    subject = "Welcome to OpenSAFELY Interactive"
+    text_body = render_to_string("emails/welcome_email.txt", context)
+    html_body = render_to_string("emails/welcome_email.html", context)
+
+    msg = EmailMultiAlternatives(
+        subject=subject,
+        from_email="interactive@opensafely.org",
+        to=[email],
+        body=text_body,
+    )
+    msg.attach_alternative(html_body, "text/html")
+    msg.send()
