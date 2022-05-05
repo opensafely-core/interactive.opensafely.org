@@ -34,7 +34,7 @@ def send_welcome_email(email, context):
 
     msg = EmailMultiAlternatives(
         subject=subject,
-        from_email="interactive@opensafely.org",
+        from_email="team@opensafely.org",
         to=[email],
         body=text_body,
     )
