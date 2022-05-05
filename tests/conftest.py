@@ -49,7 +49,7 @@ class MockCodeListsResponse:
         return response
 
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
 def mock_codelists_response(monkeypatch):
     monkeypatch.setattr(requests, "get", MockCodeListsResponse)
 
