@@ -9,6 +9,7 @@ django-vite
 environs[django]
 furl
 gunicorn
+html2text
 psycopg2-binary
 requests
 sentry-sdk
