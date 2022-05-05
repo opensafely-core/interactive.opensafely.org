@@ -46,7 +46,7 @@ def _convert_html(raw_html):
     text_maker = html2text.HTML2Text()
     text_maker.ignore_images = True
     text_maker.ignore_emphasis = True
-    text_maker.ignore_links = False
+    text_maker.ignore_links = True
     text_maker.body_width = 0
     raw_text = text_maker.handle(raw_html)
     return raw_text
