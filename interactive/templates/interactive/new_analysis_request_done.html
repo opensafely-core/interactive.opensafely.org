@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block meta_title %}Request an analysis | OpenSAFELY Interactive{% endblock meta_title %}
+{% block html_class %}h-full bg-slate-50{% endblock html_class %}
+{% block body_class %}h-full{% endblock body_class %}
+
+{% block content %}
+<div class="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="flex flex-col mb-6 sm:mx-auto">
+    <h1 class="text-center text-3xl font-extrabold text-slate-900 sm:w-full sm:max-w-lg mx-auto">
+      Request an analysis
+    </h1>
+  </div>
+
+  <div class="bg-white sm:mx-auto sm:w-full sm:max-w-xl py-8 px-4 shadow sm:rounded-lg sm:px-10 text-center">
+    {% include "icons/circle-spin.svg" with html_class="motion-safe:animate-spin flex mx-auto h-12 w-12 text-oxford-600 mb-6" %}
+
+    <div class="prose prose-oxford mb-8">
+      <h2>Your request is being processed</h2>
+      <p>Some text here about the request.</p>
+      <p>Some text here about the time scales.</p>
+    </div>
+
+    {% url 'new_analysis_request' as analysis_request_url %}
+    {% include "components/button.html" with el="link" color="oxford" size="lg" href=analysis_request_url text="Request another analysis →" %}
+
+  </div>
+</div>
+{% endblock %}

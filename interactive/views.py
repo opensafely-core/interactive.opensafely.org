@@ -67,6 +67,11 @@ def new_analysis_request(request):
     return render(request, "interactive/new_analysis_request.html", ctx)
 
 
+@login_required
+def new_analysis_request_done(request):
+    return render(request, "interactive/new_analysis_request_done.html")
+
+
 #
 # Authentication
 #
