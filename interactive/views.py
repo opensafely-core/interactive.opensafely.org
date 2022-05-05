@@ -53,8 +53,7 @@ def new_analysis_request(request):
             notify_analysis_request_submitted(
                 form.instance.title, form.instance.codelist, request.user.email
             )
-            messages.success(request, "Request submitted successfully")
-            return redirect(reverse("home"))
+            return redirect(reverse("request_analysis_done"))
     else:
         codelists = [("", "---")] + opencodelists.fetch()
         form = AnalysisRequestForm(codelists=codelists)

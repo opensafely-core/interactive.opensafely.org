@@ -48,7 +48,7 @@ urlpatterns = [
     path(
         "request-analysis/done",
         views.new_analysis_request_done,
-        name="register_interest_done",
+        name="request_analysis_done",
     ),
     path("admin/", admin.site.urls),
     path(
