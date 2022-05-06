@@ -15,10 +15,9 @@ class AnalysisRequestForm(forms.ModelForm):
         fields = ["title", "codelist"]
 
     def __init__(self, *args, **kwargs):
-        codelists = kwargs.pop("codelists", None)
+        codelists = kwargs.pop("codelists")
         super().__init__(*args, **kwargs)
-        if codelists:
-            self.fields["codelist"] = forms.ChoiceField(choices=codelists)
+        self.fields["codelist"] = forms.ChoiceField(choices=codelists)
 
     def save(self, user):
         self.instance.start_date = START_DATE
