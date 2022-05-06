@@ -44,6 +44,11 @@ password_reset_urls = [
 urlpatterns = [
     path("", views.index, name="home"),
     path("register-interest/", views.register_interest, name="register_interest"),
+    path(
+        "register-interest/done",
+        views.register_interest_done,
+        name="register_interest_done",
+    ),
     path("request-analysis/", views.new_analysis_request, name="new_analysis_request"),
     path(
         "request-analysis/done",

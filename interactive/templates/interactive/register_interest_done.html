@@ -1,0 +1,28 @@
+{% extends "interactive/template.html" %}
+
+{% block meta_title %}Interest registered | OpenSAFELY Interactive{% endblock meta_title %}
+
+{% block template_heading %}
+  <h1 class="text-center text-3xl font-extrabold text-slate-900 sm:w-full sm:max-w-lg mx-auto">
+    Interest registered
+  </h1>
+{% endblock template_heading %}
+
+{% block template_content %}
+<div class="text-center text-slate-800">
+  {% include "icons/outline-mail.svg" with html_class="motion-safe:animate-bounce flex mx-auto h-12 w-12 text-oxford-600 mb-4" %}
+
+  <div class="prose prose-oxford">
+    <h2>Your registration is being processed</h2>
+    <p>The OpenSAFELY Team will review your application. If your application is approved, you will be emailed log in details.</p>
+    <p>We are currently working with NHS England to cautiously on-board a small number of NHS England staff. Only people currently working with NHS England will have their registration request considered for approval at this stage.</p>
+    <p class="text-sm text-slate-600 pt-4 border-t border-slate-200">
+      If you'd like any more information about OpenSAFELY Interactive
+      <span class="md:block">
+        or have any questions,
+        <a href="mailto:team@opensafely.org">contact us</a>.
+      </span>
+    </p>
+  </div>
+</div>
+{% endblock template_content %}

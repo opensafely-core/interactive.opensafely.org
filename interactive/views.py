@@ -36,12 +36,16 @@ def register_interest(request):
             )
             messages.success(
                 request,
-                "Thank you for your interest. Someone will get back to you soon about your request",
+                "Register your interest form submitted successfully",
             )
-            return redirect(reverse("home"))
+            return redirect(reverse("register_interest_done"))
     else:
         form = RegistrationRequestForm()
     return render(request, "interactive/register_interest.html", {"form": form})
+
+
+def register_interest_done(request):
+    return render(request, "interactive/register_interest_done.html")
 
 
 @login_required
