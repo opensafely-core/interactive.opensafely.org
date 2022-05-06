@@ -1,10 +1,18 @@
+from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin,
 )
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from timeflake.extensions.django import TimeflakePrimaryKeyBinary
+
+from .notifications import send_welcome_email
 
 
 START_DATE = "2020-01-01"
@@ -93,3 +101,17 @@ class AnalysisRequest(models.Model):
 
     def __str__(self) -> str:
         return f"{self.title} ({self.codelist})"
+
+
+@receiver(post_save, sender=User)
+def send_email(sender, instance, created, **kwargs):
+    if not created:
+        return
+
+    context = {
+        "name": instance.name,
+        "domain": settings.BASE_URL,
+        "uid": urlsafe_base64_encode(force_bytes(instance.pk)),
+        "token": PasswordResetTokenGenerator().make_token(instance),
+    }
+    send_welcome_email(instance.email, context)
