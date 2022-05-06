@@ -45,6 +45,11 @@ urlpatterns = [
     path("", views.index, name="home"),
     path("register-interest/", views.register_interest, name="register_interest"),
     path("request-analysis/", views.new_analysis_request, name="new_analysis_request"),
+    path(
+        "request-analysis/done",
+        views.new_analysis_request_done,
+        name="request_analysis_done",
+    ),
     path("admin/", admin.site.urls),
     path(
         "login/",

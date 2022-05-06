@@ -1,62 +1,56 @@
-{% extends "base.html" %}
+{% extends "interactive/template.html" %}
 
 {% block meta_title %}Request an analysis | OpenSAFELY Interactive{% endblock meta_title %}
-{% block html_class %}h-full bg-slate-50{% endblock html_class %}
-{% block body_class %}h-full{% endblock body_class %}
 
-{% block content %}
-<div class="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-  <div class="flex flex-col mb-6 sm:mx-auto">
-    <h1 class="text-center text-3xl font-extrabold text-slate-900 sm:w-full sm:max-w-lg mx-auto">
-      Request an analysis
-    </h1>
+{% block template_heading %}
+<h1 class="text-center text-3xl font-extrabold text-slate-900 sm:w-full sm:max-w-lg mx-auto">
+  Request an analysis
+</h1>
+{% endblock template_heading %}
+
+{% block template_content %}
+<form class="space-y-6" method="post">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+  <div>
+    {% include "components/form-field.html" with id=form.title.id_for_label label=form.title.label name="title" required=True type="text" hint="For example: Systolic code usage" %}
   </div>
 
-  <div class="bg-white sm:mx-auto sm:w-full sm:max-w-xl py-8 px-4 shadow sm:rounded-lg sm:px-10">
-    <form class="space-y-6" method="post">
-      {% csrf_token %}
-      {{ form.non_field_errors }}
+  <div x-title="codelist-select" x-data="{
+      codelist: '',
+      get codelistURL() {
+        return `https://www.opencodelists.org/codelist/${this.codelist}`
+      }
+    }">
+    {% include "components/form-field-select.html" with id=form.codelist.id_for_label label=form.codelist.label name="codelist" required=True choices=form.codelist.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" x_model="codelist" %}
 
-      <div>
-        {% include "components/form-field.html" with id=form.title.id_for_label label=form.title.label name="title" required=True type="text" hint="For example: Systolic code usage" %}
-      </div>
-
-      <div x-title="codelist-select" x-data="{
-          codelist: '',
-          get codelistURL() {
-            return `https://www.opencodelists.org/codelist/${this.codelist}`
-          }
-        }">
-        {% include "components/form-field-select.html" with id=form.codelist.id_for_label label=form.codelist.label name="codelist" required=True choices=form.codelist.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" x_model="codelist" %}
-
-        <p
-          class="mt-2 p-4 border border-slate-100 border-l-4 border-l-oxford-400 text-slate-900"
-          x-show="codelist"
-        >
-          <span class="block font-semibold pb-1">View this codelist:</span>
-          <a
-            class="
-              text-oxford-600 font-semibold underline underline-offset-1 transition-colors
-              hover:text-oxford-700 hover:no-underline
-              focus:text-oxford-900 focus:no-underline
-            "
-            rel="noopener noreferrer"
-            target="_blank"
-            x-bind:href="codelistURL"
-            x-text="codelist"
-            ></a>
-        </p>
-      </div>
-
-      <div>
-        <h2 class="text-base font-semibold text-slate-700">
-          Date range
-        </h2>
-        <p class="mt-1 text-base text-slate-600">Analysis will cover period between <time datetime="{{ start_date }}">{{ start_date }}</time> and <time datetime="{{ end_date }}">{{ end_date }}</time></p>
-      </div>
-
-      {% include "components/button.html" with el="input" color="oxford" html_class="w-full" size="lg" type="submit" text="Submit" %}
-    </form>
+    <p
+      class="mt-2 p-4 border border-slate-100 border-l-4 border-l-oxford-400 text-slate-900"
+      x-show="codelist"
+    >
+      <span class="block font-semibold pb-1">View this codelist:</span>
+      <a
+        class="
+          text-oxford-600 font-semibold underline underline-offset-1 transition-colors
+          hover:text-oxford-700 hover:no-underline
+          focus:text-oxford-900 focus:no-underline
+        "
+        rel="noopener noreferrer"
+        target="_blank"
+        x-bind:href="codelistURL"
+        x-text="codelist"
+        ></a>
+    </p>
   </div>
-</div>
-{% endblock %}
+
+  <div>
+    <h2 class="text-base font-semibold text-slate-700">
+      Date range
+    </h2>
+    <p class="mt-1 text-base text-slate-600">Analysis will cover period between <time datetime="{{ start_date }}">{{ start_date }}</time> and <time datetime="{{ end_date }}">{{ end_date }}</time></p>
+  </div>
+
+  {% include "components/button.html" with el="input" color="oxford" html_class="w-full" size="lg" type="submit" text="Submit" %}
+</form>
+{% endblock template_content %}

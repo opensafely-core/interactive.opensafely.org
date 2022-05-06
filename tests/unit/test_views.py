@@ -145,7 +145,7 @@ def test_new_analysis_request_post_success(client, user, mocker):
             },
             follow=True,
         )
-    assert b"Request submitted successfully" in response.content
+    assert b"Your request is being processed" in response.content
 
     request = AnalysisRequest.objects.last()
     assert request.user == user
