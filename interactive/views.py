@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.shortcuts import redirect, render
-from django.urls import reverse
 from environs import Env
 
 from services import opencodelists
@@ -34,7 +33,7 @@ def register_interest(request):
                 form.instance.organisation,
                 form.instance.email,
             )
-            return redirect(reverse("register_interest_done"))
+            return redirect("register_interest_done")
     else:
         form = RegistrationRequestForm()
     return render(request, "interactive/register_interest.html", {"form": form})
@@ -54,7 +53,7 @@ def new_analysis_request(request):
             notify_analysis_request_submitted(
                 form.instance.title, form.instance.codelist, request.user.email
             )
-            return redirect(reverse("request_analysis_done"))
+            return redirect("request_analysis_done")
     else:
         form = AnalysisRequestForm(codelists=codelists)
 
