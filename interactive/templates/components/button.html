@@ -4,9 +4,11 @@
   <input
     type="{{ type }}"
     value="{{ text }}"
+    {% if disabled %}disabled{% endif %}
 {% elif el == "button" %}
   <button
     type="{{ type }}"
+    {% if disabled %}disabled{% endif %}
 {% endif %}
     class="
       inline-flex items-center justify-center border border-transparent font-semibold rounded-md cursor-pointer transition-colors outline outline-offset-2 outline-transparent
@@ -18,6 +20,8 @@
 
       {% if size == 'md' %}text-sm px-4 py-2{% endif %}
       {% if size == 'lg' %}text-base px-5 py-3{% endif %}
+
+      {% if disabled %}cursor-not-allowed{% endif %}
 
       {{ html_class }}
     "
