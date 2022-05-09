@@ -1,8 +1,10 @@
+import timeflake
 from django.test.client import RequestFactory
 from django.urls import reverse
 
 from interactive import views
 from interactive.models import AnalysisRequest, RegistrationRequest
+from tests.factories import AnalysisRequestFactory
 
 from .assertions import assert_difference, assert_no_difference
 
@@ -155,6 +157,21 @@ def test_new_analysis_request_post_failure_with_invalid_codelist(
 
 def test_new_analysis_request_post_not_logged_in(client, user):
     response = client.post(reverse("new_analysis_request"))
+    assert response.status_code == 302
+
+
+def test_analysis_request_output(client, user):
+    client.force_login(user)
+    analysis_request = AnalysisRequestFactory(user=user)
+    response = client.get(
+        reverse("request_analysis_output", kwargs={"pk": analysis_request.id.uuid})
+    )
+    assert response.status_code == 200
+
+
+def test_analysis_request_output_not_logged_in(client, user):
+    pk = timeflake.random().uuid
+    response = client.get(reverse("request_analysis_output", kwargs={"pk": pk}))
     assert response.status_code == 302
 
 

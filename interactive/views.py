@@ -8,7 +8,7 @@ from environs import Env
 from services import opencodelists
 
 from .forms import AnalysisRequestForm, RegistrationRequestForm
-from .models import END_DATE, START_DATE
+from .models import END_DATE, START_DATE, AnalysisRequest
 from .notifications import (
     notify_analysis_request_submitted,
     notify_registration_request_submitted,
@@ -68,6 +68,16 @@ def new_analysis_request(request):
 @login_required
 def new_analysis_request_done(request):
     return render(request, "interactive/new_analysis_request_done.html")
+
+
+@login_required
+def analysis_request_output(request, pk):
+    analysis_request = AnalysisRequest.objects.get(pk=pk)
+    return render(
+        request,
+        "interactive/analysis_request_output.html",
+        {"analysis": analysis_request},
+    )
 
 
 #
