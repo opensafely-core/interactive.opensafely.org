@@ -51,7 +51,8 @@ def new_analysis_request(request):
         if form.is_valid():
             form.save(user=request.user)
             notify_analysis_request_submitted(
-                form.instance.title, form.instance.codelist, request.user.email
+                form.instance,
+                request.user.email,
             )
             return redirect("request_analysis_done")
     else:

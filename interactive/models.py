@@ -8,6 +8,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.urls import reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from timeflake.extensions.django import TimeflakePrimaryKeyBinary
@@ -101,6 +102,9 @@ class AnalysisRequest(models.Model):
 
     def __str__(self) -> str:
         return f"{self.title} ({self.codelist})"
+
+    def get_output_url(self):
+        return reverse("request_analysis_output", kwargs={"pk": self.id.uuid})
 
 
 @receiver(post_save, sender=User)

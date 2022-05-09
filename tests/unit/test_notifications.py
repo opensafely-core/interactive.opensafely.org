@@ -1,9 +1,11 @@
 from interactive import notifications
+from tests.factories import AnalysisRequestFactory
 
 
 def test_notify_analysis_request_submitted(mocker):
     mock = mocker.patch("interactive.notifications.slack", autospec=True)
-    notifications.notify_analysis_request_submitted("A title", "codelist", "username")
+    analysis_request = AnalysisRequestFactory()
+    notifications.notify_analysis_request_submitted(analysis_request, "username")
     mock.post.assert_called_once()
 
 
