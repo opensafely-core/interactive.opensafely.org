@@ -6,7 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
 
 from interactive.submit import submit_analysis
-from services import opencodelists
+from services import jobserver, opencodelists
 
 from .forms import AnalysisRequestForm, RegistrationRequestForm
 from .models import END_DATE, START_DATE, AnalysisRequest
@@ -69,10 +69,14 @@ def analysis_request_output(request, pk):
     if not analysis_request.visible_to(request.user):
         raise PermissionDenied
 
+    context = {"analysis": analysis_request}
+    if outputs := jobserver.fetch_release(str(analysis_request.id.uuid)):
+        context.update(outputs)
+
     return render(
         request,
         "interactive/analysis_request_output.html",
-        {"analysis": analysis_request},
+        context,
     )
 
 
