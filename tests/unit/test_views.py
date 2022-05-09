@@ -12,7 +12,7 @@ def test_index(client):
     assert response.status_code == 200
 
 
-def test_login_success(client, user):
+def test_login_success(client, user, codelists):
     response = client.post(
         reverse("login"),
         {"username": "alice@test.com", "password": "password"},
@@ -122,7 +122,7 @@ def test_register_interest_post_failure_doesnt_call_notify(client, user, mocker)
     mock_notify.assert_not_called()
 
 
-def test_new_analysis_request_get(client, user):
+def test_new_analysis_request_get(client, user, codelists):
     client.force_login(user)
     response = client.get(reverse("new_analysis_request"))
     assert response.status_code == 200
@@ -133,7 +133,7 @@ def test_new_analysis_request_get_not_logged_in(client):
     assert response.status_code == 302
 
 
-def test_new_analysis_request_post_success(client, user, mocker):
+def test_new_analysis_request_post_success(client, user, mocker, codelists):
     mocker.patch("interactive.views.notify_analysis_request_submitted", autospec=True)
     client.force_login(user)
     with assert_difference(AnalysisRequest.objects.count, expected_difference=1):
@@ -155,7 +155,9 @@ def test_new_analysis_request_post_success(client, user, mocker):
     assert str(request.end_date) == "2021-12-31"
 
 
-def test_new_analysis_request_post_success_calls_notify(client, user, mocker):
+def test_new_analysis_request_post_success_calls_notify(
+    client, user, mocker, codelists
+):
     mock_notify = mocker.patch(
         "interactive.views.notify_analysis_request_submitted", autospec=True
     )
@@ -173,7 +175,9 @@ def test_new_analysis_request_post_success_calls_notify(client, user, mocker):
     mock_notify.assert_called_once()
 
 
-def test_new_analysis_request_post_failure_returns_unsaved_form(client, user):
+def test_new_analysis_request_post_failure_returns_unsaved_form(
+    client, user, codelists
+):
     client.force_login(user)
     with assert_no_difference(AnalysisRequest.objects.count):
         response = client.post(
@@ -185,7 +189,9 @@ def test_new_analysis_request_post_failure_returns_unsaved_form(client, user):
     assert b"Submit" in response.content
 
 
-def test_new_analysis_request_post_failure_with_invalid_codelist(client, user):
+def test_new_analysis_request_post_failure_with_invalid_codelist(
+    client, user, codelists
+):
     client.force_login(user)
     with assert_no_difference(AnalysisRequest.objects.count):
         response = client.post(
@@ -197,7 +203,9 @@ def test_new_analysis_request_post_failure_with_invalid_codelist(client, user):
     assert b"Submit" in response.content
 
 
-def test_new_analysis_request_post_failure_doesnt_call_notify(client, user, mocker):
+def test_new_analysis_request_post_failure_doesnt_call_notify(
+    client, user, mocker, codelists
+):
     mock_notify = mocker.patch(
         "interactive.views.notify_analysis_request_submitted", autospec=True
     )

@@ -1,11 +1,11 @@
-import requests
+from services import session
+
+
+LIST_URL = "https://www.opencodelists.org/api/v1/codelist/?coding_system_id=snomedct&tag=allowed-for-opensafely-interactive"
 
 
 def fetch():
-
-    response = requests.get(
-        "https://www.opencodelists.org/api/v1/codelist/?coding_system_id=snomedct&tag=allowed-for-opensafely-interactive"
-    )
+    response = session.get(LIST_URL)
     response.raise_for_status()
 
     return [
