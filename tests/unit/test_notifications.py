@@ -5,7 +5,7 @@ from tests.factories import AnalysisRequestFactory
 def test_notify_analysis_request_submitted(mocker):
     mock = mocker.patch("interactive.notifications.slack", autospec=True)
     analysis_request = AnalysisRequestFactory()
-    notifications.notify_analysis_request_submitted(analysis_request, "username")
+    notifications.notify_analysis_request_submitted(analysis_request)
     mock.post.assert_called_once()
 
 

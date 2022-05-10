@@ -103,6 +103,10 @@ class AnalysisRequest(models.Model):
     def __str__(self) -> str:
         return f"{self.title} ({self.codelist})"
 
+    @property
+    def created_by(self):
+        return self.user.email
+
     def get_output_url(self):
         return reverse("request_analysis_output", kwargs={"pk": self.id.uuid})
 
