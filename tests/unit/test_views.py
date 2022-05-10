@@ -17,7 +17,7 @@ def test_index(client):
 def test_login_success(client, user, codelists):
     response = client.post(
         reverse("login"),
-        {"username": "alice@test.com", "password": "password"},
+        {"username": user.email, "password": "password!"},
         follow=True,
     )
     assert b"You have successfully logged in" in response.content
@@ -26,7 +26,9 @@ def test_login_success(client, user, codelists):
 
 def test_login_failure_wrong_username(client, user):
     response = client.post(
-        reverse("login"), {"username": "malice", "password": "password"}, follow=True
+        reverse("login"),
+        {"username": "malice@test.com", "password": "password!"},
+        follow=True,
     )
     assert b"Please enter a correct email address and password" in response.content
     assert_not_logged_in(client, user)
@@ -35,7 +37,7 @@ def test_login_failure_wrong_username(client, user):
 def test_login_failure_wrong_password(client, user):
     response = client.post(
         reverse("login"),
-        {"username": "alice@test.com", "password": "wordpass"},
+        {"username": user.email, "password": "wordpass"},
         follow=True,
     )
     assert b"Please enter a correct email address and password" in response.content
@@ -121,7 +123,7 @@ def test_new_analysis_request_post_success(client, user, slack_messages, codelis
     assert request.codelist == "opensafely/systolic-blood-pressure-qof"
     assert str(request.start_date) == "2020-01-01"
     assert str(request.end_date) == "2021-12-31"
-    assert "alice@test.com" in slack_messages[-1].text
+    assert user.email in slack_messages[-1].text
     assert "opensafely/systolic-blood-pressure-qof" in slack_messages[-1].text
 
 
