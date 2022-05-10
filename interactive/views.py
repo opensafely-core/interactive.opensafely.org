@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.contrib.auth.views import LogoutView as DjangoLogoutView
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
 from environs import Env
 
@@ -71,6 +72,9 @@ def new_analysis_request_done(request):
 @login_required
 def analysis_request_output(request, pk):
     analysis_request = AnalysisRequest.objects.get(pk=pk)
+    if not analysis_request.visible_to(request.user):
+        raise PermissionDenied
+
     return render(
         request,
         "interactive/analysis_request_output.html",
@@ -121,7 +125,7 @@ def permission_denied(request, exception=None):
         context={
             "error_code": "403",
             "error_name": "Permission denied",
-            "error_message": "You do not have access to this page.",
+            "error_message": "You do not have permission to access this page.",
         },
     )
 

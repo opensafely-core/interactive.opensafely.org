@@ -175,6 +175,24 @@ def test_analysis_request_output_not_logged_in(client, user):
     assert response.status_code == 302
 
 
+def test_analysis_request_output_not_authorised(client, user):
+    client.force_login(user)
+    analysis_request = AnalysisRequestFactory()
+    response = client.get(
+        reverse("request_analysis_output", kwargs={"pk": analysis_request.id.uuid})
+    )
+    assert response.status_code == 403
+
+
+def test_analysis_request_output_admin_can_view(client, admin_user):
+    client.force_login(admin_user)
+    analysis_request = AnalysisRequestFactory()
+    response = client.get(
+        reverse("request_analysis_output", kwargs={"pk": analysis_request.id.uuid})
+    )
+    assert response.status_code == 200
+
+
 def test_bad_request():
     factory = RequestFactory()
     request = factory.get("/")
