@@ -1,3 +1,5 @@
+from urllib.parse import urljoin
+
 import html2text
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
@@ -9,15 +11,19 @@ from services import slack
 env = Env()
 
 
-def notify_analysis_request_submitted(title, codelist, created_by):
+def notify_analysis_request_submitted(analysis_request):
     job_server_url = slack.link(
         env.str("JOB_SERVER_JOBS_URL", default=""),
         "job server",
     )
-    message = (
-        f"{created_by} submitted an analysis request called {title} for {codelist}\n"
-    )
-    message += f"Please start the job in {job_server_url}"
+    message = f"{analysis_request.created_by} submitted an analysis request called {analysis_request.title} for {analysis_request.codelist}\n"
+    message += f"Please start the job in {job_server_url}\n"
+
+    analysis_url = urljoin(env.str("BASE_URL"), analysis_request.get_output_url())
+    analysis_link = slack.link(analysis_url, "here")
+
+    message += f"When complete, the output will be viewable {analysis_link}"
+
     slack.post(text=message)
 
 

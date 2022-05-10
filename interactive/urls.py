@@ -55,6 +55,11 @@ urlpatterns = [
         views.new_analysis_request_done,
         name="request_analysis_done",
     ),
+    path(
+        "request-analysis/<uuid:pk>/output",
+        views.analysis_request_output,
+        name="request_analysis_output",
+    ),
     path("admin/", admin.site.urls),
     path(
         "login/",

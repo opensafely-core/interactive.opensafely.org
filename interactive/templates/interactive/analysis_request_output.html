@@ -1,0 +1,54 @@
+{% extends "interactive/template.html" %}
+
+{% block meta_title %}Analysis Output | OpenSAFELY Interactive{% endblock meta_title %}
+
+{% block template_heading %}
+  <h1 class="text-center text-3xl font-extrabold text-slate-900 sm:w-full sm:max-w-lg mx-auto">
+    Analysis Output
+  </h1>
+{% endblock template_heading %}
+
+{% block template_content %}
+<div class="text-center text-slate-800">
+  <div class="prose prose-oxford">
+    <h2>{{ analysis.title }}</h2>
+    <p>The aim of this OpenSAFELY Interactive report is to describe trends and variation in clinical codes to inform further analyses. It is not intended to be a tool for "performance monitoring".</p>
+    <p>Sharing outside of NHS England is not permitted in the current pilot phase without further approvals. Please contact xx if you would like to seek approval for wider sharing.</p>
+  </div>
+</div>
+<div class="mt-12 text-slate-800">
+  <div class="prose prose-oxford">
+    <p>Requested codelist: <a href="https://www.opencodelists.org/codelist/{{ analysis.codelist }}">{{ analysis.codelist }}</a></p>
+    <p>Time period: {{ analysis.start_date }} and {{ analysis.end_date }}</p>
+    <table>
+      <tr>
+        <th>Total events</th>
+        <td>...</td>
+      </tr>
+      <tr>
+        <th>Events in latest period</th>
+        <td>...</td>
+      </tr>
+      <tr>
+        <th>Unique patients</th>
+        <td>...</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="mt-12 text-slate-800">
+  <div class="prose prose-oxford">
+    <figure>The rate of recording per 1000 across practices</figure>
+    <p>--Deciles chart--</p>
+  </div>
+</div>
+<div class="mt-12 text-slate-800">
+  <div class="prose prose-oxford">
+    <h3>Most common codes (<a href="https://www.opencodelists.org/codelist/{{ analysis.codelist }}">Codelist</a>)</h3>
+    <table>
+      <thead><th>Code</th><th>Description</th><th>Proportion of codes (%)</th></thead>
+      <tbody><td>...</td><td>...</td><td>...</td></tbody>
+    </table>
+  </div>
+</div>
+{% endblock template_content %}
