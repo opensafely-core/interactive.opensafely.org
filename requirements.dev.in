@@ -20,3 +20,4 @@ pytest-env
 pytest-freezegun
 pytest-mock
 pytest-responses
+https://github.com/opensafely-core/pipeline/archive/refs/tags/v0.0.3.zip#egg=opensafely-pipeline
