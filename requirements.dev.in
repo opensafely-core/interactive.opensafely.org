@@ -18,3 +18,4 @@ pytest-django
 pytest-env
 pytest-freezegun
 pytest-mock
+pytest-responses
