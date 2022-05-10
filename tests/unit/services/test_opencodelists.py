@@ -4,28 +4,42 @@ import requests
 from services import opencodelists
 
 
+TEST_CODELISTS = [
+    {
+        "full_slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid",
+        "name": "Assessment instruments and outcome measures for long covid",
+    },
+    {
+        "full_slug": "opensafely/systolic-blood-pressure-qof",
+        "name": "Systolic blood pressure QoF",
+    },
+    {
+        "full_slug": "opensafely/chronic-cardiac-disease-snomed",
+        "name": "Chronic Cardiac Disease (SNOMED)",
+    },
+]
+
+
 @pytest.fixture
 def codelists(responses):
     responses.add(
         method="GET",
         url=opencodelists.LIST_URL,
-        json={
-            "codelists": [
-                {
-                    "full_slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid",
-                    "name": "Assessment instruments and outcome measures for long covid",
-                },
-                {
-                    "full_slug": "opensafely/systolic-blood-pressure-qof",
-                    "name": "Systolic blood pressure QoF",
-                },
-                {
-                    "full_slug": "opensafely/chronic-cardiac-disease-snomed",
-                    "name": "Chronic Cardiac Disease (SNOMED)",
-                },
-            ]
-        },
+        json={"codelists": TEST_CODELISTS},
     )
+
+
+@pytest.fixture
+def add_codelist_response(responses):
+    def add(slug, body=None, **kwargs):
+        responses.add(
+            method="GET",
+            url=f"https://www.opencodelists.org/codelist/{slug}",
+            body=body,
+            **kwargs,
+        )
+
+    return add
 
 
 def test_fetch_returns_codelists(codelists):
@@ -45,3 +59,17 @@ def test_fetch_raises_http_error_on_endpoint_exception(responses):
 
     with pytest.raises(requests.HTTPError):
         opencodelists.fetch()
+
+
+def test_get_codelist(add_codelist_response):
+    add_codelist_response("org/codelist", "1\n2\n3")
+    codelist = opencodelists.get_codelist("org/codelist")
+    assert codelist == "1\n2\n3"
+
+
+def test_get_codelist_error(add_codelist_response):
+    slug = "org/codelist"
+    add_codelist_response(slug, status=500)
+
+    with pytest.raises(requests.HTTPError):
+        opencodelists.get_codelist(slug)
