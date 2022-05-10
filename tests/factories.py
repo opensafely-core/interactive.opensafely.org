@@ -10,6 +10,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     email = factory.Sequence(lambda n: f"user-{n}@example.com")
     name = factory.Sequence(lambda n: f"user-{n}")
+    password = factory.PostGenerationMethodCall("set_password", "password!")
 
 
 class AnalysisRequestFactory(factory.django.DjangoModelFactory):

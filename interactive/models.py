@@ -107,6 +107,9 @@ class AnalysisRequest(models.Model):
     def created_by(self):
         return self.user.email
 
+    def visible_to(self, user):
+        return self.user == user or user.is_staff
+
     def get_output_url(self):
         return reverse("request_analysis_output", kwargs={"pk": self.id.uuid})
 
