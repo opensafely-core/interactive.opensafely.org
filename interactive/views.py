@@ -5,7 +5,7 @@ from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
 
-from interactive.run import run_analysis
+from interactive.submit import submit_analysis
 from services import opencodelists
 
 from .forms import AnalysisRequestForm, RegistrationRequestForm
@@ -45,7 +45,7 @@ def new_analysis_request(request):
         form = AnalysisRequestForm(request.POST, codelists=codelists)
         if form.is_valid():
             analysis_request = form.save(user=request.user)
-            run_analysis(analysis_request)
+            submit_analysis(analysis_request)
             return redirect("request_analysis_done")
     else:
         form = AnalysisRequestForm(codelists=codelists)

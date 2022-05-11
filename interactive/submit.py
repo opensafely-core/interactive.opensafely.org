@@ -155,7 +155,7 @@ def commit_and_push(checkout, analysis_request):
     git("push", "origin", "--force-with-lease", cwd=checkout)
 
 
-def run_analysis(analysis_request):
+def submit_analysis(analysis_request):
     create_analysis_commit(analysis_request, settings.WORKSPACE_REPO)
     # TODO: run it. For now we notify
     notify_analysis_request_submitted(analysis_request)

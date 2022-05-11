@@ -12,7 +12,7 @@ from .factories import UserFactory
 # it might be better to move to a tests.fixtures module at some point
 pytest_plugins = [
     "tests.unit.services.test_opencodelists",
-    "tests.unit.test_run",
+    "tests.unit.test_submit",
 ]
 
 
