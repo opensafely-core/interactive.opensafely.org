@@ -6,16 +6,22 @@ from services import opencodelists
 
 TEST_CODELISTS = [
     {
-        "full_slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid",
         "name": "Assessment instruments and outcome measures for long covid",
+        "versions": [
+            {
+                "full_slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid/version"
+            }
+        ],
     },
     {
-        "full_slug": "opensafely/systolic-blood-pressure-qof",
         "name": "Systolic blood pressure QoF",
+        "versions": [{"full_slug": "opensafely/systolic-blood-pressure-qof/version"}],
     },
     {
-        "full_slug": "opensafely/chronic-cardiac-disease-snomed",
         "name": "Chronic Cardiac Disease (SNOMED)",
+        "versions": [
+            {"full_slug": "opensafely/chronic-cardiac-disease-snomed/version"}
+        ],
     },
 ]
 
@@ -34,7 +40,7 @@ def add_codelist_response(responses):
     def add(slug, body=None, **kwargs):
         responses.add(
             method="GET",
-            url=f"https://www.opencodelists.org/codelist/{slug}",
+            url=f"https://www.opencodelists.org/codelist/{slug}/download.csv",
             body=body,
             **kwargs,
         )
@@ -44,7 +50,7 @@ def add_codelist_response(responses):
 
 def test_fetch_returns_codelists(codelists):
     expected_codelist = (
-        "opensafely/systolic-blood-pressure-qof",
+        "opensafely/systolic-blood-pressure-qof/version",
         "Systolic blood pressure QoF",
     )
     assert expected_codelist in opencodelists.fetch()

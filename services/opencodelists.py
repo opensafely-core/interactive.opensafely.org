@@ -10,13 +10,15 @@ def fetch():
     response.raise_for_status()
 
     return [
-        (codelist["full_slug"], codelist["name"])
+        (codelist["versions"][-1]["full_slug"], codelist["name"])
         for codelist in response.json()["codelists"]
     ]
 
 
 def get_codelist(slug):
     """Get the contents of a codelist."""
-    response = session.get(f"https://www.opencodelists.org/codelist/{slug}")
+    response = session.get(
+        f"https://www.opencodelists.org/codelist/{slug}/download.csv"
+    )
     response.raise_for_status()
     return response.text
