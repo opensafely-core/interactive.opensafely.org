@@ -1,25 +1,29 @@
 from urllib.parse import urljoin
 
 import html2text
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from environs import Env
 
 from services import slack
 
 
-env = Env()
-
-
 def notify_analysis_request_submitted(analysis_request):
+    # including the analysis id in the url will pre-fill the input in job-server.
     job_server_url = slack.link(
-        env.str("JOB_SERVER_JOBS_URL", default=""),
+        f"{settings.JOB_SERVER_JOBS_URL}/{analysis_request.id}",
         "job server",
     )
+    commit_link = slack.link(
+        f"{settings.WORKSPACE_REPO}/tree/{analysis_request.id}",
+        str(analysis_request.id),
+    )
+
     message = f"{analysis_request.created_by} submitted an analysis request called {analysis_request.title} for {analysis_request.codelist}\n"
+    message += f"Commit: {commit_link}"
     message += f"Please start the job in {job_server_url}\n"
 
-    analysis_url = urljoin(env.str("BASE_URL"), analysis_request.get_output_url())
+    analysis_url = urljoin(settings.BASE_URL, analysis_request.get_output_url())
     analysis_link = slack.link(analysis_url, "here")
 
     message += f"When complete, the output will be viewable {analysis_link}"

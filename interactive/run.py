@@ -78,7 +78,9 @@ def create_analysis_commit(analysis_request, repo):
 
     # add auth token if it's a real github repo
     if str(repo).startswith("https://github.com"):
-        repo = repo.replace("https://", f"https://interactive:{settings.GITHUB_TOKEN}@")  # pragma: no cover
+        repo = repo.replace(
+            "https://", f"https://interactive:{settings.GITHUB_TOKEN}@"
+        )  # pragma: no cover
 
     # check this commit does not already exist
     ps = git(

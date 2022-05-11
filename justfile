@@ -19,7 +19,7 @@ default:
 
 # clean up temporary files
 clean:
-    rm -rf .venv
+    rm -rf .venv $WORKSPACE_REPO
 
 
 # ensure valid virtualenv
@@ -67,6 +67,18 @@ db:
 
 _env:
     test -f .env || cp dotenv-sample .env
+
+workspace-repo: _env
+    #!/bin/bash
+    . .env
+    type=${WORKSPACE_REPO:0:4}
+    test "$type" == "http" && exit
+    test "$type" == "git@" && exit
+    test -d "$WORKSPACE_REPO/.git" && exit
+    mkdir -p $WORKSPACE_REPO
+    git -C $WORKSPACE_REPO init --bare
+    echo 'This is a bare local repo for testing. Use "git show $TAG" to see a commit.' > $WORKSPACE_REPO/README.md
+
 
 
 # && dependencies are run after the recipe has run. Needs just>=0.9.9. This is
@@ -116,7 +128,7 @@ fix: devenv
     $BIN/isort .
 
 # Run the dev project
-run: devenv db
+run: devenv db workspace-repo
     $BIN/python manage.py runserver
 
 # Remove built assets and collected static files

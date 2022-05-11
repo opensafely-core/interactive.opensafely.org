@@ -230,4 +230,10 @@ SERVER_EMAIL = "OpenSAFELY Interactive <noreply@mg.interactive.opensafely.org>"
 
 
 # Application settings
+
+# repo to commit to
+WORKSPACE_REPO = env.str("WORKSPACE_REPO")
 GITHUB_TOKEN = env.str("GITHUB_TOKEN")
+
+# run jobs page
+JOB_SERVER_JOBS_URL = env.str("JOB_SERVER_JOBS_URL")
