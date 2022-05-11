@@ -1,17 +1,19 @@
 import pipeline
 import pytest
 import requests
+from django.conf import settings
 
 from interactive import run
 from tests.factories import AnalysisRequestFactory
 
 
 @pytest.fixture
-def workspace_repo(tmp_path):
+def workspace_repo(tmp_path, monkeypatch):
     repo = tmp_path / "workspace_repo"
     repo.mkdir()
     # --bare means we can push to it, as it has no checkout
     run.git("init", "--bare", cwd=repo)
+    monkeypatch.setattr(settings, "WORKSPACE_REPO", str(repo))
     return repo
 
 

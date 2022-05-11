@@ -129,7 +129,7 @@ def write_files(checkout, analysis_request, codelist):
 
 
 def commit_and_push(checkout, analysis_request):
-    msg = f"{analysis_request.id}: codelist {analysis_request.codelist} by {analysis_request.user.email}"
+    msg = f"Codelist {analysis_request.codelist} ({analysis_request.id})"
     email = analysis_request.user.email
     git("add", "project.yaml", "codelist.csv", cwd=checkout)
     git(
