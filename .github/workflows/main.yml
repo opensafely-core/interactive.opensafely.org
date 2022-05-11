@@ -95,6 +95,8 @@ jobs:
         run: |
           # build docker and run test
           just docker-test
+          # test the prod image builds, as its slightly different, and has caught us out before.
+          just docker-build prod
 
   deploy:
     needs: [check, test, docker-test, lint-dockerfile]
