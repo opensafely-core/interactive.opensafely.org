@@ -15,12 +15,12 @@
   <div class="prose prose-oxford">
     <h2>{{ analysis.title }}</h2>
     <p>The aim of this OpenSAFELY Interactive report is to describe trends and variation in clinical codes to inform further analyses. It is not intended to be a tool for "performance monitoring".</p>
-    <p>Sharing outside of NHS England is not permitted in the current pilot phase without further approvals. Please contact xx if you would like to seek approval for wider sharing.</p>
+    <p>Sharing outside of NHS England is not permitted in the current pilot phase without further approvals. Please contact {% include "components/link.html" with href="mailto:team@opensafely.org" content="The OpenSAFELY Team" %} if you would like to seek approval for wider sharing.</p>
   </div>
 </div>
 <div class="mt-12 text-slate-800">
   <div class="prose prose-oxford">
-    <p>Requested codelist: <a href="https://www.opencodelists.org/codelist/{{ analysis.codelist }}">{{ analysis.codelist }}</a></p>
+    <p>Requested codelist: <a class="text-oxford-600 font-semibold underline underline-offset-1 transition-colors hover:text-oxford-500 hover:no-underline focus:text-oxford-700 focus:no-underline" href="https://www.opencodelists.org/codelist/{{ analysis.codelist }}">{{ analysis.codelist }}</a></p>
     <p>Time period: {{ analysis.start_date }} and {{ analysis.end_date }}</p>
     <table>
       <tr>
@@ -46,7 +46,7 @@
 </div>
 <div class="mt-12 text-slate-800">
   <div class="prose prose-oxford">
-    <h3>Most common codes (<a href="https://www.opencodelists.org/codelist/{{ analysis.codelist }}">Codelist</a>)</h3>
+    <h3>Most common codes (<a class="text-oxford-600 font-semibold underline underline-offset-1 transition-colors hover:text-oxford-500 hover:no-underline focus:text-oxford-700 focus:no-underline" href="https://www.opencodelists.org/codelist/{{ analysis.codelist }}">Codelist</a>)</h3>
     <table>
       <thead><th>Code</th><th>Description</th><th>Proportion of codes (%)</th></thead>
       {% for code in common_codes %}
