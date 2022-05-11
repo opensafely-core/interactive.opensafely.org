@@ -111,7 +111,7 @@ def test_new_analysis_request_post_success(client, user, slack_messages, codelis
             reverse("new_analysis_request"),
             {
                 "title": "An Analysis",
-                "codelist": "opensafely/systolic-blood-pressure-qof",
+                "codelist": "opensafely/systolic-blood-pressure-qof/version",
             },
             follow=True,
         )
@@ -120,11 +120,11 @@ def test_new_analysis_request_post_success(client, user, slack_messages, codelis
     request = AnalysisRequest.objects.last()
     assert request.user == user
     assert request.title == "An Analysis"
-    assert request.codelist == "opensafely/systolic-blood-pressure-qof"
+    assert request.codelist == "opensafely/systolic-blood-pressure-qof/version"
     assert str(request.start_date) == "2020-01-01"
     assert str(request.end_date) == "2021-12-31"
     assert user.email in slack_messages[-1].text
-    assert "opensafely/systolic-blood-pressure-qof" in slack_messages[-1].text
+    assert "opensafely/systolic-blood-pressure-qof/version" in slack_messages[-1].text
 
 
 def test_new_analysis_request_post_failure_returns_unsaved_form(
