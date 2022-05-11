@@ -9,7 +9,11 @@ from .factories import UserFactory
 
 
 # include some fixtures from submodules
-pytest_plugins = ["tests.unit.services.test_opencodelists"]
+# it might be better to move to a tests.fixtures module at some point
+pytest_plugins = [
+    "tests.unit.services.test_opencodelists",
+    "tests.unit.test_run",
+]
 
 
 @pytest.fixture(autouse=True)

@@ -6,6 +6,7 @@ from pathlib import Path
 
 from django.conf import settings
 
+from interactive.notifications import notify_analysis_request_submitted
 from services import opencodelists
 
 
@@ -152,3 +153,9 @@ def commit_and_push(checkout, analysis_request):
     # pov, as a tag would be enough, but job-runner explicitly checks that
     # a commit is on the branch history, for security reasons
     git("push", "origin", "--force-with-lease", cwd=checkout)
+
+
+def run_analysis(analysis_request):
+    create_analysis_commit(analysis_request, settings.WORKSPACE_REPO)
+    # TODO: run it. For now we notify
+    notify_analysis_request_submitted(analysis_request)
