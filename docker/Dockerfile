@@ -138,8 +138,10 @@ COPY . /app
 # are readable by all.
 COPY --from=node-builder /usr/src/app/assets /app/assets
 
-# collect static files
-RUN SECRET_KEY=dummy-key python /app/manage.py collectstatic --no-input
+# collect static files, using the dummy development env in order for django's
+# settings to be importable.  The -a means the variables set by sourcing
+# dotenv-sample are exported
+RUN bash -ac '. dotenv-sample && python /app/manage.py collectstatic --no-input'
 
 # We set command rather than entrypoint, to make it easier to run different
 # things from the cli
