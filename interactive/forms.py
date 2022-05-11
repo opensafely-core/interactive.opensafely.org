@@ -23,4 +23,4 @@ class AnalysisRequestForm(forms.ModelForm):
         self.instance.start_date = START_DATE
         self.instance.end_date = END_DATE
         self.instance.user = user
-        super().save()
+        return super().save()

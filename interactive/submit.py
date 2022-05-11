@@ -4,6 +4,9 @@ import sys
 import tempfile
 from pathlib import Path
 
+from django.conf import settings
+
+from interactive.notifications import notify_analysis_request_submitted
 from services import opencodelists
 
 
@@ -67,11 +70,18 @@ def git(*args, check=True, text=True, **kwargs):
     """
     cmd = ["git"] + [str(arg) for arg in args]
     cwd = kwargs.get("cwd", os.getcwd())
-    sys.stderr.write(f"{' '.join(cmd)} (in {cwd})\n")
+    cleaned = [arg.replace(settings.GITHUB_TOKEN, "*****") for arg in cmd]
+    sys.stderr.write(f"{' '.join(cleaned)} (in {cwd})\n")
     return subprocess.run(cmd, check=check, text=text, **kwargs)
 
 
 def create_analysis_commit(analysis_request, repo):
+
+    # add auth token if it's a real github repo
+    if str(repo).startswith("https://github.com"):
+        repo = repo.replace(
+            "https://", f"https://interactive:{settings.GITHUB_TOKEN}@"
+        )  # pragma: no cover
 
     # check this commit does not already exist
     ps = git(
@@ -119,13 +129,13 @@ def write_files(checkout, analysis_request, codelist):
 
 
 def commit_and_push(checkout, analysis_request):
-    msg = f"Interactive analysis of codelist {analysis_request.codelist} ({analysis_request.id})"
+    msg = f"Codelist {analysis_request.codelist} ({analysis_request.id})"
     email = analysis_request.user.email
     git("add", "project.yaml", "codelist.csv", cwd=checkout)
     git(
-        # -c arguments are instead of having to have git config --global nonsense
+        # -c arguments are instead of having to having to maintain stateful git config
         "-c",
-        "user.email=tech@opensafely.org",
+        "user.email=interactive@opensafely.org",
         "-c",
         "user.name=OpenSAFELY Interactive",
         "commit",
@@ -137,4 +147,15 @@ def commit_and_push(checkout, analysis_request):
     )
     # this is an super important step, makes it much easier to track commits
     git("tag", str(analysis_request.id), cwd=checkout)
-    git("push", "origin", "--tags", "--force-with-lease", cwd=checkout)
+    # push the tag
+    git("push", "origin", str(analysis_request.id), cwd=checkout)
+    # push to master. Note: we technically wouldn't need this from a pure git
+    # pov, as a tag would be enough, but job-runner explicitly checks that
+    # a commit is on the branch history, for security reasons
+    git("push", "origin", "--force-with-lease", cwd=checkout)
+
+
+def submit_analysis(analysis_request):
+    create_analysis_commit(analysis_request, settings.WORKSPACE_REPO)
+    # TODO: run it. For now we notify
+    notify_analysis_request_submitted(analysis_request)

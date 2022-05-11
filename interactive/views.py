@@ -4,19 +4,13 @@ from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
-from environs import Env
 
+from interactive.submit import submit_analysis
 from services import opencodelists
 
 from .forms import AnalysisRequestForm, RegistrationRequestForm
 from .models import END_DATE, START_DATE, AnalysisRequest
-from .notifications import (
-    notify_analysis_request_submitted,
-    notify_registration_request_submitted,
-)
-
-
-env = Env()
+from .notifications import notify_registration_request_submitted
 
 
 def index(request):
@@ -50,8 +44,8 @@ def new_analysis_request(request):
     if request.method == "POST":
         form = AnalysisRequestForm(request.POST, codelists=codelists)
         if form.is_valid():
-            form.save(user=request.user)
-            notify_analysis_request_submitted(form.instance)
+            analysis_request = form.save(user=request.user)
+            submit_analysis(analysis_request)
             return redirect("request_analysis_done")
     else:
         form = AnalysisRequestForm(codelists=codelists)

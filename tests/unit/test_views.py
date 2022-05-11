@@ -104,8 +104,12 @@ def test_new_analysis_request_get_not_logged_in(client):
     assert response.status_code == 302
 
 
-def test_new_analysis_request_post_success(client, user, slack_messages, codelists):
+def test_new_analysis_request_post_success(
+    client, user, slack_messages, codelists, add_codelist_response, workspace_repo
+):
     client.force_login(user)
+    codelist = "opensafely/systolic-blood-pressure-qof/version"
+    add_codelist_response(codelist, "codelist")
     with assert_difference(AnalysisRequest.objects.count, expected_difference=1):
         response = client.post(
             reverse("new_analysis_request"),
