@@ -227,3 +227,7 @@ EMAIL_BACKEND = env.str(
 )
 DEFAULT_FROM_EMAIL = "OpenSAFELY Interactive <noreply@mg.interactive.opensafely.org>"
 SERVER_EMAIL = "OpenSAFELY Interactive <noreply@mg.interactive.opensafely.org>"
+
+
+# Application settings
+GITHUB_TOKEN = env.str("GITHUB_TOKEN")
