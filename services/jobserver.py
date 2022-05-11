@@ -86,5 +86,5 @@ class CommonCodes:
     def read_common_codes(file):
         common_codes = list(csv.DictReader(file.decode("utf-8").splitlines()))
         for line in common_codes:
-            line["Proportion"] = line["Proportion of codes (%)"]
+            line["Proportion"] = line.get("Proportion of codes (%)")
         return common_codes

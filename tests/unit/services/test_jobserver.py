@@ -31,17 +31,25 @@ def fetch_release(responses):
 
 
 @pytest.fixture
-def fetch_file(responses):
+def fetch_deciles_chart(responses):
     responses.add(
         method="GET",
         url=urljoin(jobserver.JOB_SERVER_URL, "/api/v2/releases/file/6STFP07F15EM"),
         body=b"abc123",
     )
+
+
+@pytest.fixture
+def fetch_event_counts(responses):
     responses.add(
         method="GET",
         url=urljoin(jobserver.JOB_SERVER_URL, "/api/v2/releases/file/EK8NRG9A6GKQGJ"),
         body=b'"Patient count"\n"1000"',
     )
+
+
+@pytest.fixture
+def fetch_most_common_codes(responses):
     responses.add(
         method="GET",
         url=urljoin(jobserver.JOB_SERVER_URL, "/api/v2/releases/file/WXC18BDMBTM0M"),
@@ -49,7 +57,9 @@ def fetch_file(responses):
     )
 
 
-def test_fetch_release_returns_correct_files(fetch_release, fetch_file):
+def test_fetch_release_returns_correct_files(
+    fetch_release, fetch_deciles_chart, fetch_event_counts, fetch_most_common_codes
+):
     analysis_request_id = "123"
 
     output = jobserver.fetch_release(analysis_request_id)
@@ -60,6 +70,25 @@ def test_fetch_release_returns_correct_files(fetch_release, fetch_file):
     assert "common_codes" in output
     assert "Proportion" in output["common_codes"][0]
     assert "90.23" in output["common_codes"][0]["Proportion"]
+
+
+def test_fetch_release_handles_missing_column_for_common_codes(
+    fetch_release, fetch_deciles_chart, fetch_event_counts, responses
+):
+    responses.remove(
+        url=urljoin(jobserver.JOB_SERVER_URL, "/api/v2/releases/file/WXC18BDMBTM0M")
+    )
+    responses.add(
+        method="GET",
+        url=urljoin(jobserver.JOB_SERVER_URL, "/api/v2/releases/file/WXC18BDMBTM0M"),
+        body=b'"Code","Missing column"\n "72313002","90.23"',
+    )
+    analysis_request_id = "123"
+
+    output = jobserver.fetch_release(analysis_request_id)
+
+    assert "common_codes" in output
+    assert "Proportion" in output["common_codes"][0]
 
 
 def test_fetch_release_raises_http_error_on_endpoint_exception(responses):
