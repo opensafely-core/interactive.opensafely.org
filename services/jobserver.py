@@ -13,7 +13,7 @@ JOB_SERVER_URL = env.str("JOB_SERVER_API")
 JOB_SERVER_TOKEN = env.str("JOB_SERVER_TOKEN")
 RELEASES_URL = urljoin(
     JOB_SERVER_URL,
-    "api/v2/releases/workspace/test-interactive",
+    "api/v2/releases/workspace/opensafely-interactive",
 )
 
 
