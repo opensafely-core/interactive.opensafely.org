@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 import re
 from pathlib import Path
+from urllib.parse import urljoin
 
 from environs import Env, EnvError
 
@@ -237,4 +238,6 @@ WORKSPACE_REPO = env.str("WORKSPACE_REPO")
 GITHUB_TOKEN = env.str("GITHUB_TOKEN")
 
 # run jobs page
-JOB_SERVER_JOBS_URL = env.str("JOB_SERVER_JOBS_URL")
+JOB_SERVER_JOBS_URL = urljoin(
+    env.str("JOB_SERVER_JOBS_URL"), env.str("JOB_SERVER_WORKSPACE"), "/run-jobs/"
+)
