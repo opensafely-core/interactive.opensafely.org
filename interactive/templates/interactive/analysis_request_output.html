@@ -1,4 +1,6 @@
-{% extends "interactive/template.html" %}
+{% extends "interactive/output_template.html" %}
+
+{% load humanize %}
 
 {% block meta_title %}Analysis Output | OpenSAFELY Interactive{% endblock meta_title %}
 
@@ -12,26 +14,26 @@
 <div class="text-center text-slate-800">
   <div class="prose prose-oxford">
     <h2>{{ analysis.title }}</h2>
+    <p class="font-semibold text-red-800">Sharing outside of NHS England is not permitted in the current pilot phase without further approvals. Please contact {% include "components/link.html" with href="mailto:team@opensafely.org" content="The OpenSAFELY Team" %} if you would like to seek approval for wider sharing.</p>
     <p>The aim of this OpenSAFELY Interactive report is to describe trends and variation in clinical codes to inform further analyses. It is not intended to be a tool for "performance monitoring".</p>
-    <p>Sharing outside of NHS England is not permitted in the current pilot phase without further approvals. Please contact xx if you would like to seek approval for wider sharing.</p>
   </div>
 </div>
 <div class="mt-12 text-slate-800">
   <div class="prose prose-oxford">
-    <p>Requested codelist: <a href="https://www.opencodelists.org/codelist/{{ analysis.codelist }}">{{ analysis.codelist }}</a></p>
+    <p>Requested codelist: <a class="text-oxford-600 font-semibold underline underline-offset-1 transition-colors hover:text-oxford-500 hover:no-underline focus:text-oxford-700 focus:no-underline" href="https://www.opencodelists.org/codelist/{{ analysis.codelist }}">{{ analysis.codelist }}</a></p>
     <p>Time period: {{ analysis.start_date }} and {{ analysis.end_date }}</p>
     <table>
       <tr>
         <th>Total events</th>
-        <td>...</td>
+        <td>{{ summary.0.count|intcomma }}</td>
       </tr>
       <tr>
         <th>Events in latest period</th>
-        <td>...</td>
+        <td>{{ summary.1.count|intcomma }}</td>
       </tr>
       <tr>
         <th>Unique patients</th>
-        <td>...</td>
+        <td>{{ summary.2.count|intcomma }}</td>
       </tr>
     </table>
   </div>
@@ -39,15 +41,21 @@
 <div class="mt-12 text-slate-800">
   <div class="prose prose-oxford">
     <figure>The rate of recording per 1000 across practices</figure>
-    <p>--Deciles chart--</p>
+    <img src="data:image;base64,{{ deciles_chart }}" />
   </div>
 </div>
 <div class="mt-12 text-slate-800">
   <div class="prose prose-oxford">
-    <h3>Most common codes (<a href="https://www.opencodelists.org/codelist/{{ analysis.codelist }}">Codelist</a>)</h3>
+    <h3>Most common codes (<a class="text-oxford-600 font-semibold underline underline-offset-1 transition-colors hover:text-oxford-500 hover:no-underline focus:text-oxford-700 focus:no-underline" href="https://www.opencodelists.org/codelist/{{ analysis.codelist }}">Codelist</a>)</h3>
     <table>
       <thead><th>Code</th><th>Description</th><th>Proportion of codes (%)</th></thead>
-      <tbody><td>...</td><td>...</td><td>...</td></tbody>
+      {% for code in common_codes %}
+        <tbody>
+          <td>{{ code.Code }}</td>
+          <td>{{ code.Description }}</td>
+          <td>{{ code.Proportion }}</td>
+        </tbody>
+      {% endfor %}
     </table>
   </div>
 </div>
