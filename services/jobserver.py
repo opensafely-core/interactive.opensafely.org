@@ -26,13 +26,11 @@ def fetch_release(analysis_request_id):
     response.raise_for_status()
 
     output = {}
+    file_types = [DecilesChart, EventsCount, CommonCodes]
     for file in response.json()["files"]:
-        if DecilesChart.exists(file, analysis_request_id):
-            output[DecilesChart.name] = DecilesChart.decode(file)
-        elif EventsCount.exists(file, analysis_request_id):
-            output[EventsCount.name] = EventsCount.decode(file)
-        elif CommonCodes.exists(file, analysis_request_id):  # pragma: no cover
-            output[CommonCodes.name] = CommonCodes.decode(file)
+        for file_type in file_types:
+            if file_type.exists(file, analysis_request_id):
+                output[file_type.name] = file_type.decode(file)
 
     return output
 
