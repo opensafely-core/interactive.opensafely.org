@@ -75,9 +75,6 @@ def test_fetch_release_returns_correct_files(
 def test_fetch_release_handles_missing_column_for_common_codes(
     fetch_release, fetch_deciles_chart, fetch_event_counts, responses
 ):
-    responses.remove(
-        url=urljoin(jobserver.JOB_SERVER_URL, "/api/v2/releases/file/WXC18BDMBTM0M")
-    )
     responses.add(
         method="GET",
         url=urljoin(jobserver.JOB_SERVER_URL, "/api/v2/releases/file/WXC18BDMBTM0M"),
