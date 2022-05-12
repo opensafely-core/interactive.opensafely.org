@@ -25,6 +25,7 @@ JOB_SERVER_JOBS_URL=https://jobs.opensafely.org/datalab/opensafely-interactive/o
 # Retrieve outputs from job-server
 JOB_SERVER_API=https://jobs.opensafely.org/
 JOB_SERVER_TOKEN=fake_token
+JOB_SERVER_WORKSPACE=opensafely-interactive
 
 # git config
 # repo to commit to, defaults to local test repo
