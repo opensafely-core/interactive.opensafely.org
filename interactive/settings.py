@@ -14,6 +14,7 @@ import re
 from pathlib import Path
 
 from environs import Env, EnvError
+from furl import furl
 
 from services import sentry
 from services.logging import logging_config_dict
@@ -237,6 +238,6 @@ WORKSPACE_REPO = env.str("WORKSPACE_REPO")
 GITHUB_TOKEN = env.str("GITHUB_TOKEN")
 
 # run jobs page
-JOB_SERVER_JOBS_URL = "/".join(
-    [env.str("JOB_SERVER_JOBS_URL"), env.str("JOB_SERVER_WORKSPACE"), "run-jobs"]
+JOB_SERVER_JOBS_URL = str(
+    furl(env.str("JOB_SERVER_JOBS_URL")) / env.str("JOB_SERVER_WORKSPACE") / "run-jobs"
 )
