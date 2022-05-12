@@ -11,9 +11,11 @@ env = Env()
 
 JOB_SERVER_URL = env.str("JOB_SERVER_API")
 JOB_SERVER_TOKEN = env.str("JOB_SERVER_TOKEN")
+JOB_SERVER_WORKSPACE = env.str("JOB_SERVER_WORKSPACE")
 RELEASES_URL = urljoin(
     JOB_SERVER_URL,
-    "api/v2/releases/workspace/test-interactive",
+    "api/v2/releases/workspace/",
+    JOB_SERVER_WORKSPACE,
 )
 
 
