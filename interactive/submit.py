@@ -62,6 +62,14 @@ actions:
 """
 
 
+VARIABLES_PY = """
+study_start_date = "{START}"
+study_end_date = "{END}"
+low_count_threshold = 100
+rounding_base = 10
+"""
+
+
 def git(*args, check=True, text=True, **kwargs):
     """Wrapper around subprocess.run for git commands.
 
@@ -122,6 +130,14 @@ def write_files(checkout, analysis_request, codelist):
     project_path.write_text(
         PROJECT_YAML.format(
             ID=str(analysis_request.id),
+            START=analysis_request.start_date,
+            END=analysis_request.end_date,
+        )
+    )
+    (checkout / "analysis").mkdir(exist_ok=True)
+    variables_path = checkout / "analysis" / "variables.py"
+    variables_path.write_text(
+        VARIABLES_PY.format(
             START=analysis_request.start_date,
             END=analysis_request.end_date,
         )

@@ -25,6 +25,7 @@ def test_write_files(tmp_path):
 
     project = checkout / "project.yaml"
     codelist = checkout / "codelist.csv"
+    variables = checkout / "analysis" / "variables.py"
 
     assert codelist.read_text() == "codelist"
     p = pipeline.load_pipeline(project)
@@ -36,6 +37,11 @@ def test_write_files(tmp_path):
 
     assert analysis_request.start_date in p.actions["generate_codelist_report"].run.args
     assert analysis_request.end_date in p.actions["generate_codelist_report"].run.args
+
+    env = {}
+    exec(variables.read_text(), None, env)
+    assert env["study_start_date"] == analysis_request.start_date
+    assert env["study_end_date"] == analysis_request.end_date
 
 
 def test_commit_files(tmp_path, workspace_repo):
