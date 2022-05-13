@@ -231,13 +231,19 @@ DEFAULT_FROM_EMAIL = "OpenSAFELY Interactive <noreply@mg.interactive.opensafely.
 SERVER_EMAIL = "OpenSAFELY Interactive <noreply@mg.interactive.opensafely.org>"
 
 
-# Application settings
+# Required application settings
+#
+# These should be parsed and validated as early as possible, and putting them
+# here allows us to use django's pre-flight checks as part of out deployment
+# automation.
 
 # repo to commit to
+# in dev, a path to local repo, in prod https link to a remote one
 WORKSPACE_REPO = env.str("WORKSPACE_REPO")
 GITHUB_TOKEN = env.str("GITHUB_TOKEN")
 
-# run jobs page
-JOB_SERVER_JOBS_URL = str(
-    furl(env.str("JOB_SERVER_JOBS_URL")) / env.str("JOB_SERVER_WORKSPACE") / "run-jobs"
-)
+# job server config
+JOB_SERVER_URL = furl(env.str("JOB_SERVER_URL", default="https://jobs.opensafely.org"))
+JOB_SERVER_TOKEN = env.str("JOB_SERVER_TOKEN")
+# workspace to submit jobs to and look for outputs in
+JOB_SERVER_WORKSPACE = env.str("JOB_SERVER_WORKSPACE")
