@@ -11,7 +11,7 @@ from services import slack
 def notify_analysis_request_submitted(analysis_request):
     # including the analysis id in the url will pre-fill the input in job-server.
     job_server_url = slack.link(
-        f"{settings.JOB_SERVER_JOBS_URL}/{analysis_request.id}",
+        f"{settings.JOB_SERVER_JOBS_URL}/{analysis_request.commit_sha}",
         "job server",
     )
     commit_link = slack.link(
