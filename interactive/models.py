@@ -99,6 +99,9 @@ class AnalysisRequest(models.Model):
     codelist = models.CharField(max_length=255, verbose_name="Codelist")
     start_date = models.DateField()
     end_date = models.DateField()
+    commit_sha = models.CharField(
+        max_length=40, verbose_name="Repo commit SHA", null=True
+    )
 
     def __str__(self) -> str:
         return f"{self.title} ({self.codelist})"

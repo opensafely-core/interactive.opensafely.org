@@ -50,11 +50,11 @@ def test_commit_files(tmp_path, workspace_repo):
     submit.git("clone", workspace_repo, checkout)
     (checkout / "project.yaml").write_text("project")
     (checkout / "codelist.csv").write_text("codelist")
-    submit.commit_and_push(checkout, analysis_request)
+    commit = submit.commit_and_push(checkout, analysis_request)
 
-    ps = submit.git(
-        "show", str(analysis_request.id), cwd=workspace_repo, capture_output=True
-    )
+    assert commit is not None
+
+    ps = submit.git("show", commit, cwd=workspace_repo, capture_output=True)
     assert analysis_request.codelist in ps.stdout
     assert str(analysis_request.id) in ps.stdout
 
@@ -62,11 +62,11 @@ def test_commit_files(tmp_path, workspace_repo):
 def test_create_analysis_commit(workspace_repo, add_codelist_response):
     analysis_request = AnalysisRequestFactory()
     add_codelist_response(analysis_request.codelist, "1\n2\n3")
-    submit.create_analysis_commit(analysis_request, workspace_repo)
+    commit = submit.create_analysis_commit(analysis_request, workspace_repo)
 
     ps = submit.git(
         "show",
-        f"{analysis_request.id}:project.yaml",
+        f"{commit}:project.yaml",
         cwd=workspace_repo,
         capture_output=True,
     )
@@ -80,7 +80,7 @@ def test_create_analysis_commit(workspace_repo, add_codelist_response):
 
     ps = submit.git(
         "show",
-        f"{analysis_request.id}:codelist.csv",
+        f"{commit}:codelist.csv",
         cwd=workspace_repo,
         capture_output=True,
     )
