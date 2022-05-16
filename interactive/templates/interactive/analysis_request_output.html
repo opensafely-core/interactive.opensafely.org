@@ -36,12 +36,30 @@
       </div>
     </div>
   </header>
+
+  <div class="container mt-4">
+    <div class="max-w-3xl mx-auto bg-white shadow overflow-hidden sm:rounded-lg text-slate-700">
+      <dl class="px-4 py-4 sm:px-6 text-sm grid grid-cols-1 gap-y-6">
+        <div>
+          <dt class="text-slate-600 font-semibold mb-1">Requested codelist</dt>
+          <dd>
+            {% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist content=analysis.codelist %}
+          </dd>
+        </div>
+        <div>
+          <dt class="text-slate-600 font-semibold mb-1">Time period</dt>
+          <dd>
+            {{ analysis.start_date }} to {{ analysis.end_date }}
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
 </article>
 
 <div class="mt-12 text-slate-800">
   <div class="prose prose-oxford">
-    <p>Requested codelist: <a class="text-oxford-600 font-semibold underline underline-offset-1 transition-colors hover:text-oxford-500 hover:no-underline focus:text-oxford-700 focus:no-underline" href="https://www.opencodelists.org/codelist/{{ analysis.codelist }}">{{ analysis.codelist }}</a></p>
-    <p>Time period: {{ analysis.start_date }} and {{ analysis.end_date }}</p>
     <table>
       <tr>
         <th>Unique events</th>
