@@ -46,7 +46,7 @@ actions:
 
   generate_deciles_charts:
     run: >
-      deciles-charts:v0.0.15
+      deciles-charts:v0.0.24
         --input-files output/measure_counts_per_week_per_practice.csv
         --output-dir output/{ID}
     config:
