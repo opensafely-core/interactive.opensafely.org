@@ -35,8 +35,14 @@ def test_write_files(tmp_path):
     for name, action in p.actions.items():
         assert output_dir in action.run.args
 
-    assert analysis_request.start_date in p.actions["generate_codelist_report"].run.args
-    assert analysis_request.end_date in p.actions["generate_codelist_report"].run.args
+    assert (
+        analysis_request.start_date
+        in p.actions[f"codelist_report_{analysis_request.id}"].run.args
+    )
+    assert (
+        analysis_request.end_date
+        in p.actions[f"codelist_report_{analysis_request.id}"].run.args
+    )
 
     env = {}
     exec(variables.read_text(), None, env)
@@ -72,10 +78,10 @@ def test_create_analysis_commit(workspace_repo, add_codelist_response):
     )
     p = pipeline.load_pipeline(ps.stdout)
     assert list(p.actions.keys()) == [
-        "generate_codelist_report",
-        "generate_measures",
-        "generate_top_5_table",
-        "generate_deciles_charts",
+        f"codelist_report_{analysis_request.id}",
+        f"measures_{analysis_request.id}",
+        f"top_5_table_{analysis_request.id}",
+        f"deciles_charts_{analysis_request.id}",
     ]
 
     ps = submit.git(
