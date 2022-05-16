@@ -1,30 +1,26 @@
 import csv
 from base64 import b64encode
-from urllib.parse import urljoin
 
-from environs import Env
-from furl import furl
+from django.conf import settings
 
 from services import session
 
 
-env = Env()
-
-JOB_SERVER_URL = env.str("JOB_SERVER_API")
-JOB_SERVER_TOKEN = env.str("JOB_SERVER_TOKEN")
-JOB_SERVER_WORKSPACE = env.str("JOB_SERVER_WORKSPACE")
-RELEASES_URL = str(
-    furl(JOB_SERVER_URL) / "api/v2/releases/workspace" / JOB_SERVER_WORKSPACE
-)
+RELEASES_PATH = f"/api/v2/releases/workspace/{settings.JOB_SERVER_WORKSPACE}"
 
 
-def fetch_release(analysis_request_id):
-    headers = {"Authorization": JOB_SERVER_TOKEN}
+def job_server(path):
+    headers = {"Authorization": settings.JOB_SERVER_TOKEN}
     response = session.get(
-        RELEASES_URL,
+        str(settings.JOB_SERVER_URL / path),
         headers=headers,
     )
     response.raise_for_status()
+    return response
+
+
+def fetch_release(analysis_request_id):
+    response = job_server(RELEASES_PATH)
 
     output = {}
     file_types = [DecilesChart, EventsCount, CommonCodes]
@@ -37,10 +33,7 @@ def fetch_release(analysis_request_id):
 
 
 def fetch_file(url):
-    headers = {"Authorization": JOB_SERVER_TOKEN}
-    response = session.get(urljoin(JOB_SERVER_URL, url), headers=headers)
-    response.raise_for_status()
-
+    response = job_server(url)
     return response.content
 
 
