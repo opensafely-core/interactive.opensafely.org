@@ -1,16 +1,26 @@
-from urllib.parse import urljoin
-
 import pytest
 import requests
+from django.conf import settings
 
 from services import jobserver
 
 
 @pytest.fixture
-def fetch_release(responses):
-    responses.add(
-        method="GET",
-        url=jobserver.RELEASES_URL,
+def add_jobserver_response(responses):
+    def add(path, method="GET", **kwargs):
+        responses.add(
+            url=str(settings.JOB_SERVER_URL / path),  # convert furl to str
+            method=method,
+            **kwargs,
+        )
+
+    return add
+
+
+@pytest.fixture
+def fetch_release(add_jobserver_response):
+    add_jobserver_response(
+        jobserver.RELEASES_PATH,
         json={
             "files": [
                 {
@@ -31,28 +41,25 @@ def fetch_release(responses):
 
 
 @pytest.fixture
-def fetch_deciles_chart(responses):
-    responses.add(
-        method="GET",
-        url=urljoin(jobserver.JOB_SERVER_URL, "/api/v2/releases/file/6STFP07F15EM"),
+def fetch_deciles_chart(add_jobserver_response):
+    add_jobserver_response(
+        "/api/v2/releases/file/6STFP07F15EM",
         body=b"abc123",
     )
 
 
 @pytest.fixture
-def fetch_event_counts(responses):
-    responses.add(
-        method="GET",
-        url=urljoin(jobserver.JOB_SERVER_URL, "/api/v2/releases/file/EK8NRG9A6GKQGJ"),
+def fetch_event_counts(add_jobserver_response):
+    add_jobserver_response(
+        "/api/v2/releases/file/EK8NRG9A6GKQGJ",
         body=b'"Patient count"\n"1000"',
     )
 
 
 @pytest.fixture
-def fetch_most_common_codes(responses):
-    responses.add(
-        method="GET",
-        url=urljoin(jobserver.JOB_SERVER_URL, "/api/v2/releases/file/WXC18BDMBTM0M"),
+def fetch_most_common_codes(add_jobserver_response):
+    add_jobserver_response(
+        "/api/v2/releases/file/WXC18BDMBTM0M",
         body=b'"Code","Proportion of codes (%)"\n "72313002","90.23"',
     )
 
@@ -73,11 +80,10 @@ def test_fetch_release_returns_correct_files(
 
 
 def test_fetch_release_handles_missing_column_for_common_codes(
-    fetch_release, fetch_deciles_chart, fetch_event_counts, responses
+    fetch_release, fetch_deciles_chart, fetch_event_counts, add_jobserver_response
 ):
-    responses.add(
-        method="GET",
-        url=urljoin(jobserver.JOB_SERVER_URL, "/api/v2/releases/file/WXC18BDMBTM0M"),
+    add_jobserver_response(
+        "/api/v2/releases/file/WXC18BDMBTM0M",
         body=b'"Code","Missing column"\n "72313002","90.23"',
     )
     analysis_request_id = "123"
@@ -88,11 +94,10 @@ def test_fetch_release_handles_missing_column_for_common_codes(
     assert "Proportion" in output["common_codes"][0]
 
 
-def test_fetch_release_raises_http_error_on_endpoint_exception(responses):
+def test_fetch_release_raises_http_error_on_endpoint_exception(add_jobserver_response):
     analysis_request_id = "123"
-    responses.add(
-        method="GET",
-        url=jobserver.RELEASES_URL,
+    add_jobserver_response(
+        jobserver.RELEASES_PATH,
         status=500,
     )
 

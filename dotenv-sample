@@ -19,16 +19,14 @@ SENTRY_ENVIRONMENT=
 
 # Slack notifications
 SLACK_BOT_TOKEN=fake_token
-# URL to run jobs manually on job-server, used for the slack notification
-JOB_SERVER_JOBS_URL=https://jobs.opensafely.org/datalab/opensafely-interactive
 
-# Retrieve outputs from job-server
-JOB_SERVER_API=https://jobs.opensafely.org/
+# jobserver config
+JOB_SERVER_URL=https://jobs.opensafely.org/
 JOB_SERVER_TOKEN=fake_token
-JOB_SERVER_WORKSPACE=opensafely-interactive
+JOB_SERVER_WORKSPACE=test-interactive
 
 # git config
 # repo to commit to, defaults to local test repo
 WORKSPACE_REPO=./workspace-repo
 # token for auth
-GITHUB_TOKEN=
+GITHUB_TOKEN=fake_token
