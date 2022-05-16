@@ -37,8 +37,8 @@
     </div>
   </header>
 
-  <div class="container mt-4">
-    <div class="max-w-3xl mx-auto bg-white shadow overflow-hidden sm:rounded-lg text-slate-700">
+  <div class="container pt-8 py-12">
+    <section class="max-w-3xl mx-auto bg-white shadow overflow-hidden sm:rounded-lg text-slate-700">
       <dl class="px-4 py-4 sm:px-6 text-sm grid grid-cols-1 gap-y-6">
         <div>
           <dt class="text-slate-600 font-semibold mb-1">Requested codelist</dt>
@@ -53,59 +53,76 @@
           </dd>
         </div>
       </dl>
-    </div>
-  </div>
+    </section>
 
+    <section class="px-4 sm:px-6 lg:px-8">
+      <div class="mt-8 flex flex-col max-w-3xl mx-auto">
+        <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <div class="overflow-hidden shadow sm:rounded-lg">
+              <table class="min-w-full divide-y divide-slate-300">
+                <tbody class="divide-y divide-slate-200 bg-white">
+                  <tr class="divide-x divide-slate-200">
+                    <th scope="row" class="whitespace-nowrap px-4 py-3.5 text-left text-sm font-semibold text-slate-900">
+                      Unique events
+                    </th>
+                    <td class="whitespace-nowrap p-4 text-sm text-slate-600">
+                      {{ summary.0.count|intcomma }} This is some text
+                    </td>
+                  </tr>
+                  <tr class="divide-x divide-slate-200">
+                    <th scope="row" class="whitespace-nowrap px-4 py-3.5 text-left text-sm font-semibold text-slate-900">
+                      Events in latest week
+                    </th>
+                    <td class="whitespace-nowrap w-full p-4 text-sm text-slate-600">
+                      {{ summary.1.count|intcomma }} This is some text
+                    </td>
+                  </tr>
+                  <tr class="divide-x divide-slate-200">
+                    <th scope="row" class="whitespace-nowrap px-4 py-3.5 text-left text-sm font-semibold text-slate-900">
+                      Unique patients
+                    </th>
+                    <td class="whitespace-nowrap w-full p-4 text-sm text-slate-600">
+                      {{ summary.2.count|intcomma }} This is some text
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="my-8 max-w-3xl mx-auto bg-white shadow overflow-hidden sm:rounded-lg text-slate-700">
+      <div class="px-4 py-8 sm:px-6 mx-auto prose prose-oxford">
+        <h2>Trends and variation in code use</h2>
+        <figure>Figure: The weekly event rate for the selected codelist per 1000 registered patients per practice</figure>
+        <img src="data:image;base64,{{ deciles_chart }}" />
+
+        <h2>
+          Most common codes <span class="block text-sm">{% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist content="Link to Codelist" %}</span>
+        </h2>
+        <table>
+          <thead><th>Code</th><th>Description</th><th>Proportion of codes (%)</th></thead>
+          {% for code in common_codes %}
+            <tbody>
+              <td>{{ code.Code }}</td>
+              <td>{{ code.Description }}</td>
+              <td>{{ code.Proportion }}</td>
+            </tbody>
+          {% endfor %}
+        </table>
+
+        <h2>More information</h2>
+        <ul>
+          <li>Unique events represents a maximum of one event per patient per day</li>
+          <li>Practices are represented as deciles, i.e. for each week all practice rates are ranked, and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc are shown.</li>
+          <li>The practice population value is approximated as those registered as of the latest date in the analysis period, plus patients who died at any time during the period while registered with a TPP practice.</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
 </article>
-
-<div class="mt-12 text-slate-800">
-  <div class="prose prose-oxford">
-    <table>
-      <tr>
-        <th>Unique events</th>
-        <td>{{ summary.0.count|intcomma }}</td>
-      </tr>
-      <tr>
-        <th>Events in latest week</th>
-        <td>{{ summary.1.count|intcomma }}</td>
-      </tr>
-      <tr>
-        <th>Unique patients</th>
-        <td>{{ summary.2.count|intcomma }}</td>
-      </tr>
-    </table>
-  </div>
-</div>
-<div class="mt-12 text-slate-800">
-  <div class="prose prose-oxford">
-    <h3>Trends and variation in code use</h3>
-    <figure>Figure: The weekly event rate for the selected codelist per 1000 registered patients per practice</figure>
-    <img src="data:image;base64,{{ deciles_chart }}" />
-  </div>
-</div>
-<div class="mt-12 text-slate-800">
-  <div class="prose prose-oxford">
-    <h3>Most common codes (<a class="text-oxford-600 font-semibold underline underline-offset-1 transition-colors hover:text-oxford-500 hover:no-underline focus:text-oxford-700 focus:no-underline" href="https://www.opencodelists.org/codelist/{{ analysis.codelist }}">Codelist</a>)</h3>
-    <table>
-      <thead><th>Code</th><th>Description</th><th>Proportion of codes (%)</th></thead>
-      {% for code in common_codes %}
-        <tbody>
-          <td>{{ code.Code }}</td>
-          <td>{{ code.Description }}</td>
-          <td>{{ code.Proportion }}</td>
-        </tbody>
-      {% endfor %}
-    </table>
-  </div>
-</div>
-<div class="mt-12 text-slate-800">
-  <div class="prose prose-oxford">
-  <h3>More information</h3>
-    <ul>
-      <li>Unique events represents a maximum of one event per patient per day</li>
-      <li>Practices are represented as deciles, i.e. for each week all practice rates are ranked, and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc are shown.</li>
-      <li>The practice population value is approximated as those registered as of the latest date in the analysis period, plus patients who died at any time during the period while registered with a TPP practice.</li>
-    </ul>
-  </div>
-</div>
 {% endblock content %}
