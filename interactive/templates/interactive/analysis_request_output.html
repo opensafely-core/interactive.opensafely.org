@@ -30,7 +30,7 @@
           </div>
           <div class="ml-3 font-semibold text-yellow-800">
             <p class="mb-3">Sharing outside of NHS England is not permitted in the current pilot phase without further approvals.</p>
-            <p>Please contact {% include "components/link.html" with href="mailto:team@opensafely.org" content="The OpenSAFELY Team" %} if you would like to seek approval for wider sharing.</p>
+            <p>Please contact the {% include "components/link.html" with href="mailto:team@opensafely.org" content="OpenSAFELY Team" %} if you would like to seek approval for wider sharing.</p>
           </div>
         </div>
       </div>
@@ -67,7 +67,7 @@
                       Unique events
                     </th>
                     <td class="whitespace-nowrap p-4 text-sm text-slate-600">
-                      {{ summary.0.count|intcomma }} This is some text
+                      {{ summary.0.count|intcomma }}
                     </td>
                   </tr>
                   <tr class="divide-x divide-slate-200">
@@ -75,7 +75,7 @@
                       Events in latest week
                     </th>
                     <td class="whitespace-nowrap w-full p-4 text-sm text-slate-600">
-                      {{ summary.1.count|intcomma }} This is some text
+                      {{ summary.1.count|intcomma }}
                     </td>
                   </tr>
                   <tr class="divide-x divide-slate-200">
@@ -83,7 +83,7 @@
                       Unique patients
                     </th>
                     <td class="whitespace-nowrap w-full p-4 text-sm text-slate-600">
-                      {{ summary.2.count|intcomma }} This is some text
+                      {{ summary.2.count|intcomma }}
                     </td>
                   </tr>
                 </tbody>
