@@ -1,3 +1,5 @@
+from datetime import date
+
 import timeflake
 from django.test.client import RequestFactory
 from django.urls import reverse
@@ -125,8 +127,8 @@ def test_new_analysis_request_post_success(
     assert request.user == user
     assert request.title == "An Analysis"
     assert request.codelist == "opensafely/systolic-blood-pressure-qof/version"
-    assert str(request.start_date) == "2020-01-01"
-    assert str(request.end_date) == "2021-12-31"
+    assert str(request.start_date) == "2019-09-01"
+    assert str(request.end_date) == date.today().strftime("%Y-%m-%d")
     assert user.email in slack_messages[-1].text
     assert "opensafely/systolic-blood-pressure-qof/version" in slack_messages[-1].text
 

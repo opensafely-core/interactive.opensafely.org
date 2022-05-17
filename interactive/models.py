@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -16,8 +18,8 @@ from timeflake.extensions.django import TimeflakePrimaryKeyBinary
 from .notifications import send_welcome_email
 
 
-START_DATE = "2020-01-01"
-END_DATE = "2021-12-31"
+START_DATE = "2019-09-01"
+END_DATE = date.today().strftime("%Y-%m-%d")
 
 
 class CustomUserManager(BaseUserManager):
