@@ -29,6 +29,7 @@ actions:
       moderately_sensitive:
         table: output/{ID}/counts_per_*.csv
         list_sizes: output/{ID}/list_sizes.csv
+        patient_count_table: output/{ID}/patient_count.csv
 
   measures_{ID}:
     run: python:latest python analysis/generate_measures.py output/{ID}
