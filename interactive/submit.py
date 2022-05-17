@@ -18,7 +18,7 @@ expectations:
 
 actions:
 
-  generate_codelist_report:
+  codelist_report_{ID}:
     run: >
       cohortextractor:latest generate_codelist_report
         --codelist-path=codelist.csv
@@ -27,27 +27,29 @@ actions:
         --output-dir output/{ID}
     outputs:
       moderately_sensitive:
-        table: output/*/counts_per_*.csv
-        list_sizes: output/*/list_sizes.csv
+        table: output/{ID}/counts_per_*.csv
+        list_sizes: output/{ID}/list_sizes.csv
 
-  generate_measures:
+  measures_{ID}:
     run: python:latest python analysis/generate_measures.py output/{ID}
-    needs: [generate_codelist_report]
+    needs: [codelist_report_{ID}]
     outputs:
       moderately_sensitive:
-        measure: output/*/measure_counts_per_week_per_practice.csv
+        measure: output/{ID}/measure_counts_per_week_per_practice.csv
+        events_count_table: output/{ID}/event_counts.csv
+        practice_count_table: output/{ID}/practice_count.csv
 
-  generate_top_5_table:
+  top_5_table_{ID}:
     run: python:latest python analysis/top_codes_table.py output/{ID}
-    needs: [generate_codelist_report]
+    needs: [codelist_report_{ID}]
     outputs:
       moderately_sensitive:
-        table: output/*/top_5_code_table.csv
+        table: output/{ID}/top_5_code_table.csv
 
-  generate_deciles_charts:
+  deciles_charts_{ID}:
     run: >
-      deciles-charts:v0.0.15
-        --input-files output/measure_counts_per_week_per_practice.csv
+      deciles-charts:v0.0.24
+        --input-files output/{ID}/measure_counts_per_week_per_practice.csv
         --output-dir output/{ID}
     config:
       show_outer_percentiles: false
@@ -55,10 +57,10 @@ actions:
         output: true
       charts:
         output: true
-    needs: [generate_measures]
+    needs: [measures_{ID}]
     outputs:
       moderately_sensitive:
-        deciles_charts: output/*/deciles_*_*.*
+        deciles_charts: output/{ID}/deciles_*.*
 """
 
 
