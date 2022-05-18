@@ -56,7 +56,7 @@ urlpatterns = [
         name="request_analysis_done",
     ),
     path(
-        "request-analysis/<uuid:pk>/output",
+        "request-analysis/<str:pk>/output",
         views.analysis_request_output,
         name="request_analysis_output",
     ),

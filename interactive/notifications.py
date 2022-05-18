@@ -4,23 +4,35 @@ import html2text
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from furl import furl
 
 from services import slack
+
+
+# run jobs page
+JOB_SERVER_JOBS_URL = (
+    furl(settings.JOB_SERVER_URL)
+    / "datalab/opensafely-interactive"
+    / settings.JOB_SERVER_WORKSPACE
+    / "run-jobs"
+)
 
 
 def notify_analysis_request_submitted(analysis_request):
     # including the analysis id in the url will pre-fill the input in job-server.
     job_server_url = slack.link(
-        f"{settings.JOB_SERVER_JOBS_URL}/{analysis_request.commit_sha}",
+        JOB_SERVER_JOBS_URL / analysis_request.commit_sha,
         "job server",
     )
+    # this is only a valid link if WORKSPACE_REPO is a github url, i.e.
+    # not in dev
     commit_link = slack.link(
         f"{settings.WORKSPACE_REPO}/tree/{analysis_request.id}",
         str(analysis_request.id),
     )
 
     message = f"{analysis_request.created_by} submitted an analysis request called {analysis_request.title} for {analysis_request.codelist}\n"
-    message += f"Commit: {commit_link}"
+    message += f"Commit: {commit_link}\n"
     message += f"Please start the job in {job_server_url}\n"
 
     analysis_url = urljoin(settings.BASE_URL, analysis_request.get_output_url())
