@@ -218,9 +218,9 @@ requests==2.27.1 \
     # via
     #   -r requirements.prod.in
     #   django-anymail
-sentry-sdk==1.5.11 \
-    --hash=sha256:6c01d9d0b65935fd275adc120194737d1df317dce811e642cbf0394d0d37a007 \
-    --hash=sha256:c17179183cac614e900cbd048dab03f49a48e2820182ec686c25e7ce46f8548f
+sentry-sdk==1.5.12 \
+    --hash=sha256:259535ba66933eacf85ab46524188c84dcb4c39f40348455ce15e2c0aca68863 \
+    --hash=sha256:778b53f0a6c83b1ee43d3b7886318ba86d975e686cb2c7906ccc35b334360be1
     # via -r requirements.prod.in
 six==1.16.0 \
     --hash=sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926 \
