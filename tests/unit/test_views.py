@@ -1,11 +1,14 @@
-from datetime import date
-
+import pytest
 import timeflake
 from django.test.client import RequestFactory
 from django.urls import reverse
 
 from interactive import views
-from interactive.models import AnalysisRequest, RegistrationRequest
+from interactive.models import (
+    AnalysisRequest,
+    RegistrationRequest,
+    date_of_last_extract,
+)
 from tests.factories import AnalysisRequestFactory
 
 from .assertions import assert_difference, assert_no_difference
@@ -106,6 +109,7 @@ def test_new_analysis_request_get_not_logged_in(client):
     assert response.status_code == 302
 
 
+@pytest.mark.freeze_time("2022-05-18")
 def test_new_analysis_request_post_success(
     client, user, slack_messages, codelists, add_codelist_response, workspace_repo
 ):
@@ -128,7 +132,7 @@ def test_new_analysis_request_post_success(
     assert request.title == "An Analysis"
     assert request.codelist == "opensafely/systolic-blood-pressure-qof/version"
     assert str(request.start_date) == "2019-09-01"
-    assert str(request.end_date) == date.today().strftime("%Y-%m-%d")
+    assert str(request.end_date) == date_of_last_extract().strftime("%Y-%m-%d")
     assert user.email in slack_messages[-1].text
     assert "opensafely/systolic-blood-pressure-qof/version" in slack_messages[-1].text
 
