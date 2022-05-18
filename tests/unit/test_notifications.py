@@ -8,7 +8,7 @@ def test_notify_analysis_request_submitted(slack_messages):
     notifications.notify_analysis_request_submitted(analysis_request)
     msg = slack_messages[-1].text
     assert analysis_request.user.email in msg
-    assert analysis_request.codelist in msg
+    assert analysis_request.codelist_slug in msg
     assert analysis_request.title in msg
     assert str(analysis_request.id) in msg
     assert "commit12345" in msg

@@ -106,7 +106,7 @@ def create_analysis_commit(analysis_request, repo):
         raise Exception(f"Commit for {analysis_request.id} already exists in {repo}")
 
     # grab the codelist contents
-    codelist = opencodelists.get_codelist(analysis_request.codelist)
+    codelist_slug = opencodelists.get_codelist(analysis_request.codelist_slug)
 
     attempts = 0
     while True:
@@ -114,7 +114,7 @@ def create_analysis_commit(analysis_request, repo):
             with tempfile.TemporaryDirectory(suffix=str(analysis_request.id)) as tmpd:
                 checkout = Path(tmpd) / "interactive"
                 git("clone", repo, checkout)
-                write_files(checkout, analysis_request, codelist)
+                write_files(checkout, analysis_request, codelist_slug)
                 commit_sha = commit_and_push(checkout, analysis_request)
         except Exception:
             attempts += 1
@@ -124,11 +124,11 @@ def create_analysis_commit(analysis_request, repo):
             return commit_sha
 
 
-def write_files(checkout, analysis_request, codelist):
+def write_files(checkout, analysis_request, codelist_slug):
     # this needs to be a fixed name, or else we'll litter HEAD with previous
     # codelists
     codelist_path = checkout / "codelist.csv"
-    codelist_path.write_text(codelist)
+    codelist_path.write_text(codelist_slug)
     project_path = checkout / "project.yaml"
     project_path.write_text(
         PROJECT_YAML.format(
@@ -148,7 +148,7 @@ def write_files(checkout, analysis_request, codelist):
 
 
 def commit_and_push(checkout, analysis_request):
-    msg = f"Codelist {analysis_request.codelist} ({analysis_request.id})"
+    msg = f"Codelist {analysis_request.codelist_slug} ({analysis_request.id})"
     email = analysis_request.user.email
     git("add", "project.yaml", "codelist.csv", cwd=checkout)
     git(

@@ -31,7 +31,7 @@ def notify_analysis_request_submitted(analysis_request):
         str(analysis_request.id),
     )
 
-    message = f"{analysis_request.created_by} submitted an analysis request called {analysis_request.title} for {analysis_request.codelist}\n"
+    message = f"{analysis_request.created_by} submitted an analysis request called {analysis_request.title} for {analysis_request.codelist_slug}\n"
     message += f"Commit: {commit_link}\n"
     message += f"Please start the job in {job_server_url}\n"
 
