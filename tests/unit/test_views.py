@@ -176,7 +176,7 @@ def test_analysis_request_output(client, user, monkeypatch):
     analysis_request = AnalysisRequestFactory(user=user)
 
     response = client.get(
-        reverse("request_analysis_output", kwargs={"pk": analysis_request.id.uuid})
+        reverse("request_analysis_output", kwargs={"pk": analysis_request.id})
     )
 
     assert response.status_code == 200
@@ -184,7 +184,7 @@ def test_analysis_request_output(client, user, monkeypatch):
 
 
 def test_analysis_request_output_not_logged_in(client, user):
-    pk = timeflake.random().uuid
+    pk = timeflake.random()
     response = client.get(reverse("request_analysis_output", kwargs={"pk": pk}))
     assert response.status_code == 302
 
@@ -193,7 +193,7 @@ def test_analysis_request_output_not_authorised(client, user):
     client.force_login(user)
     analysis_request = AnalysisRequestFactory()
     response = client.get(
-        reverse("request_analysis_output", kwargs={"pk": analysis_request.id.uuid})
+        reverse("request_analysis_output", kwargs={"pk": analysis_request.id})
     )
     assert response.status_code == 403
 
@@ -205,7 +205,7 @@ def test_analysis_request_output_admin_can_view(client, admin_user, monkeypatch)
     analysis_request = AnalysisRequestFactory()
 
     response = client.get(
-        reverse("request_analysis_output", kwargs={"pk": analysis_request.id.uuid})
+        reverse("request_analysis_output", kwargs={"pk": analysis_request.id})
     )
 
     assert response.status_code == 200

@@ -70,7 +70,7 @@ def analysis_request_output(request, pk):
         raise PermissionDenied
 
     context = {"analysis": analysis_request}
-    if outputs := jobserver.fetch_release(str(analysis_request.id.uuid)):
+    if outputs := jobserver.fetch_release(str(analysis_request.id)):
         context.update(outputs)
 
     return render(

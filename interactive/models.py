@@ -114,7 +114,7 @@ class AnalysisRequest(models.Model):
         return self.user == user or user.is_staff
 
     def get_output_url(self):
-        return reverse("request_analysis_output", kwargs={"pk": self.id.uuid})
+        return reverse("request_analysis_output", kwargs={"pk": self.id})
 
 
 @receiver(post_save, sender=User)
