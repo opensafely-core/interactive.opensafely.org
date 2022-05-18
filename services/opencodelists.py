@@ -9,10 +9,14 @@ def fetch():
     response = session.get(LIST_URL)
     response.raise_for_status()
 
-    return [
-        (codelist["versions"][-1]["full_slug"], codelist["name"])
-        for codelist in response.json()["codelists"]
-    ]
+    options = []
+    for codelist in response.json()["codelists"]:
+        published_versions = [
+            v for v in codelist["versions"] if v["status"] == "published"
+        ]
+        if published_versions:
+            options.append((published_versions[-1]["full_slug"], codelist["name"]))
+    return options
 
 
 def get_codelist(slug):
