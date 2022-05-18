@@ -9,18 +9,35 @@ TEST_CODELISTS = [
         "name": "Assessment instruments and outcome measures for long covid",
         "versions": [
             {
-                "full_slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid/version"
-            }
+                "full_slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid/v1",
+                "status": "published",
+            },
+            {
+                "full_slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid/v2",
+                "status": "published",
+            },
         ],
     },
     {
         "name": "Systolic blood pressure QoF",
-        "versions": [{"full_slug": "opensafely/systolic-blood-pressure-qof/version"}],
+        "versions": [
+            {
+                "full_slug": "opensafely/systolic-blood-pressure-qof/v1",
+                "status": "published",
+            },
+            {
+                "full_slug": "opensafely/systolic-blood-pressure-qof/v2",
+                "status": "under review",
+            },
+        ],
     },
     {
         "name": "Chronic Cardiac Disease (SNOMED)",
         "versions": [
-            {"full_slug": "opensafely/chronic-cardiac-disease-snomed/version"}
+            {
+                "full_slug": "opensafely/chronic-cardiac-disease-snomed/v1",
+                "status": "draft",
+            }
         ],
     },
 ]
@@ -49,11 +66,17 @@ def add_codelist_response(responses):
 
 
 def test_fetch_returns_codelists(codelists):
-    expected_codelist = (
-        "opensafely/systolic-blood-pressure-qof/version",
-        "Systolic blood pressure QoF",
-    )
-    assert expected_codelist in opencodelists.fetch()
+    expected_codelists = [
+        (
+            "opensafely/assessment-instruments-and-outcome-measures-for-long-covid/v2",
+            "Assessment instruments and outcome measures for long covid",
+        ),
+        (
+            "opensafely/systolic-blood-pressure-qof/v1",
+            "Systolic blood pressure QoF",
+        ),
+    ]
+    assert expected_codelists == opencodelists.fetch()
 
 
 def test_fetch_raises_http_error_on_endpoint_exception(responses):

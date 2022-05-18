@@ -114,14 +114,14 @@ def test_new_analysis_request_post_success(
     client, user, slack_messages, codelists, add_codelist_response, workspace_repo
 ):
     client.force_login(user)
-    codelist = "opensafely/systolic-blood-pressure-qof/version"
+    codelist = "opensafely/systolic-blood-pressure-qof/v1"
     add_codelist_response(codelist, "codelist")
     with assert_difference(AnalysisRequest.objects.count, expected_difference=1):
         response = client.post(
             reverse("new_analysis_request"),
             {
                 "title": "An Analysis",
-                "codelist": "opensafely/systolic-blood-pressure-qof/version",
+                "codelist": "opensafely/systolic-blood-pressure-qof/v1",
             },
             follow=True,
         )
@@ -130,11 +130,11 @@ def test_new_analysis_request_post_success(
     request = AnalysisRequest.objects.last()
     assert request.user == user
     assert request.title == "An Analysis"
-    assert request.codelist == "opensafely/systolic-blood-pressure-qof/version"
+    assert request.codelist == "opensafely/systolic-blood-pressure-qof/v1"
     assert str(request.start_date) == "2019-09-01"
     assert str(request.end_date) == date_of_last_extract().strftime("%Y-%m-%d")
     assert user.email in slack_messages[-1].text
-    assert "opensafely/systolic-blood-pressure-qof/version" in slack_messages[-1].text
+    assert "opensafely/systolic-blood-pressure-qof/v1" in slack_messages[-1].text
 
 
 def test_new_analysis_request_post_failure_returns_unsaved_form(
