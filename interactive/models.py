@@ -128,6 +128,10 @@ class AnalysisRequest(models.Model):
     def visible_to(self, user):
         return self.user == user or user.is_staff
 
+    def get_absolute_url(self):
+        # Currently only used by django admin
+        return self.get_output_url()  # pragma: no cover
+
     def get_output_url(self):
         return reverse("request_analysis_output", kwargs={"pk": self.id})
 
