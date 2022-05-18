@@ -23,4 +23,4 @@ admin.site.register(RegistrationRequest)
 
 @admin.register(AnalysisRequest)
 class AnalysisRequestAdmin(admin.ModelAdmin):
-    list_display = ["user", "title", "codelist", "start_date", "end_date"]
+    list_display = ["user", "title", "codelist_slug", "start_date", "end_date"]

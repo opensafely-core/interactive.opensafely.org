@@ -41,7 +41,7 @@ def test_user_string_repr():
 def test_analysis_request_string_repr():
     analysis = AnalysisRequest()
     analysis.title = "Analysis title"
-    analysis.codelist = "Test Codelist"
+    analysis.codelist_slug = "Test Codelist"
     assert str(analysis) == "Analysis title (Test Codelist)"
 
 

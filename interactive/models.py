@@ -111,7 +111,7 @@ class AnalysisRequest(models.Model):
     id = TimeflakePrimaryKeyBinary()  # noqa: A003
     user = models.ForeignKey("interactive.User", on_delete=models.PROTECT)
     title = models.CharField(max_length=100, verbose_name="Analysis title")
-    codelist = models.CharField(max_length=255, verbose_name="Codelist")
+    codelist_slug = models.CharField(max_length=255, verbose_name="Codelist")
     start_date = models.DateField()
     end_date = models.DateField()
     commit_sha = models.CharField(
@@ -119,7 +119,7 @@ class AnalysisRequest(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"{self.title} ({self.codelist})"
+        return f"{self.title} ({self.codelist_slug})"
 
     @property
     def created_by(self):
