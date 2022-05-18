@@ -19,4 +19,8 @@ admin.site.unregister(auth.models.Group)
 
 # Register your models to admin site, then you can add, edit, delete and search your models in Django admin site.
 admin.site.register(RegistrationRequest)
-admin.site.register(AnalysisRequest)
+
+
+@admin.register(AnalysisRequest)
+class AnalysisRequestAdmin(admin.ModelAdmin):
+    list_display = ["user", "title", "codelist", "start_date", "end_date"]
