@@ -112,6 +112,7 @@ class AnalysisRequest(models.Model):
     user = models.ForeignKey("interactive.User", on_delete=models.PROTECT)
     title = models.CharField(max_length=100, verbose_name="Analysis title")
     codelist_slug = models.CharField(max_length=255, verbose_name="Codelist")
+    codelist_name = models.CharField(max_length=255, verbose_name="Codelist")
     start_date = models.DateField()
     end_date = models.DateField()
     commit_sha = models.CharField(
