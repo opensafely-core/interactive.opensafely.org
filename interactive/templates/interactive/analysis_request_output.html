@@ -13,7 +13,7 @@
           <h1 id="analysisHeading" class="mt-2 text-4xl font-bold text-slate-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
             {{ analysis.title }}
           </h1>
-          <p class="text-sm font-bold text-oxford-600 tracking-wide uppercase">
+          <p class= font-bold text-oxford-600 tracking-wide uppercase">
             Analysis Output
           </p>
         </div>
@@ -37,53 +37,53 @@
     </div>
   </header>
 
-  <div class="container pt-8 py-12">
-    <section class="max-w-3xl mx-auto bg-white shadow overflow-hidden sm:rounded-lg text-slate-700">
-      <dl class="px-4 py-4 sm:px-6 text-sm grid grid-cols-1 gap-y-6">
-        <div>
-          <dt class="text-slate-600 font-semibold mb-1">Requested codelist</dt>
-          <dd>
-            {% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist_slug content=analysis.codelist_name %}
-          </dd>
-        </div>
-        <div>
-          <dt class="text-slate-600 font-semibold mb-1">Time period</dt>
-          <dd>
-            {{ analysis.start_date }} to {{ analysis.end_date }}
-          </dd>
-        </div>
-      </dl>
-    </section>
+  <div class="container pt-8">
+    <div class="grid md:grid-cols-2 gap-8">
+      <section class="bg-white shadow overflow-hidden sm:rounded-lg text-slate-700">
+        <dl class="px-4 py-4 sm:px-6 grid grid-cols-1 gap-y-6">
+          <div>
+            <dt class="text-slate-600 font-semibold mb-1">Requested codelist</dt>
+            <dd>
+              {% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist_slug content=analysis.codelist_name %}
+            </dd>
+          </div>
+          <div>
+            <dt class="text-slate-600 font-semibold mb-1">Time period</dt>
+            <dd>
+              {{ analysis.start_date }} to {{ analysis.end_date }}
+            </dd>
+          </div>
+        </dl>
+      </section>
 
-    <section class="px-4 sm:px-6 lg:px-8">
-      <div class="mt-8 flex flex-col max-w-3xl mx-auto">
-        <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+      <section>
+        <div class="md:-mx-6 lg:-mx-8">
+          <div class="min-w-full align-middle md:px-6 lg:px-8">
             <div class="overflow-hidden shadow sm:rounded-lg">
               <table class="min-w-full divide-y divide-slate-300">
                 <tbody class="divide-y divide-slate-200 bg-white">
                   <tr class="divide-x divide-slate-200">
-                    <th scope="row" class="whitespace-nowrap px-4 py-3.5 text-left text-sm font-semibold text-slate-900">
+                    <th scope="row" class="whitespace-nowrap px-4 py-3.5 text-left font-semibold text-slate-900">
                       Unique events
                     </th>
-                    <td class="whitespace-nowrap p-4 text-sm text-slate-600">
-                      {{ summary.0.count|intcomma }}
+                    <td class="whitespace-nowrap p-4 text-slate-700 font-mono">
+                      {{ summary.0.count|intcomma }} 106,000
                     </td>
                   </tr>
                   <tr class="divide-x divide-slate-200">
-                    <th scope="row" class="whitespace-nowrap px-4 py-3.5 text-left text-sm font-semibold text-slate-900">
+                    <th scope="row" class="whitespace-nowrap px-4 py-3.5 text-left font-semibold text-slate-900">
                       Events in latest week
                     </th>
-                    <td class="whitespace-nowrap w-full p-4 text-sm text-slate-600">
-                      {{ summary.1.count|intcomma }}
+                    <td class="whitespace-nowrap w-full p-4 text-slate-700 font-mono">
+                      {{ summary.1.count|intcomma }} 330
                     </td>
                   </tr>
                   <tr class="divide-x divide-slate-200">
-                    <th scope="row" class="whitespace-nowrap px-4 py-3.5 text-left text-sm font-semibold text-slate-900">
+                    <th scope="row" class="whitespace-nowrap px-4 py-3.5 text-left font-semibold text-slate-900">
                       Unique patients
                     </th>
-                    <td class="whitespace-nowrap w-full p-4 text-sm text-slate-600">
-                      {{ summary.2.count|intcomma }}
+                    <td class="whitespace-nowrap w-full p-4 text-slate-700 font-mono">
+                      {{ summary.2.count|intcomma }} 71,850
                     </td>
                   </tr>
                 </tbody>
@@ -91,30 +91,55 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="container xl:max-w-6xl pt-8">
+    <section class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <h2 class="text-2xl font-bold text-center py-4 mb-6 text-slate-700 border-b border-slate-100">Trends and variation in code use</h2>
+      <figure>
+        <img class="mx-auto block mb-4 px-4" src="" />
+        <figcaption class="block font-semibold text-center text-slate-600 border-t border-slate-100 p-4">
+          Figure: The weekly event rate for the selected codelist per 1000 registered patients per practice
+        </figcaption>
+      </figure>
     </section>
+  </div>
 
-    <section class="my-8 max-w-3xl mx-auto bg-white shadow overflow-hidden sm:rounded-lg text-slate-700">
-      <div class="px-4 py-8 sm:px-6 mx-auto prose prose-oxford">
-        <h2>Trends and variation in code use</h2>
-        <figure>Figure: The weekly event rate for the selected codelist per 1000 registered patients per practice</figure>
-        <img src="data:image;base64,{{ deciles_chart }}" />
-
-        <h2>
-          Most common codes <span class="block text-sm">{% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist_slug content="Link to Codelist" %}</span>
-        </h2>
+  <div class="container xl:max-w-6xl pt-8">
+    <section class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <h2 class="text-2xl font-bold text-center py-4 mb-6 text-slate-700 border-b border-slate-100">
+        Most common codes
+      </h2>
+      <div class="mx-auto prose prose-oxford">
         <table>
-          <thead><th>Code</th><th>Description</th><th>Proportion of codes (%)</th></thead>
+          <thead>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Proportion of codes (%)</th>
+          </thead>
           {% for code in common_codes %}
             <tbody>
-              <td>{{ code.Code }}</td>
+              <td class="font-mono">{{ code.Code }}</td>
               <td>{{ code.Description }}</td>
-              <td>{{ code.Proportion }}</td>
+              <td class="font-mono">{{ code.Proportion }}</td>
             </tbody>
           {% endfor %}
         </table>
+      </div>
+      <p class="block font-semibold text-center text-slate-600 border-t border-slate-100 mt-6 py-4">
+        {% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist_slug content="Link to Codelist" %}
+      </p>
+    </section>
+  </div>
 
-        <h2>More information</h2>
+  <div class="container py-8">
+    <section class="bg-white max-w-3xl mx-auto px-4 pb-8 shadow overflow-hidden sm:rounded-lg">
+      <h2 class="text-2xl font-bold text-center py-4 mb-6 text-slate-700 border-b border-slate-100">
+        More information
+      </h2>
+      <div class="mx-auto prose prose-oxford">
         <ul>
           <li>Unique events represents a maximum of one event per patient per day</li>
           <li>Practices are represented as deciles, i.e. for each week all practice rates are ranked, and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc are shown</li>
@@ -123,7 +148,7 @@
         </ul>
       </div>
     </section>
-
   </div>
+
 </article>
 {% endblock content %}
