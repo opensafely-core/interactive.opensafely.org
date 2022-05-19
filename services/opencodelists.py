@@ -16,6 +16,7 @@ def fetch():
         ]
         if published_versions:
             options.append((published_versions[-1]["full_slug"], codelist["name"]))
+    options.sort(key=lambda pair: pair[1])
     return options
 
 

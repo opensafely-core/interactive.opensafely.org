@@ -6,19 +6,6 @@ from services import opencodelists
 
 TEST_CODELISTS = [
     {
-        "name": "Assessment instruments and outcome measures for long covid",
-        "versions": [
-            {
-                "full_slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid/v1",
-                "status": "published",
-            },
-            {
-                "full_slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid/v2",
-                "status": "published",
-            },
-        ],
-    },
-    {
         "name": "Systolic blood pressure QoF",
         "versions": [
             {
@@ -28,6 +15,19 @@ TEST_CODELISTS = [
             {
                 "full_slug": "opensafely/systolic-blood-pressure-qof/v2",
                 "status": "under review",
+            },
+        ],
+    },
+    {
+        "name": "Assessment instruments and outcome measures for long covid",
+        "versions": [
+            {
+                "full_slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid/v1",
+                "status": "published",
+            },
+            {
+                "full_slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid/v2",
+                "status": "published",
             },
         ],
     },
