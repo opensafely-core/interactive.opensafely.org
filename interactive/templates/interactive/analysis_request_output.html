@@ -43,7 +43,7 @@
         <div>
           <dt class="text-slate-600 font-semibold mb-1">Requested codelist</dt>
           <dd>
-            {% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist_slug content=analysis.codelist_slug %}
+            {% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist_slug content=analysis.codelist_name %}
           </dd>
         </div>
         <div>
@@ -117,8 +117,9 @@
         <h2>More information</h2>
         <ul>
           <li>Unique events represents a maximum of one event per patient per day</li>
-          <li>Practices are represented as deciles, i.e. for each week all practice rates are ranked, and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc are shown.</li>
-          <li>The practice population value is approximated as those registered as of the latest date in the analysis period, plus patients who died at any time during the period while registered with a TPP practice.</li>
+          <li>Practices are represented as deciles, i.e. for each week all practice rates are ranked, and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc are shown</li>
+          <li>The practice population value is approximated as those registered as of the latest date in the analysis period, plus patients who died at any time during the period while registered with a TPP practice</li>
+          <li>Rates of diagnosis codes should be interpreted cautiously in collaboration with an analyst who understands how such codes are used: sometimes codes are entered only once for each patient; but new codes should not be interpreted as new diagnoses because duplicate codes are often added in specific clinical contexts; other analyses in OpenSAFELY can help to understand these patterns better; you may want to discuss these analyses with an experienced electronic health records researcher</li>
         </ul>
       </div>
     </section>
