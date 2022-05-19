@@ -19,11 +19,15 @@
 
   <div x-title="codelist-select" x-data="{
       codelist: '',
-      get codelistURL() {
-        return `https://www.opencodelists.org/codelist/${this.codelist}`
+      get selectedCodelist() {
+        var select = document.getElementById('{{ form.codelist_slug.id_for_label }}');
+        return {
+          url: `https://www.opencodelists.org/codelist/${this.codelist}`,
+          text: select.options[select.selectedIndex].text
+        }
       }
     }">
-    {% include "components/form-field-select.html" with id=form.codelist_slug.id_for_label label=form.codelist_slug.label name="codelist_slug" required=True choices=form.codelist_slug.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" x_model="codelist" %}
+    {% include "components/form-field-select.html" with id=form.codelist_slug.id_for_label label="Codelist" name="codelist_slug" required=True choices=form.codelist_slug.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" x_model="codelist" %}
 
     <p
       class="mt-2 p-4 border border-slate-100 border-l-4 border-l-oxford-400 text-slate-900"
@@ -38,8 +42,8 @@
         "
         rel="noopener noreferrer"
         target="_blank"
-        x-bind:href="codelistURL"
-        x-text="codelist"
+        x-bind:href="selectedCodelist.url"
+        x-text="selectedCodelist.text"
         ></a>
     </p>
   </div>
