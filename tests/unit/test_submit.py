@@ -61,13 +61,13 @@ def test_commit_files(tmp_path, workspace_repo):
     assert commit is not None
 
     ps = submit.git("show", commit, cwd=workspace_repo, capture_output=True)
-    assert analysis_request.codelist in ps.stdout
+    assert analysis_request.codelist_slug in ps.stdout
     assert str(analysis_request.id) in ps.stdout
 
 
 def test_create_analysis_commit(workspace_repo, add_codelist_response):
     analysis_request = AnalysisRequestFactory()
-    add_codelist_response(analysis_request.codelist, "1\n2\n3")
+    add_codelist_response(analysis_request.codelist_slug, "1\n2\n3")
     commit = submit.create_analysis_commit(analysis_request, workspace_repo)
 
     ps = submit.git(
@@ -95,7 +95,7 @@ def test_create_analysis_commit(workspace_repo, add_codelist_response):
 
 def test_create_analysis_commit_commit_exists(workspace_repo, add_codelist_response):
     analysis_request = AnalysisRequestFactory()
-    add_codelist_response(analysis_request.codelist, "1\n2\n3")
+    add_codelist_response(analysis_request.codelist_slug, "1\n2\n3")
     submit.create_analysis_commit(analysis_request, workspace_repo)
 
     with pytest.raises(Exception) as e:
@@ -107,7 +107,7 @@ def test_create_analysis_commit_commit_exists(workspace_repo, add_codelist_respo
 
 def test_create_analysis_commit_codelist_error(workspace_repo, add_codelist_response):
     analysis_request = AnalysisRequestFactory()
-    add_codelist_response(analysis_request.codelist, status=500)
+    add_codelist_response(analysis_request.codelist_slug, status=500)
     with pytest.raises(requests.HTTPError):
         submit.create_analysis_commit(analysis_request, workspace_repo)
 
@@ -116,7 +116,7 @@ def test_create_analysis_commit_git_error_retry(
     workspace_repo, add_codelist_response, mocker
 ):
     analysis_request = AnalysisRequestFactory()
-    add_codelist_response(analysis_request.codelist, "1\n2\n3")
+    add_codelist_response(analysis_request.codelist_slug, "1\n2\n3")
 
     mock_commit = mocker.patch("interactive.submit.commit_and_push", autospec=True)
     mock_commit.side_effect = Exception("git error")

@@ -43,7 +43,7 @@
         <div>
           <dt class="text-slate-600 font-semibold mb-1">Requested codelist</dt>
           <dd>
-            {% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist content=analysis.codelist %}
+            {% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist_slug content=analysis.codelist_slug %}
           </dd>
         </div>
         <div>
@@ -101,7 +101,7 @@
         <img src="data:image;base64,{{ deciles_chart }}" />
 
         <h2>
-          Most common codes <span class="block text-sm">{% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist content="Link to Codelist" %}</span>
+          Most common codes <span class="block text-sm">{% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist_slug content="Link to Codelist" %}</span>
         </h2>
         <table>
           <thead><th>Code</th><th>Description</th><th>Proportion of codes (%)</th></thead>
