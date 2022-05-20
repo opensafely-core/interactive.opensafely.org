@@ -32,6 +32,13 @@ module.exports = {
           900: "#001936",
         },
       },
+      typography: ({ theme }) => ({
+        oxford: {
+          css: {
+            "--tw-prose-bullets": theme("colors.slate[600]"),
+          },
+        },
+      }),
     },
   },
   plugins: [
