@@ -5,4 +5,5 @@
     focus:text-oxford-700 focus:no-underline
   "
   href="{{ href }}"
->{{ content }}</a>
+  {% if newtab %}target="_blank" rel="noopener noreferrer"{% endif %}
+>{{ content }}</a>{# No newline at the end of this file #}
