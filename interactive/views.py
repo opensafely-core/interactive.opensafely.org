@@ -17,6 +17,10 @@ def index(request):
     return render(request, "index.html")
 
 
+def about(request):
+    return render(request, "about.html")
+
+
 def register_interest(request):
     if request.method == "POST":
         form = RegistrationRequestForm(request.POST)

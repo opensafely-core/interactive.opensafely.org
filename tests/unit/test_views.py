@@ -19,6 +19,11 @@ def test_index(client):
     assert response.status_code == 200
 
 
+def test_about(client):
+    response = client.get(reverse("about"))
+    assert response.status_code == 200
+
+
 def test_login_success(client, user, codelists):
     response = client.post(
         reverse("login"),
