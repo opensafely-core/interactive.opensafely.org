@@ -9,7 +9,7 @@
     <h2>What is OpenSAFELY Interactive?</h2>
     <p>OpenSAFELY Interactive is part of the <a href="https://www.opensafely.org/">OpenSAFELY</a> project.
       It allows certain OpenSAFELY analyses to be performed via a no code environment,
-      while maintaining the security and transparency upon which OpenSAFELY is built.
+      while maintaining the security and transparency upon which OpenSAFELY is built.</p>
     <h2>Who can use OpenSAFELY Interactive?</h2>
       OpenSAFELY Interactive is under active development, currently in an early pilot phase, 
       and undergoing initial user testing in a limited group of approved NHS users. 
@@ -26,6 +26,14 @@
       {% include "components/link.html" with href="https://www.bennett.ox.ac.uk/blog/2019/04/communicating-variation-in-prescribing-why-we-use-deciles/" content="here" newtab=True %}).</p>
       The report will also display overall summary statistics (total events, number of distinct patients affected) 
       and which five codes in the codelist were most commonly used, with percentages.</p>
+   <h2>How does OpenSAFELY Interactive work?</h2
+      <p> After logging in, users select a codelist and submit a request. 
+        An analysis script is automatically created, from a template, to perform the requested analysis. 
+        This script is submitted to the secure datacentre where it extracts data for the selected codelist 
+        and analyses it to produce summary data and a decile chart.
+        Following review by our trained output checking team, the summary data and chart are released
+        from the secure datacentre. 
+        A report is built from the released data, and the requester receives an email containing a link to the report. 
   </div>
 </div>
 {% endblock content %}
