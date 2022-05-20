@@ -43,6 +43,7 @@ password_reset_urls = [
 
 urlpatterns = [
     path("", views.index, name="home"),
+    path("about", views.about, name="about"),
     path("register-interest/", views.register_interest, name="register_interest"),
     path(
         "register-interest/done",
