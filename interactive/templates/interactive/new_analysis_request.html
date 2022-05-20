@@ -45,16 +45,13 @@
 
     <div class="border-l-2 border-l-oxford-200 bg-oxford-50 rounded pl-4 pr-2 py-4 mt-4 text-sm text-slate-800">
       <ul class="list-disc pl-4 grid grid-flow-row gap-2">
-        <li class="">
+        <li>
           {% include "components/link.html" with href="#" content="What is a codelist?" newtab=True %}
         </li>
         <li>
           {% include "components/link.html" with href="https://www.snomed.org/" content="What is SNOMED CT?" newtab=True %}
         </li>
-        <li
-          class=""
-          x-show="codelist"
-        >
+        <li x-show="codelist">
           <a
             class="
               text-oxford-600 font-semibold underline underline-offset-1 transition-colors
