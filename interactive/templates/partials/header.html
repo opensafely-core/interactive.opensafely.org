@@ -8,7 +8,7 @@
   <div class="container">
     <nav aria-label="Main">
       <ul class="flex flex-col md:flex-row items-center">
-        <li>
+        <li class="text-center">
           {% url 'home' as url %}
           <a
             class="transition-all text-xl font-semibold outline outline-2 outline-offset-4 rounded outline-transparent hover:outline-oxford-500 focus:outline-oxford-200"
@@ -19,12 +19,12 @@
             OpenSAFELY Interactive
           </a>
         </li>
-        <li class="md:ml-auto">
-          <a href="{% url 'about' %}">About</a>
+        <li class="mt-2 md:mt-0 md:ml-auto">
+          <a class="text-sm font-semibold hover:underline hover:text-oxford-50 focus:text-oxford-50" href="{% url 'about' %}">About</a>
         </li>
         {% if user.is_authenticated %}
           <div
-            class="mt-2 md:mt-0 md:ml-6 relative inline-block text-left"
+            class="mt-4 md:mt-0 md:ml-6 relative inline-block text-left"
             x-data="{ isAccountMenuOpen: false }"
             x-title="account-menu"
             >
