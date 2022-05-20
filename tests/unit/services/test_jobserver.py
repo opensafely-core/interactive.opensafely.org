@@ -35,6 +35,10 @@ def fetch_release(add_jobserver_response):
                     "name": "backend/output/123/top_5_code_table.csv",
                     "url": "/api/v2/releases/file/WXC18BDMBTM0M",
                 },
+                {
+                    "name": "backend/output/123/practice_count.csv",
+                    "url": "/api/v2/releases/file/ADB2340TMD0N",
+                },
             ]
         },
     )
@@ -64,8 +68,20 @@ def fetch_most_common_codes(add_jobserver_response):
     )
 
 
+@pytest.fixture
+def fetch_practices(add_jobserver_response):
+    add_jobserver_response(
+        "/api/v2/releases/file/ADB2340TMD0N",
+        body=b'"","count"\n "total","1250"\n "with_at_least_1_event", "1160"',
+    )
+
+
 def test_fetch_release_returns_correct_files(
-    fetch_release, fetch_deciles_chart, fetch_event_counts, fetch_most_common_codes
+    fetch_release,
+    fetch_deciles_chart,
+    fetch_event_counts,
+    fetch_most_common_codes,
+    fetch_practices,
 ):
     analysis_request_id = "123"
 
@@ -77,10 +93,17 @@ def test_fetch_release_returns_correct_files(
     assert "common_codes" in output
     assert "Proportion" in output["common_codes"][0]
     assert "90.23" in output["common_codes"][0]["Proportion"]
+    assert "practices" in output
+    assert "total" in output["practices"]
+    assert output["practices"]["total"] == "1250"
 
 
 def test_fetch_release_handles_missing_column_for_common_codes(
-    fetch_release, fetch_deciles_chart, fetch_event_counts, add_jobserver_response
+    fetch_release,
+    fetch_deciles_chart,
+    fetch_event_counts,
+    fetch_practices,
+    add_jobserver_response,
 ):
     add_jobserver_response(
         "/api/v2/releases/file/WXC18BDMBTM0M",
@@ -92,6 +115,26 @@ def test_fetch_release_handles_missing_column_for_common_codes(
 
     assert "common_codes" in output
     assert "Proportion" in output["common_codes"][0]
+
+
+def test_fetch_release_handles_missing_totals_for_practices(
+    fetch_release,
+    fetch_deciles_chart,
+    fetch_event_counts,
+    fetch_most_common_codes,
+    add_jobserver_response,
+):
+    add_jobserver_response(
+        "/api/v2/releases/file/ADB2340TMD0N",
+        body=b'"","count"',
+    )
+    analysis_request_id = "123"
+
+    output = jobserver.fetch_release(analysis_request_id)
+
+    assert "practices" in output
+    assert "total" in output["practices"]
+    assert "with_at_least_1_event" in output["practices"]
 
 
 def test_fetch_release_raises_http_error_on_endpoint_exception(add_jobserver_response):

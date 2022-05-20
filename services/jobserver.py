@@ -21,9 +21,9 @@ def job_server(path):
 
 def fetch_release(analysis_request_id):
     response = job_server(RELEASES_PATH)
-
     output = {}
-    file_types = [DecilesChart, EventsCount, CommonCodes]
+    file_types = [DecilesChart, EventsCount, CommonCodes, PracticeCount]
+
     for file in response.json()["files"]:
         for file_type in file_types:
             if file_type.exists(file, analysis_request_id):
@@ -80,3 +80,25 @@ class CommonCodes:
         for line in common_codes:
             line["Proportion"] = line.get("Proportion of codes (%)")
         return common_codes
+
+
+class PracticeCount:
+    name = "practices"
+
+    def exists(file, analysis_request_id):
+        return analysis_request_id in file["name"] and file["name"].endswith(
+            "practice_count.csv"
+        )
+
+    def decode(file):
+        return PracticeCount.read_practice_counts(fetch_file(file["url"]))
+
+    def read_practice_counts(file):
+        practice_list = list(csv.DictReader(file.decode("utf-8").splitlines()))
+        practice_counts = {
+            "total": practice_list[0].get("count", 0) if len(practice_list) > 0 else 0,
+            "with_at_least_1_event": practice_list[1].get("count", 0)
+            if len(practice_list) > 1
+            else 0,
+        }
+        return practice_counts

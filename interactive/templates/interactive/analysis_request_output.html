@@ -101,9 +101,18 @@
       <figure>
         <img class="mx-auto block mb-4 px-4" src="data:image;base64,{{ deciles_chart }}" />
         <figcaption class="block font-semibold text-center text-slate-600 border-t border-slate-100 p-4">
-          Figure: The weekly event rate for the selected codelist per 1000 registered patients per practice
+          Figure: The four-weekly event rate for the selected codelist per 1000 registered patients per practice
         </figcaption>
       </figure>
+      <div class="mx-auto mb-8 px-4 prose prose-oxford">
+        <p>
+          This figure shows practice level variation in code use as a deciles chart. Any practices showing no code use throughout the entire period are removed before the decile chart is generated.{% if practices %} For this analysis {{ practices.with_at_least_1_event }}/{{ practices.total }} practices had at least one coded event of interest during the study period.{% endif %}
+        </p>
+        <p>All practices are ranked by their rates over 4-weekly intervals and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc are shown.</p>
+        <!-- <p>
+          For more information on why we use deciles charts to communicate variation in coding activity please see our {% include "components/link.html" with href="about/" content="About page" %}.
+        </p> -->
+      </div>
     </section>
   </div>
 
@@ -142,9 +151,12 @@
       <div class="mx-auto prose prose-oxford">
         <ul>
           <li>Unique events represents a maximum of one event per patient per day</li>
-          <li>Practices are represented as deciles, i.e. for each week all practice rates are ranked, and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc are shown</li>
+          <li>All patient counts are rounded to the nearest 10. Practice counts are rounded to the nearest 5</li>
           <li>The practice population value is approximated as those registered as of the latest date in the analysis period, plus patients who died at any time during the period while registered with a TPP practice</li>
-          <li>Rates of diagnosis codes should be interpreted cautiously in collaboration with an analyst who understands how such codes are used: sometimes codes are entered only once for each patient; but new codes should not be interpreted as new diagnoses because duplicate codes are often added in specific clinical contexts; other analyses in OpenSAFELY can help to understand these patterns better; you may want to discuss these analyses with an experienced electronic health records researcher</li>
+          <li>Figures shown should be interpreted cautiously. Results only show newly recorded coding events, not the total number of people who have had a particular code to date</li>
+          <li>If your codelist represents diagnoses or demographic features note that: codes may only be entered only once for each patient and may not be captured in this time period; new codes do not necessarily represent new diagnoses because duplicate codes may be added in specific clinical contexts</li>
+          <li>Further analyses in {% include "components/link.html" with href="https://www.opensafely.org/onboarding-new-users/" content="OpenSAFELY" %} can help to understand these patterns better; you may wish to discuss these analyses with an experienced electronic health records researcher or analyst who understands how such codes are used</li>
+          </li>
         </ul>
       </div>
     </section>
