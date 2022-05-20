@@ -15,7 +15,8 @@
         <span class="pl-1">What does an analysis show?</span>
       </summary>
       <p>This is an interactive tool that automatically counts, for a {% include "components/link.html" with href="https://www.opencodelists.org/" content="selected codelist" newtab=True %}, the number of events recorded per week in every GP practice using TPP software (~40% of England's practices), from prior to the pandemic to the latest available date (approximately 1-2 weeks lag time).</p>
-      <p>This produces a time trend chart, with practices are represented as {% include "components/link.html" with href="https://www.bennett.ox.ac.uk/blog/2019/04/communicating-variation-in-prescribing-why-we-use-deciles/" content="deciles" newtab=True %}.</p>
+      {% url 'about' as deciles_link %}
+      <p>This produces a time trend chart, with practices are represented as {% include "components/link.html" with href=deciles_link|add:"#deciles" content="deciles" newtab=True %}.</p>
       <p>The report will also display overall summary statistics (total events, number of distinct patients affected) and which five codes in the codelist were most commonly used, with percentages.</p>
     </details>
 </div>
