@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block meta_title %}About | OpenSAFELY Interactive{% endblock meta_title %}
+
+{% block content %}
+<article aria-labelledby="title">
+  <div class="container bg-white min-h-full px-4 py-16 sm:px-6 md:grid md:place-items-center">
+    <div class="prose prose-oxford">
+      <h1 id="title">About</h1>
+
+      <h2>What is OpenSAFELY Interactive?</h2>
+      <p>OpenSAFELY Interactive is part of the {% include "components/link.html" with href="https://www.opensafely.org/" content="OpenSAFELY" %} project.
+        It allows certain OpenSAFELY analyses to be performed via a no code environment,
+        while maintaining the security and transparency upon which OpenSAFELY is built.
+      </p>
+
+      <h2>Who can use OpenSAFELY Interactive?</h2>
+      <p>OpenSAFELY Interactive is under active development, currently in an early pilot phase,
+        and undergoing initial user testing in a limited group of approved NHS users.
+        A wider user group will be able to use OpenSAFELY Interactive in due course.
+      </p>
+
+      <h2>What does OpenSAFELY Interactive do?</h2>
+      <p>OpenSAFELY Interactive is accessed via a simple request form.
+        It is an interactive tool that automatically counts, for a selected codelist,
+        the number of events recorded per week in every GP practice using TPP software (~40% of England's practices),
+        from prior to the pandemic to the latest available date (approximately 1-2 weeks lag time).
+      </p>
+
+      <h2>What does an OpenSAFELY Interactive analysis output contain?</h2>
+      <p>In the current pilot phase, analyses will return a time trend chart, with practices represented as deciles,
+        i.e. for each week all practice rates are ranked, and only the values for the median (50th percentile) practice, and 10th, 20th percentile, etc. are shown
+        (you can read more about why it is useful to present practice-level data as deciles
+        {% include "components/link.html" with href="https://www.bennett.ox.ac.uk/blog/2019/04/communicating-variation-in-prescribing-why-we-use-deciles/" content="here" newtab=True %}).
+      </p>
+      <p>The report will also display overall summary statistics (total events, number of distinct patients affected)
+        and which five codes in the codelist were most commonly used, with percentages.
+      </p>
+
+      <h2>How does OpenSAFELY Interactive work?</h2>
+      <p>After logging in, users select a codelist and submit a request.
+       An analysis script is automatically created, from a template, to perform the requested analysis.
+       This script is submitted to the secure datacentre where it extracts data for the selected codelist and analyses it to produce summary data and a decile chart.
+      </p>
+      <p>Following review by our trained output checking team, the summary data and chart are released from the secure datacentre.
+         A report is built from the released data, and the requester receives an email containing a link to the report.
+      </p>
+  </div>
+</div>
+</article>
+{% endblock content %}
