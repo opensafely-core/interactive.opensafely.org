@@ -106,7 +106,7 @@
       </figure>
       <div class="mx-auto mb-8 px-4 prose prose-oxford">
         <p>
-          This figure shows practice level variation in code use as a deciles chart. Any practices showing no code use throughout the entire period are removed before the decile chart is generated. For this analysis x/x practices had at least one coded event of interest during the study period
+          This figure shows practice level variation in code use as a deciles chart. Any practices showing no code use throughout the entire period are removed before the decile chart is generated.{% if practices %} For this analysis {{ practices.with_at_least_1_event }}/{{ practices.total }} practices had at least one coded event of interest during the study period.{% endif %}
         </p>
         <p>All practices are ranked by their rates over 4-weekly intervals and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc are shown.</p>
         <!-- <p>
