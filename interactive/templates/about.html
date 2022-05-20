@@ -6,7 +6,26 @@
 <div class="container bg-white min-h-full px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
   <div class="prose prose-oxford">
     <h1>About page</h1>
-    <p>Text to go here</p>
+    <h2>What is OpenSAFELY Interactive?</h2>
+    <p>OpenSAFELY Interactive is part of the <a href="https://www.opensafely.org/">OpenSAFELY</a> project.
+      It allows certain OpenSAFELY analyses to be performed via a no code environment,
+      while maintaining the security and transparency upon which OpenSAFELY is built.
+    <h2>Who can use OpenSAFELY Interactive?</h2>
+      OpenSAFELY Interactive is under active development, currently in an early pilot phase, 
+      and undergoing initial user testing in a limited group of approved NHS users. 
+      A wider user group will be able to use OpenSAFELY Interactive in due course.</p>
+    <h2>What does OpenSAFELY Interactive do?</h2>
+    <p>OpenSAFELY Interactive is accessed via a simple request form. 
+      It is an interactive tool that automatically counts, for a selected codelist, 
+      the number of events recorded per week in every GP practice using TPP software (~40% of England's practices), 
+      from prior to the pandemic to the latest available date (approximately 1-2 weeks lag time).</p>
+    <h2>What does an OpenSAFELY Interactive analysis output contain?</h2>
+      <p>In the current pilot phase, analysess will return a time trend chart, with practices are represented as deciles,
+      i.e. for each week all practice rates are ranked, and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc are shown
+      (you can read more about why it is useful to present practice-level data as deciles 
+      {% include "components/link.html" with href="https://www.bennett.ox.ac.uk/blog/2019/04/communicating-variation-in-prescribing-why-we-use-deciles/" content="here" newtab=True %}).</p>
+      The report will also display overall summary statistics (total events, number of distinct patients affected) 
+      and which five codes in the codelist were most commonly used, with percentages.</p>
   </div>
 </div>
 {% endblock content %}
