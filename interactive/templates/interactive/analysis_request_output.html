@@ -106,13 +106,15 @@
       </figure>
       <div class="mx-auto mb-8 px-4 prose prose-oxford">
         <p>
-          This figure shows practice level variation in code use as a deciles chart. Any practices showing no code use throughout the entire period are removed before the decile chart is generated.{% if practices %} For this analysis {{ practices.with_at_least_1_event }}/{{ practices.total }} practices had at least one coded event of interest during the study period.{% endif %}
+        {% url 'about' as about_link %}
+         This figure shows practice level variation in code use ({% include "components/link.html" with href=about_link|add:"#deciles" content="more information" newtab=True %}).
         </p>
-        <p>All practices are ranked by their rates over 4-weekly intervals and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc are shown.</p>
-        <p>
-          {% url 'about' as about_link %}
-          For more information on why we use deciles charts to communicate variation in coding activity please see our {% include "components/link.html" with href=about_link|add:"#deciles" content="about page" newtab=True %}.
+        <p>All practices are ranked by their rates over 4-weekly intervals and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc (deciles) are shown.
+        {% if practices %}
+        For this analysis <strong>{{ practices.with_at_least_1_event }}/{{ practices.total }}</strong> practices had at least one coded event of interest during the study period and are included in the chart.
+        {% endif %}
         </p>
+        <p>The practice population is calculated as those patients registered at a TPP practice on the latest date in the analysis period, plus patients who died at any time during the period.</p>
       </div>
     </section>
   </div>
@@ -153,7 +155,6 @@
         <ul>
           <li>Unique events represents a maximum of one event per patient per day</li>
           <li>All patient counts are rounded to the nearest 10. Practice counts are rounded to the nearest 5</li>
-          <li>The practice population value is approximated as those registered as of the latest date in the analysis period, plus patients who died at any time during the period while registered with a TPP practice</li>
           <li>Figures shown should be interpreted cautiously. Results only show newly recorded coding events, not the total number of people who have had a particular code to date</li>
           <li>If your codelist represents diagnoses or demographic features note that: codes may only be entered only once for each patient and may not be captured in this time period; new codes do not necessarily represent new diagnoses because duplicate codes may be added in specific clinical contexts</li>
           <li>Further analyses in {% include "components/link.html" with href="https://www.opensafely.org/onboarding-new-users/" content="OpenSAFELY" %} can help to understand these patterns better; you may wish to discuss these analyses with an experienced electronic health records researcher or analyst who understands how such codes are used</li>
