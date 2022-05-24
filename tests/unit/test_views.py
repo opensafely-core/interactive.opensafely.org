@@ -1,4 +1,3 @@
-import pytest
 import timeflake
 from django.test.client import RequestFactory
 from django.urls import reverse
@@ -114,7 +113,6 @@ def test_new_analysis_request_get_not_logged_in(client):
     assert response.status_code == 302
 
 
-@pytest.mark.freeze_time("2022-05-18")
 def test_new_analysis_request_post_success(
     client, user, slack_messages, codelists, add_codelist_response, workspace_repo
 ):
