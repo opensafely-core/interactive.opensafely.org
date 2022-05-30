@@ -59,6 +59,8 @@ just run
 
 By default, the `justfile` will use the configuration in `docker/docker-compose.yaml` to run a local dev postgres instance.
 
+The first time the database is used, the migrations will need to be applied by running `python manage.py migrate`.
+
 You can use the normal `./manage dbshell` will provide psql console if needed.
 
 
