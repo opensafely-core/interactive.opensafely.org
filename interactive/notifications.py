@@ -34,7 +34,7 @@ def notify_analysis_request_submitted(analysis_request):
     analysis_url = furl(settings.BASE_URL) / analysis_request.get_output_url()
     analysis_link = slack.link(analysis_url, "here")
 
-    message = f"{analysis_request.created_by} submitted an analysis request called {analysis_request.title}\n"
+    message = f"{analysis_request.created_by} submitted an analysis request called *{analysis_request.title}*\n"
     message += f"Using codelist: {codelist_link}\n"
     message += f"Commit: {commit_link}\n"
     message += f"Please start the job in {job_server_url}\n"
