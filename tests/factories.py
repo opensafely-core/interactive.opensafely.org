@@ -22,3 +22,5 @@ class AnalysisRequestFactory(factory.django.DjangoModelFactory):
     title = factory.Sequence(lambda n: f"Analysis Request {n}")
     start_date = factory.Faker("date")
     end_date = factory.Faker("date")
+    codelist_name = "Asthma annual review QOF"
+    codelist_slug = "opensafely/asthma-annual-review-qof"

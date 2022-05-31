@@ -30,3 +30,6 @@ JOB_SERVER_WORKSPACE=test-interactive
 WORKSPACE_REPO=./workspace-repo
 # token for auth
 GITHUB_TOKEN=fake_token
+
+# opencodelists config
+OPENCODELISTS_URL=https://www.opencodelists.org
