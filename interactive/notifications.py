@@ -1,5 +1,3 @@
-from urllib.parse import urljoin
-
 import html2text
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
@@ -19,25 +17,27 @@ JOB_SERVER_JOBS_URL = (
 
 
 def notify_analysis_request_submitted(analysis_request):
-    # including the analysis id in the url will pre-fill the input in job-server.
-    job_server_url = slack.link(
-        JOB_SERVER_JOBS_URL / analysis_request.commit_sha,
-        "job server",
+    codelist_url = (
+        settings.OPENCODELISTS_URL / "codelist" / analysis_request.codelist_slug
     )
+    codelist_link = slack.link(codelist_url, analysis_request.codelist_name)
     # this is only a valid link if WORKSPACE_REPO is a github url, i.e.
     # not in dev
     commit_link = slack.link(
         f"{settings.WORKSPACE_REPO}/tree/{analysis_request.id}",
         str(analysis_request.id),
     )
-
-    message = f"{analysis_request.created_by} submitted an analysis request called {analysis_request.title} for {analysis_request.codelist_slug}\n"
-    message += f"Commit: {commit_link}\n"
-    message += f"Please start the job in {job_server_url}\n"
-
-    analysis_url = urljoin(settings.BASE_URL, analysis_request.get_output_url())
+    job_server_url = slack.link(
+        JOB_SERVER_JOBS_URL / analysis_request.commit_sha,
+        "job server",
+    )
+    analysis_url = furl(settings.BASE_URL) / analysis_request.get_output_url()
     analysis_link = slack.link(analysis_url, "here")
 
+    message = f"{analysis_request.created_by} submitted an analysis request called *{analysis_request.title}*\n"
+    message += f"Using codelist: {codelist_link}\n"
+    message += f"Commit: {commit_link}\n"
+    message += f"Please start the job in {job_server_url}\n"
     message += f"When complete, the output will be viewable {analysis_link}"
 
     slack.post(text=message)

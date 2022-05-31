@@ -247,3 +247,8 @@ JOB_SERVER_URL = furl(env.str("JOB_SERVER_URL", default="https://jobs.opensafely
 JOB_SERVER_TOKEN = env.str("JOB_SERVER_TOKEN")
 # workspace to submit jobs to and look for outputs in
 JOB_SERVER_WORKSPACE = env.str("JOB_SERVER_WORKSPACE")
+
+# Opencodelists config
+OPENCODELISTS_URL = furl(
+    env.str("OPENCODELISTS_URL", default="https://www.opencodelists.org")
+)
