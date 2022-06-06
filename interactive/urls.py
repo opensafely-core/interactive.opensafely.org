@@ -61,6 +61,11 @@ urlpatterns = [
         views.analysis_request_output,
         name="request_analysis_output",
     ),
+    path(
+        "request-analysis/<str:pk>/email",
+        views.analysis_request_email,
+        name="request_analysis_email",
+    ),
     path("admin/", admin.site.urls),
     path(
         "login/",
