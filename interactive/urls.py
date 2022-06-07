@@ -41,6 +41,25 @@ password_reset_urls = [
     ),
 ]
 
+request_analysis_urls = [
+    path("", views.new_analysis_request, name="new_analysis_request"),
+    path(
+        "done",
+        views.new_analysis_request_done,
+        name="request_analysis_done",
+    ),
+    path(
+        "<str:pk>/output",
+        views.analysis_request_output,
+        name="request_analysis_output",
+    ),
+    path(
+        "<str:pk>/email",
+        views.analysis_request_email,
+        name="request_analysis_email",
+    ),
+]
+
 urlpatterns = [
     path("", views.index, name="home"),
     path("about", views.about, name="about"),
@@ -49,17 +68,6 @@ urlpatterns = [
         "register-interest/done",
         views.register_interest_done,
         name="register_interest_done",
-    ),
-    path("request-analysis/", views.new_analysis_request, name="new_analysis_request"),
-    path(
-        "request-analysis/done",
-        views.new_analysis_request_done,
-        name="request_analysis_done",
-    ),
-    path(
-        "request-analysis/<str:pk>/output",
-        views.analysis_request_output,
-        name="request_analysis_output",
     ),
     path("admin/", admin.site.urls),
     path(
@@ -72,6 +80,7 @@ urlpatterns = [
         views.LogoutView.as_view(),
         name="logout",
     ),
+    path("request-analysis/", include(request_analysis_urls)),
     path("password-reset/", include(password_reset_urls)),
     path("favicon.ico", RedirectView.as_view(url=settings.STATIC_URL + "favicon.ico")),
     path("robots.txt", RedirectView.as_view(url=settings.STATIC_URL + "robots.txt")),

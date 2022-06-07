@@ -1,4 +1,5 @@
 import timeflake
+from django.contrib.messages import get_messages
 from django.test.client import RequestFactory
 from django.urls import reverse
 
@@ -220,6 +221,47 @@ def test_analysis_request_output_admin_can_view(client, admin_user, monkeypatch)
     )
 
     assert response.status_code == 200
+
+
+def test_analysis_request_email_admin_can_view(client, admin_user):
+    client.force_login(admin_user)
+    analysis_request = AnalysisRequestFactory()
+
+    response = client.get(
+        reverse("request_analysis_email", kwargs={"pk": analysis_request.id})
+    )
+
+    assert response.status_code == 302
+    assert response.url == reverse(
+        "request_analysis_output", kwargs={"pk": analysis_request.id}
+    )
+
+    messages = list(get_messages(response.wsgi_request))
+    assert len(messages) == 1
+    assert str(messages[0]).startswith("Email sent")
+
+
+def test_analysis_request_email_user_not_authorised(client, user):
+    client.force_login(user)
+    analysis_request = AnalysisRequestFactory()
+
+    response = client.get(
+        reverse("request_analysis_email", kwargs={"pk": analysis_request.id})
+    )
+
+    assert response.status_code == 403
+    assert b"Permission denied" in response.content
+
+
+def test_analysis_request_email_user_not_logged_in(client):
+    analysis_request = AnalysisRequestFactory()
+
+    response = client.get(
+        reverse("request_analysis_email", kwargs={"pk": analysis_request.id})
+    )
+
+    assert response.status_code == 302
+    assert response.url.startswith("/login")
 
 
 def test_bad_request():
