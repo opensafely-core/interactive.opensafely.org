@@ -17,7 +17,7 @@ from django.utils.http import urlsafe_base64_encode
 from furl import furl
 from timeflake.extensions.django import TimeflakePrimaryKeyBinary
 
-from .notifications import send_welcome_email
+from .emails import send_welcome_email
 
 
 def date_of_last_extract():
