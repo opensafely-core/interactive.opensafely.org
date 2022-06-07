@@ -17,14 +17,16 @@
             Analysis Output
           </p>
         </div>
-        {% if user.is_staff %}
-          {% url 'request_analysis_email' analysis.id as email_url %}
-          {% include "components/button.html" with el="link" size="md" color="oxford" text="Email to requester" href=email_url %}
-        {% endif %}
         <p class="max-w-3xl mx-auto mt-5 text-xl leading-normal text-slate-700">
           The aim of this OpenSAFELY Interactive report is to describe trends and variation in clinical codes to inform further analyses.
           It is not intended to be a tool for "performance monitoring".
         </p>
+        <div class="my-4">
+          {% if user.is_staff %}
+            {% url 'request_analysis_email' analysis.id as email_url %}
+            {% include "components/button.html" with el="link" size="md" color="oxford" text="Email to requester" href=email_url %}
+          {% endif %}
+        </div>
       </div>
 
       <div class="max-w-3xl mx-auto rounded-md bg-yellow-50 border border-yellow-300 p-4 pt-6 pb-7 mt-6">
