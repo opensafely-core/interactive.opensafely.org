@@ -14,6 +14,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from furl import furl
 from timeflake.extensions.django import TimeflakePrimaryKeyBinary
 
 from .notifications import send_welcome_email
@@ -93,6 +94,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+    def get_password_reset_url(self, uid, token):
+        return reverse("password_reset_confirm", kwargs={"uidb64": uid, "token": token})
+
 
 class RegistrationRequest(models.Model):
     id = TimeflakePrimaryKeyBinary()  # noqa: A003
@@ -142,10 +146,13 @@ def send_email(sender, instance, created, **kwargs):
     if not created:
         return
 
+    uid = urlsafe_base64_encode(force_bytes(instance.pk))
+    token = PasswordResetTokenGenerator().make_token(instance)
+    reset_url = furl(settings.BASE_URL) / instance.get_password_reset_url(uid, token)
+
     context = {
         "name": instance.name,
-        "domain": settings.BASE_URL,
-        "uid": urlsafe_base64_encode(force_bytes(instance.pk)),
-        "token": PasswordResetTokenGenerator().make_token(instance),
+        "url": reset_url,
     }
+
     send_welcome_email(instance.email, context)

@@ -4,9 +4,7 @@
 <p>
   Please click on the link to finish setting up your account<br />
   {% block reset_link %}
-      <a href="{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}">
-        {{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
-      </a>
+      <a href="{{ url }}">{{ url }}</a>
   {% endblock %}
 </p>
 <p>Once you've setup your account, you'll be able to login to <a href="{{ domain }}">the website</a> and request an analysis by clicking on "Get started".</p>
