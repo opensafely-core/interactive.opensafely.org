@@ -25,12 +25,47 @@
 <div class="border-t border-t-slate-200 mt-6 pt-4 -mx-4">
   <h2 class="px-4 text-xl font-bold">Submit a request</h2>
 </div>
+
+{% if form.errors %}
+<div class="shadow sm:rounded-lg bg-red-50 p-4 mt-3 mb-6">
+  <div class="flex">
+    <div class="flex-shrink-0">
+      {% include "icons/solid-x-circle.svg" with html_class="h-5 w-5 text-red-400" %}
+    </div>
+    <div class="ml-3">
+      <h3 class="text-sm font-bold text-red-800">
+        There {{ form.errors|pluralize:"was,were" }} {{ form.errors|length }} error{{form.errors|pluralize}}:
+      </h3>
+      <div class="mt-2 text-sm text-red-700">
+        <ul role="list" class="list-disc pl-5 space-y-1">
+          {% for field in form %}
+            {% for error in field.errors %}
+            <li><strong>{{ field.label }}: </strong>{{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 <form class="space-y-6" method="post">
   {% csrf_token %}
   {{ form.non_field_errors }}
 
   <div>
     {% include "components/form-field.html" with id=form.title.id_for_label label=form.title.label name="title" required=True type="text" hint="For example: Systolic code usage" %}
+    {% if form.title.errors %}
+      <ul class="mt-2">
+        {% for error in form.title.errors %}
+          <li class="text-sm text-red-700">{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
   </div>
 
   <div id="react-dropdown"></div>
