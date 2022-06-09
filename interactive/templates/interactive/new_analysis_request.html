@@ -68,7 +68,17 @@
     {% endif %}
   </div>
 
-  <div id="react-dropdown"></div>
+  {{ form.codelist_slug.field.choices|json_script:"react-dropdown-options" }}
+  {{ form.codelist_slug.errors|json_script:"react-dropdown-errors" }}
+  <div
+    data-choices="react-dropdown-options"
+    data-errors="react-dropdown-errors"
+    data-hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system"
+    data-id="{{ form.codelist_slug.id_for_label }}"
+    data-label="Codelists"
+    data-name="codelist_slug"
+    id="react-dropdown"
+    ></div>
   {% if debug %}
   <script type="module">
     import RefreshRuntime from 'http://localhost:3000/@react-refresh'
