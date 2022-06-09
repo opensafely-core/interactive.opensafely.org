@@ -10,6 +10,7 @@ def send_welcome_email(email, context):
 
     msg = EmailMultiAlternatives(
         subject=subject,
+        from_email="no-reply@mg.interactive.opensafely.org",
         reply_to=("team@opensafely.org",),
         to=[email],
         body=text_body,
@@ -25,6 +26,7 @@ def send_analysis_request_email(email, context):
 
     msg = EmailMultiAlternatives(
         subject=subject,
+        from_email="no-reply@mg.interactive.opensafely.org",
         reply_to=("team@opensafely.org",),
         to=[email],
         body=text_body,
