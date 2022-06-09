@@ -252,3 +252,7 @@ JOB_SERVER_WORKSPACE = env.str("JOB_SERVER_WORKSPACE")
 OPENCODELISTS_URL = furl(
     env.str("OPENCODELISTS_URL", default="https://www.opencodelists.org")
 )
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
