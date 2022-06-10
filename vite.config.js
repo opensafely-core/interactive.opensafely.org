@@ -22,4 +22,15 @@ export default defineConfig({
       targets: ["last 2 versions, not dead, > 2%"],
     }),
   ],
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./assets/src/scripts/__tests__/setup.js",
+    coverage: {
+      lines: 95,
+      functions: 95,
+      branches: 95,
+      statements: 95,
+    }
+  },
 });

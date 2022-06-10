@@ -104,7 +104,7 @@ export function Combobox({
            */}
           {selectedItem ? (
             <button
-              aria-label="clear selection"
+              aria-label="Clear selection"
               className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none"
               onClick={() => {
                 setInputItems(comboboxChoices);
@@ -118,6 +118,7 @@ export function Combobox({
           ) : (
             <button
               {...getToggleButtonProps()}
+              aria-label="Show dropdown"
               className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none"
               tabIndex={-1}
               type="button"
@@ -133,7 +134,10 @@ export function Combobox({
            *  the user that they need to modify their search.
            */}
           {isOpen ? (
-            <ul className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <ul
+              aria-label="Select a codelist"
+              className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            >
               {inputItems.length ? (
                 <>
                   {/* Map over the items and visually identify the highlighted
@@ -237,7 +241,7 @@ Combobox.propTypes = {
     label: string,
     name: string,
   }).isRequired,
-  errors: arrayOf(string).isRequired,
+  errors: arrayOf(string),
   handleSelectedItemChange: func.isRequired,
   selectedItem: shape({
     value: string,
@@ -246,5 +250,6 @@ Combobox.propTypes = {
 };
 
 Combobox.defaultProps = {
+  errors: null,
   selectedItem: null,
-}
+};

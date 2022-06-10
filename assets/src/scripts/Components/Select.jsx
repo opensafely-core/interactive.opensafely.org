@@ -27,11 +27,12 @@ export function Select({ choices, data, errors }) {
        *  or display the default option.
        */}
       <select
+        data-testid={data.name}
+        hidden
         id={data.id}
         name={data.name}
         readOnly
         value={selectedItem ? selectedItem.value : "---"}
-        hidden
       >
         {choices.map((item) => (
           <option key={item.value} value={item.value}>
@@ -58,5 +59,9 @@ Select.propTypes = {
     label: string,
     name: string,
   }).isRequired,
-  errors: arrayOf(string).isRequired,
+  errors: arrayOf(string),
 };
+
+Select.defaultProps = {
+  errors: null,
+}
