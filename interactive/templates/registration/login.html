@@ -10,9 +10,8 @@
     <h2 class="text-center text-3xl font-extrabold text-slate-900">Log in to your account</h2>
     <p class="mt-2 text-center text-sm text-slate-600">
       Or
-      <a href="#" class="font-medium text-oxford-600 hover:text-oxford-500">
-        register your interest
-      </a>
+      {% url 'register_interest' as register_interest_url %}
+      {% include "components/link.html" with href=register_interest_url content="register your interest" %}
       to create an account.
     </p>
   </div>
@@ -103,9 +102,8 @@
 
         <div>
           <div class="text-sm text-center">
-            <a href="{% url 'password_reset' %}" class="font-medium text-oxford-600 hover:text-oxford-500">
-              Forgot your password?
-            </a>
+            {% url 'password_reset' as password_reset_url %}
+            {% include "components/link.html" with href=password_reset_url content="Forgot your password?" %}
           </div>
         </div>
 

@@ -1,13 +1,16 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
+from furl import furl
 
 from interactive.submit import submit_analysis
 from services import jobserver, opencodelists
 
+from .emails import send_analysis_request_email
 from .forms import AnalysisRequestForm, RegistrationRequestForm
 from .models import END_DATE, START_DATE, AnalysisRequest
 from .notifications import notify_registration_request_submitted
@@ -82,6 +85,23 @@ def analysis_request_output(request, pk):
         "interactive/analysis_request_output.html",
         context,
     )
+
+
+@login_required
+def analysis_request_email(request, pk):
+    if not request.user.is_staff:
+        return permission_denied(request)
+
+    analysis_request = get_object_or_404(AnalysisRequest, pk=pk)
+    context = {
+        "name": analysis_request.user.name,
+        "title": analysis_request.title,
+        "url": furl(settings.BASE_URL) / analysis_request.get_output_url(),
+    }
+    send_analysis_request_email(analysis_request.user.email, context)
+
+    messages.success(request, f"Email sent to {analysis_request.created_by}")
+    return redirect("request_analysis_output", pk)
 
 
 #

@@ -1,0 +1,15 @@
+{% autoescape off %}
+<p>Hi {{ name }},</p>
+<p>Your analysis titled "{{ title }}" using OpenSAFELY interactive has now finished running. You can view the results at:<br/>
+  {% block analysis_link %}
+    <a href="{{ url }}">{{ url }}</a>
+  {% endblock %}
+</p>
+<p>These results are not publicly accessible and are only viewable when logged into your OpenSAFELY Interactive account. Please do not share these results with anyone. If you would like to share the results, please send an email to <a href="mailto:team@opensafely.org">team@opensafely.org</a>.</p>
+<p>Kind regards,</p>
+<p><a href="mailto:team@opensafely.org">The OpenSAFELY Team</a></p>
+<br/>
+<p>OpenSAFELY Interactive is a new tool in active development. Please let us know your thoughts on how we can improve the service by filling out our <a href="https://
+docs.google.com/forms/d/e/1FAIpQLScWikDx0UlqbEcnbzZhn5FiBTBHc2LtrfhqmmKwgOuKt4oFTQ/viewform">feedback form</a> or by emailing <a href="mailto:team@opensafely.org">team
+@opensafely.org</a>.
+{% endautoescape %}
