@@ -18,7 +18,7 @@
           </p>
         </div>
         <p class="max-w-3xl mx-auto mt-5 text-xl leading-normal text-slate-700">
-          The aim of this OpenSAFELY Interactive report is to describe trends and variation in clinical codes to inform further analyses.
+          The aim of this OpenSAFELY Interactive report is to describe trends and variation in the recording of clinical codes in health records to inform further analyses.
           It is not intended to be a tool for "performance monitoring".
         </p>
         <div class="my-4">
@@ -28,7 +28,16 @@
           {% endif %}
         </div>
       </div>
-
+      <div class="max-w-3xl mx-auto rounded-md bg-blue-50 border border-blue-300 p-4 pt-6 pb-7 mt-6">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            {% include "icons/outline-information-circle.svg" with html_class="h-6 w-6 text-blue-800" %}
+          </div>
+          <div class="ml-3 font-semibold text-blue-800">
+            <p>We would like to hear your feedback about this report. Please take a moment to complete our {% include "components/link.html" with href="https://docs.google.com/forms/d/e/1FAIpQLScWikDx0UlqbEcnbzZhn5FiBTBHc2LtrfhqmmKwgOuKt4oFTQ/viewform" content="feedback form" %}.</p>
+          </div>
+        </div>
+      </div>
       <div class="max-w-3xl mx-auto rounded-md bg-yellow-50 border border-yellow-300 p-4 pt-6 pb-7 mt-6">
         <div class="flex">
           <div class="flex-shrink-0">
@@ -36,7 +45,7 @@
           </div>
           <div class="ml-3 font-semibold text-yellow-800">
             <p class="mb-3">Sharing outside of NHS England is not permitted in the current pilot phase without further approvals.</p>
-            <p>Please contact the {% include "components/link.html" with href="mailto:team@opensafely.org" content="OpenSAFELY Team" %} if you would like to seek approval for wider sharing.</p>
+            <p>Please email team@opensafely.org if you would like to seek approval for wider sharing.</p>
           </div>
         </div>
       </div>
@@ -104,10 +113,17 @@
   <div class="container xl:max-w-6xl pt-8">
     <section class="bg-white shadow overflow-hidden sm:rounded-lg">
       <h2 class="text-2xl font-bold text-center py-4 mb-6 text-slate-700 border-b border-slate-100">Trends and variation in code use</h2>
+      <div class="mx-auto mb-8 px-4 prose prose-oxford">
+        {% if practices %}
+          <p>
+          For this analysis <strong>{{ practices.with_at_least_1_event }}/{{ practices.total }}</strong> practices had at least one coded event of interest during the study period and are included in the chart.
+          </p>
+        {% endif %}
+      </div>
       <figure>
         <img class="mx-auto block mb-4 px-4" src="data:image;base64,{{ deciles_chart }}" />
-        <figcaption class="block font-semibold text-center text-slate-600 border-t border-slate-100 p-4">
-          Figure: The four-weekly event rate for the selected codelist per 1000 registered patients per practice
+        <figcaption class="block font-semibold text-center text-slate-600 border-t border-slate-100 p-4 px-8">
+          Figure: The four-weekly event rate for {% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist_slug content=analysis.codelist_name %} per 1000 registered patients per practice
         </figcaption>
       </figure>
       <div class="mx-auto mb-8 px-4 prose prose-oxford">
@@ -115,11 +131,7 @@
         {% url 'about' as about_link %}
          This figure shows practice level variation in code use ({% include "components/link.html" with href=about_link|add:"#deciles" content="more information" newtab=True %}).
         </p>
-        <p>All practices are ranked by their rates over 4-weekly intervals and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc (deciles) are shown.
-        {% if practices %}
-        For this analysis <strong>{{ practices.with_at_least_1_event }}/{{ practices.total }}</strong> practices had at least one coded event of interest during the study period and are included in the chart.
-        {% endif %}
-        </p>
+        <p>All practices are ranked by their rates over 4-weekly intervals and only the values for the median (50th percentile) practice, and 10th, 20th percentile etc (deciles) are shown.</p>
         <p>The practice population is calculated as those patients registered at a TPP practice on the latest date in the analysis period, plus patients who died at any time during the period.</p>
       </div>
     </section>
@@ -164,7 +176,7 @@
           <li>Figures shown should be interpreted cautiously. Results only show newly recorded coding events, not the total number of people who have had a particular code to date.</li>
           <li>If your codelist represents <strong>diagnoses or demographic features</strong>, note that codes may only be entered only once for each patient and may not be captured in this time period. New codes do not necessarily represent new diagnoses because duplicate codes may be added in specific clinical contexts.</li>
           <li>If your codelist includes <strong>vaccinations, referrals, maternity records, or activities not directly occurring in primary care</strong>, note some events may be recorded in ways that are not captured fully by this analysis, and/or subject to limited recording in primary care.</li>
-          <li>Further analyses in {% include "components/link.html" with href="https://www.opensafely.org/onboarding-new-users/" content="OpenSAFELY" %} can help to understand these patterns better; you may wish to discuss these analyses with an experienced electronic health records researcher or analyst who understands how such codes are used.</li>
+          <li>In order to help to understand these patterns better; you may wish to discuss these analyses with an experienced electronic health records researcher or analyst who understands how such codes are used. Alternatively, you may wish to perform your own analyses by writing and deploying code via {% include "components/link.html" with href="https://www.opensafely.org/onboarding-new-users/" content="OpenSAFELY" %}.</li>
           <li>We would like to hear your feedback about this report. Please take a moment to complete our {% include "components/link.html" with href="https://docs.google.com/forms/d/e/1FAIpQLScWikDx0UlqbEcnbzZhn5FiBTBHc2LtrfhqmmKwgOuKt4oFTQ/viewform" content="feedback form" %}.</li>
           </li>
         </ul>
