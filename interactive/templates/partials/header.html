@@ -68,6 +68,13 @@
               {# <li class="flex"> #}
                 {# <a href="#" class="w-full px-4 py-2 text-slate-700 hover:bg-oxford-50 hover:text-oxford-700">Account settings</a> #}
               {# </li> #}
+              {% if user.is_staff %}
+              <li class="flex">
+                <a href="{% url 'admin:index' %}" class="w-full px-4 py-2 text-slate-700 hover:bg-oxford-50 hover:text-oxford-700">
+                  Admin
+                </a>
+              </li>
+              {% endif %}
               <li class="flex">
                 <a href="{% url 'logout' %}" class="w-full px-4 py-2 text-slate-700 hover:bg-oxford-50 hover:text-oxford-700">
                   Log out
