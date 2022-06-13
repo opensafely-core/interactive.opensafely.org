@@ -2,6 +2,7 @@ import { SelectorIcon, XIcon } from "@heroicons/react/solid";
 import { useCombobox } from "downshift";
 import { arrayOf, func, shape, string } from "prop-types";
 import { useState } from "react";
+import { classNames } from "./utils";
 
 /**
  * Utilise a reducer to revert the users selection if they
@@ -149,16 +150,18 @@ export function Combobox({
                         item,
                         index,
                         key: item.value,
-                        className: `
-                        ${
-                          selectedItem === item ? "bg-oxford-100 font-bold" : ""
-                        }
-                        ${highlightedIndex === index ? "bg-gray-100" : ""}
-                        relative cursor-pointer select-none py-2 pl-3 pr-9 text-gray-900 hover:bg-gray-100
-                      `,
+                        className: classNames(
+                          selectedItem === item && "bg-oxford-100 font-bold",
+                          highlightedIndex === index && "bg-gray-100",
+                          "flex flex-col relative cursor-pointer select-none py-2 pl-3 pr-9  font-semibold text-oxford-600 hover:bg-gray-100"
+                        ),
                       })}
                     >
                       {item.label}
+                      <span className="sr-only">,{" "}</span>
+                      <span className="text-xs text-gray-600 font-normal">
+                        {item.value.split("/")[0].toString()}
+                      </span>
                     </li>
                   ))}
                 </>
