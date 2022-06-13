@@ -1,4 +1,5 @@
 {% extends "interactive/template.html" %}
+{% load django_vite %}
 
 {% block meta_title %}Request an analysis | OpenSAFELY Interactive{% endblock meta_title %}
 
@@ -24,50 +25,72 @@
 <div class="border-t border-t-slate-200 mt-6 pt-4 -mx-4">
   <h2 class="px-4 text-xl font-bold">Submit a request</h2>
 </div>
+
+{% if form.errors %}
+<div class="shadow sm:rounded-lg bg-red-50 p-4 mt-3 mb-6">
+  <div class="flex">
+    <div class="flex-shrink-0">
+      {% include "icons/solid-x-circle.svg" with html_class="h-5 w-5 text-red-400" %}
+    </div>
+    <div class="ml-3">
+      <h3 class="text-sm font-bold text-red-800">
+        There {{ form.errors|pluralize:"was,were" }} {{ form.errors|length }} error{{form.errors|pluralize}}:
+      </h3>
+      <div class="mt-2 text-sm text-red-700">
+        <ul role="list" class="list-disc pl-5 space-y-1">
+          {% for field in form %}
+            {% for error in field.errors %}
+            <li><strong>{{ field.label }}: </strong>{{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 <form class="space-y-6" method="post">
   {% csrf_token %}
   {{ form.non_field_errors }}
 
   <div>
     {% include "components/form-field.html" with id=form.title.id_for_label label=form.title.label name="title" required=True type="text" hint="For example: Systolic code usage" %}
-  </div>
-
-  <div x-title="codelist-select" x-data="{
-      codelist: '',
-      get selectedCodelist() {
-        var select = document.getElementById('{{ form.codelist_slug.id_for_label }}');
-        return {
-          url: `https://www.opencodelists.org/codelist/${this.codelist}`,
-          text: `View &#8220${select.options[select.selectedIndex].text}&#8221 codelist`
-        }
-      }
-    }">
-    {% include "components/form-field-select.html" with id=form.codelist_slug.id_for_label label="Codelist" name="codelist_slug" required=True choices=form.codelist_slug.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" x_model="codelist" %}
-
-    <div class="border-l-2 border-l-oxford-200 bg-oxford-50 rounded pl-4 pr-2 py-4 mt-4 text-sm text-slate-800">
-      <ul class="list-disc pl-4 grid grid-flow-row gap-2">
-        <li>
-          {% include "components/link.html" with href="https://www.opencodelists.org/docs/#what-is-a-codelist" content="What is a codelist?" newtab=True %}
-        </li>
-        <li>
-          {% include "components/link.html" with href="https://www.snomed.org/" content="What is SNOMED CT?" newtab=True %}
-        </li>
-        <li x-show="codelist">
-          <a
-            class="
-              text-oxford-600 font-semibold underline underline-offset-1 transition-colors
-              hover:text-oxford-700 hover:no-underline
-              focus:text-oxford-900 focus:no-underline
-            "
-            rel="noopener noreferrer"
-            target="_blank"
-            x-bind:href="selectedCodelist.url"
-            x-text="selectedCodelist.text"
-            ></a>
-        </li>
+    {% if form.title.errors %}
+      <ul class="mt-2">
+        {% for error in form.title.errors %}
+          <li class="text-sm text-red-700">{{ error }}</li>
+        {% endfor %}
       </ul>
-    </div>
+    {% endif %}
   </div>
+
+  {{ form.codelist_slug.field.choices|json_script:"react-dropdown-options" }}
+  {{ form.codelist_slug.errors|json_script:"react-dropdown-errors" }}
+  <div
+    data-choices="react-dropdown-options"
+    data-errors="react-dropdown-errors"
+    data-hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system"
+    data-id="{{ form.codelist_slug.id_for_label }}"
+    data-label="Codelists"
+    data-name="codelist_slug"
+    id="react-dropdown"
+    >
+      {% include "components/form-field-select.html" with id=form.codelist_slug.id_for_label label="Codelist" name="codelist_slug" required=True choices=form.codelist_slug.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" %}
+    </div>
+  {% if debug %}
+  <script type="module">
+    import RefreshRuntime from 'http://localhost:3000/@react-refresh'
+    RefreshRuntime.injectIntoGlobalHook(window)
+    window.$RefreshReg$ = () => {}
+    window.$RefreshSig$ = () => (type) => type
+    window.__vite_plugin_react_preamble_installed__ = true
+  </script>
+  {% endif %}
+  {% vite_asset 'assets/src/scripts/dropdown.jsx' defer=true %}
 
   <div>
     <h2 class="text-base font-semibold text-slate-700">
