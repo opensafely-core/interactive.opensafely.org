@@ -122,6 +122,7 @@ class AnalysisRequest(models.Model):
     commit_sha = models.CharField(
         max_length=40, verbose_name="Repo commit SHA", null=True
     )
+    complete_email_sent_at = models.DateTimeField(default=None, blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.title} ({self.codelist_slug})"
