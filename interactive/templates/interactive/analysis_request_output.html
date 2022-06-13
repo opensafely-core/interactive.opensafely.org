@@ -24,7 +24,12 @@
         <div class="my-4">
           {% if user.is_staff %}
             {% url 'request_analysis_email' analysis.id as email_url %}
-            {% include "components/button.html" with el="link" size="md" color="oxford" text="Email to requester" href=email_url %}
+            {% if analysis.complete_email_sent_at %}
+              <p class="text-slate-500">"Analysis request is ready" email was sent {{ analysis.complete_email_sent_at | naturaltime }}</p>
+              {% include "components/button.html" with el="link" size="md" color="oxford" text="Resend email to requester" href=email_url %}
+            {% else %}
+              {% include "components/button.html" with el="link" size="md" color="oxford" text="Email to requester" href=email_url %}
+            {% endif %}
           {% endif %}
         </div>
       </div>

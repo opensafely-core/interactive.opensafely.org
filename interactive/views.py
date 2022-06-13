@@ -5,6 +5,7 @@ from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from furl import furl
 
 from interactive.submit import submit_analysis
@@ -99,6 +100,9 @@ def analysis_request_email(request, pk):
         "url": furl(settings.BASE_URL) / analysis_request.get_output_url(),
     }
     send_analysis_request_email(analysis_request.user.email, context)
+
+    analysis_request.complete_email_sent_at = timezone.now()
+    analysis_request.save()
 
     messages.success(request, f"Email sent to {analysis_request.created_by}")
     return redirect("request_analysis_output", pk)
