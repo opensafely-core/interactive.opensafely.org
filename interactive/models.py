@@ -105,6 +105,21 @@ class RegistrationRequest(models.Model):
     organisation = models.CharField(max_length=100, verbose_name="Organisation")
     job_title = models.CharField(max_length=100, verbose_name="Job title")
 
+    reviewed_at = models.DateTimeField(default=None, blank=True, null=True)
+    reviewed_by = models.ForeignKey(
+        "interactive.User",
+        default=None,
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+    )
+    review_status = models.TextField(
+        choices=[("Approved", "Approved"), ("Denied", "Denied")],
+        null=True,
+        default=None,
+        blank=True,
+    )
+
     def __str__(self) -> str:
         return (
             f"{self.full_name} ({self.email}), {self.job_title} at {self.organisation}"
