@@ -15,11 +15,14 @@
           {% include "components/link.html" with href="https://www.ox.ac.uk/" content="University of Oxford" newtab=True %}
         </li>
       </ul>
-      <p class="text-slate-600 max-w-prose mx-auto text-center" aria-label="Copyright statement">
+      <p class="text-slate-600 max-w-prose mx-auto text-center mb-5" aria-label="Copyright statement">
         © University of Oxford for the Bennett Institute for Applied Data Science {% now "Y" %}.
         This work may be copied freely for non-commercial research and study.
         If you wish to do any of the other acts restricted by the copyright you should apply in writing to
-        <a href="mailto:bennett@phc.ox.ac.uk" class="font-semibold text-slate-700 transition-all rounded-sm outline outline-transparent hover:text-oxford-600 hover:outline-oxford-400 focus:text-oxford-600 focus:outline-oxford-400">bennett@phc.ox.ac.uk</a>.
+        {% include "components/link.html" with href="mailto:bennett@phc.ox.ac.uk" content="bennett@phc.ox.ac.uk" %}.
+      </p>
+      <p class="text-slate-600 max-w-prose mx-auto text-center">
+        {% include "components/link.html" with href="https://www.opensafely.org/privacy" content="Privacy Policy" newtab=True %}
       </p>
     </div>
   </div>
