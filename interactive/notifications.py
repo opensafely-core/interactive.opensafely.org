@@ -43,4 +43,4 @@ def notify_analysis_request_submitted(analysis_request):
 def notify_registration_request_submitted(full_name, job_title, organisation, email):
     full_name_link = slack.link(email, full_name, is_email=True)
     message = f"{full_name_link} ({job_title}) from {organisation} has registered their interest in using OpenSAFELY Interactive"
-    slack.post(text=message)
+    slack.post(text=message, channel="interactive-registration-requests")

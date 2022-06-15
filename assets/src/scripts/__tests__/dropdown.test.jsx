@@ -9,6 +9,7 @@ const props = {
     {
       label: "Abdominal aortic aneurysm diagnosis codes",
       value: "nhsd-primary-care-domain-refsets/aaa_cod/20210127",
+      splitValue: "nhsd-primary-care-domain-refsets",
     },
     {
       label: "Active and inactive ethnicity codes",
@@ -69,14 +70,18 @@ describe("Native <select> component", () => {
     expect(screen.getAllByRole("option").length).toBe(2);
     await user.clear(screen.getByRole("textbox"));
     await user.type(screen.getByRole("textbox"), props.choices[1].label);
-    expect(screen.getByRole("option").textContent).toBe(props.choices[1].label);
+    expect(screen.getByRole("option").textContent).toBe(
+      `${props.choices[1].label}, ${props.choices[1].splitValue}`
+    );
   });
 
   test("Selected item gets a highlighted class", async () => {
     const { container } = render(<Select {...props} />);
 
     await user.type(screen.getByRole("textbox"), props.choices[1].label);
-    expect(screen.getByRole("option").textContent).toBe(props.choices[1].label);
+    expect(screen.getByRole("option").textContent).toBe(
+      `${props.choices[1].label}, ${props.choices[1].splitValue}`
+    );
 
     await user.click(screen.getByRole("option"));
 
@@ -90,7 +95,7 @@ describe("Native <select> component", () => {
     await user.type(screen.getByRole("textbox"), "{Backspace}");
     await waitFor(() =>
       expect(screen.getByRole("option").textContent).toBe(
-        props.choices[1].label
+        `${props.choices[1].label}, ${props.choices[1].splitValue}`
       )
     );
     expect(container.querySelector('[role="option"]')).toHaveClass(
@@ -102,7 +107,9 @@ describe("Native <select> component", () => {
     render(<Select {...props} />);
 
     await user.type(screen.getByRole("textbox"), props.choices[1].label);
-    expect(screen.getByRole("option").textContent).toBe(props.choices[1].label);
+    expect(screen.getByRole("option").textContent).toBe(
+      `${props.choices[1].label}, ${props.choices[1].splitValue}`
+    );
 
     await user.click(screen.getByRole("option"));
 
@@ -123,7 +130,9 @@ describe("Native <select> component", () => {
     render(<Select {...props} />);
 
     await user.type(screen.getByRole("textbox"), props.choices[1].label);
-    expect(screen.getByRole("option").textContent).toBe(props.choices[1].label);
+    expect(screen.getByRole("option").textContent).toBe(
+      `${props.choices[1].label}, ${props.choices[1].splitValue}`
+    );
     await user.click(screen.getByRole("option"));
 
     await user.type(
