@@ -1,7 +1,7 @@
 from django.contrib.messages import get_messages
 from django.urls import reverse
 
-from interactive.models import RegistrationRequest
+from interactive.models import RegistrationRequest, User
 
 from ..factories import RegistrationRequestFactory
 
@@ -32,6 +32,11 @@ def test_registration_request_response_change_approved(client, admin_user):
     assert saved_request.review_status == RegistrationRequest.ReviewStatus.APPROVED
     assert saved_request.reviewed_by == admin_user
     assert saved_request.reviewed_at is not None
+
+    new_user = User.objects.get(email=request.email)
+    assert new_user.name == request.full_name
+    assert not new_user.is_staff
+    assert new_user.is_active
 
 
 def test_registration_request_response_change_denied(client, admin_user):

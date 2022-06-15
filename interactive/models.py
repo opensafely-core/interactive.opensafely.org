@@ -88,6 +88,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
+    def create_from_registration(registration_request):
+        return User(
+            name=registration_request.full_name, email=registration_request.email
+        )
+
     def get_full_name(self):
         return self.name
 
