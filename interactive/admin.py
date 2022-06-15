@@ -24,6 +24,7 @@ admin.site.unregister(auth.models.Group)
 class RegistrationRequestAdmin(admin.ModelAdmin):
     change_form_template = "admin/registration_review_form.html"
     list_display = ["full_name", "email", "job_title", "organisation", "review_status"]
+    list_filter = ["review_status", "organisation"]
 
     def get_readonly_fields(self, request, obj=None):
         if not obj:
