@@ -1,9 +1,25 @@
 {% extends 'admin/change_form.html' %}
 
+{% block extrastyle %}{{ block.super }}
+<style>
+    input[type=submit].approve {
+        background-color: rgb(0 88 190);
+    }
+    input[type=submit].approve:hover {
+        background-color: rgb(59 130 246);
+    }
+    input[type=submit].deny {
+        background-color: rgb(178, 34, 34);
+    }
+    input[type=submit].deny:hover {
+        background-color: rgb(178, 34, 34, 0.75);
+    }
+</style>
+{% endblock %}
 
 {% block submit_buttons_bottom %}
     <div class="submit-row">
-            <input type="submit" value="Approve" name="_approve-request">
-            <input type="submit" value="Deny" name="_deny-request">
+            <input type="submit" value="Approve" name="_approve-request" class="approve">
+            <input type="submit" value="Deny" name="_deny-request" class="deny">
     </div>
 {% endblock %}
