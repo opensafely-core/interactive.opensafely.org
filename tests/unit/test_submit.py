@@ -68,7 +68,7 @@ def test_commit_files(tmp_path, workspace_repo):
 def test_create_analysis_commit(workspace_repo, add_codelist_response):
     analysis_request = AnalysisRequestFactory()
     add_codelist_response(analysis_request.codelist_slug, "1\n2\n3")
-    commit = submit.create_analysis_commit(analysis_request, workspace_repo)
+    commit, _ = submit.create_analysis_commit(analysis_request, workspace_repo)
 
     ps = submit.git(
         "show",

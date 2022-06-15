@@ -115,7 +115,13 @@ def test_new_analysis_request_get_not_logged_in(client):
 
 
 def test_new_analysis_request_post_success(
-    client, user, slack_messages, codelists, add_codelist_response, workspace_repo
+    client,
+    user,
+    slack_messages,
+    codelists,
+    add_codelist_response,
+    submit_job_request,
+    workspace_repo,
 ):
     client.force_login(user)
     codelist_slug = "opensafely/systolic-blood-pressure-qof/v1"
@@ -137,6 +143,7 @@ def test_new_analysis_request_post_success(
     assert request.title == "An Analysis"
     assert request.codelist_slug == codelist_slug
     assert request.codelist_name == codelist_name
+    assert request.job_request_url == "test-url"
     assert str(request.start_date) == "2019-09-01"
     assert str(request.end_date) == date_of_last_extract().strftime("%Y-%m-%d")
     assert user.email in slack_messages[-1].text
