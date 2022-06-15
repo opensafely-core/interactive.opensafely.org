@@ -11,8 +11,9 @@ from interactive.models import AnalysisRequest, RegistrationRequest, User
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     fields = ["name", "email"]
-    list_display = ["name", "email"]
-    search_fields = ["email", "name"]
+    list_display = ["name", "email", "job_title", "organisation"]
+    search_fields = ["email", "name", "job_title", "organisation"]
+    list_filter = ["organisation"]
 
 
 # Remove standard admin

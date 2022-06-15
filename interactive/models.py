@@ -71,6 +71,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         unique=True,
         error_messages={"unique": "A user with this email address already exists."},
     )
+    organisation = models.CharField(
+        max_length=100, verbose_name="Organisation", default="", blank=True
+    )
+    job_title = models.CharField(
+        max_length=100, verbose_name="Job title", default="", blank=True
+    )
+
     is_staff = models.BooleanField(
         "staff status",
         default=False,
@@ -90,7 +97,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def create_from_registration(registration_request):
         return User(
-            name=registration_request.full_name, email=registration_request.email
+            name=registration_request.full_name,
+            email=registration_request.email,
+            organisation=registration_request.organisation,
+            job_title=registration_request.job_title,
         )
 
     def get_full_name(self):
