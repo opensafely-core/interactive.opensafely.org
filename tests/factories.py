@@ -1,7 +1,7 @@
 import factory
 import timeflake
 
-from interactive.models import AnalysisRequest, User
+from interactive.models import AnalysisRequest, RegistrationRequest, User
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -24,3 +24,10 @@ class AnalysisRequestFactory(factory.django.DjangoModelFactory):
     end_date = factory.Faker("date")
     codelist_name = "Asthma annual review QOF"
     codelist_slug = "opensafely/asthma-annual-review-qof"
+
+
+class RegistrationRequestFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = RegistrationRequest
+
+    id = timeflake.random()  # noqa: A003

@@ -99,6 +99,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class RegistrationRequest(models.Model):
+    class ReviewStatus(models.TextChoices):
+        APPROVED = "Approved"
+        DENIED = "Denied"
+
     id = TimeflakePrimaryKeyBinary()  # noqa: A003
     full_name = models.CharField(max_length=100, verbose_name="Full name")
     email = models.CharField(max_length=100, verbose_name="Email")
@@ -114,11 +118,16 @@ class RegistrationRequest(models.Model):
         on_delete=models.PROTECT,
     )
     review_status = models.TextField(
-        choices=[("Approved", "Approved"), ("Denied", "Denied")],
+        choices=ReviewStatus.choices,
         null=True,
         default=None,
         blank=True,
     )
+
+    def review(self, user, datetime, review_status):
+        self.reviewed_by = user
+        self.reviewed_at = datetime
+        self.review_status = review_status
 
     def __str__(self) -> str:
         return (
