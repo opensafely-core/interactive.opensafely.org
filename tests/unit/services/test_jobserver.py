@@ -76,6 +76,13 @@ def fetch_practices(add_jobserver_response):
     )
 
 
+@pytest.fixture
+def submit_job_request(add_jobserver_response):
+    add_jobserver_response(
+        "/api/v2/job-requests/", method="POST", json={"url": "test-url"}
+    )
+
+
 def test_fetch_release_returns_correct_files(
     fetch_release,
     fetch_deciles_chart,

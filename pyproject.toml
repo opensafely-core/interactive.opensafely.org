@@ -16,6 +16,7 @@ exclude = '''
 [tool.coverage.run]
 branch = true
 omit = [
+  ".direnv/*",
   ".venv/*",
   "*/migrations/*",
   "interactive/asgi.py",

@@ -4,15 +4,6 @@ from furl import furl
 from services import slack
 
 
-# run jobs page
-JOB_SERVER_JOBS_URL = (
-    furl(settings.JOB_SERVER_URL)
-    / "datalab/opensafely-interactive"
-    / settings.JOB_SERVER_WORKSPACE
-    / "run-jobs"
-)
-
-
 def notify_analysis_request_submitted(analysis_request):
     codelist_url = (
         settings.OPENCODELISTS_URL / "codelist" / analysis_request.codelist_slug
@@ -24,9 +15,9 @@ def notify_analysis_request_submitted(analysis_request):
         f"{settings.WORKSPACE_REPO}/tree/{analysis_request.id}",
         str(analysis_request.id),
     )
-    job_server_url = slack.link(
-        JOB_SERVER_JOBS_URL / analysis_request.commit_sha,
-        "job server",
+    job_request_url = slack.link(
+        analysis_request.job_request_url,
+        "automatically requested on job server",
     )
     analysis_url = furl(settings.BASE_URL) / analysis_request.get_output_url()
     analysis_link = slack.link(analysis_url, "here")
@@ -34,7 +25,7 @@ def notify_analysis_request_submitted(analysis_request):
     message = f"{analysis_request.created_by} submitted an analysis request called *{analysis_request.title}*\n"
     message += f"Using codelist: {codelist_link}\n"
     message += f"Commit: {commit_link}\n"
-    message += f"Please start the job in {job_server_url}\n"
+    message += f"A job has been {job_request_url}\n"
     message += f"When complete, the output will be viewable {analysis_link}"
 
     slack.post(text=message)

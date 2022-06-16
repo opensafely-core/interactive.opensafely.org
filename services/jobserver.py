@@ -2,6 +2,7 @@ import csv
 from base64 import b64encode
 
 from django.conf import settings
+from furl import furl
 
 from services import session
 
@@ -35,6 +36,32 @@ def fetch_release(analysis_request_id):
 def fetch_file(url):
     response = job_server(url)
     return response.content
+
+
+def submit_job_request(analysis_request, project_yaml):
+    headers = {"Authorization": settings.JOB_SERVER_TOKEN}
+
+    # we're constructing the furl object in this style, instead of using its
+    # overloaded __divmod__ method, because it's [marginally] clearer that the
+    # URL needs a trailing slash.  job-server's URLs all use a trailing slash
+    # and Django can't redirect POST requests and maintain the POST data.
+    f = furl(settings.JOB_SERVER_URL)
+    f.path = "api/v2/job-requests/"
+
+    data = {
+        "backend": "tpp",
+        "workspace": settings.JOB_SERVER_WORKSPACE,
+        "sha": analysis_request.commit_sha,
+        "project_definition": project_yaml,
+        "requested_actions": ["run_all"],
+        "force_run_dependencies": True,
+    }
+
+    r = session.post(f.url, headers=headers, json=data)
+
+    r.raise_for_status()
+
+    return r.json()["url"]
 
 
 class DecilesChart:

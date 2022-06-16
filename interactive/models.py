@@ -123,6 +123,7 @@ class AnalysisRequest(models.Model):
         max_length=40, verbose_name="Repo commit SHA", null=True
     )
     complete_email_sent_at = models.DateTimeField(default=None, blank=True, null=True)
+    job_request_url = models.TextField(default="")
 
     def __str__(self) -> str:
         return f"{self.title} ({self.codelist_slug})"

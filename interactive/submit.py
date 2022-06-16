@@ -7,7 +7,7 @@ from pathlib import Path
 from django.conf import settings
 
 from interactive.notifications import notify_analysis_request_submitted
-from services import opencodelists
+from services import jobserver, opencodelists
 
 
 PROJECT_YAML = """
@@ -114,14 +114,14 @@ def create_analysis_commit(analysis_request, repo):
             with tempfile.TemporaryDirectory(suffix=str(analysis_request.id)) as tmpd:
                 checkout = Path(tmpd) / "interactive"
                 git("clone", repo, checkout)
-                write_files(checkout, analysis_request, codelist_slug)
+                project_yaml = write_files(checkout, analysis_request, codelist_slug)
                 commit_sha = commit_and_push(checkout, analysis_request)
         except Exception:
             attempts += 1
             if attempts >= 3:
                 raise
         else:
-            return commit_sha
+            return commit_sha, project_yaml
 
 
 def write_files(checkout, analysis_request, codelist_slug):
@@ -129,14 +129,15 @@ def write_files(checkout, analysis_request, codelist_slug):
     # codelists
     codelist_path = checkout / "codelist.csv"
     codelist_path.write_text(codelist_slug)
+
     project_path = checkout / "project.yaml"
-    project_path.write_text(
-        PROJECT_YAML.format(
-            ID=str(analysis_request.id),
-            START=analysis_request.start_date,
-            END=analysis_request.end_date,
-        )
+    project_yaml = PROJECT_YAML.format(
+        ID=str(analysis_request.id),
+        START=analysis_request.start_date,
+        END=analysis_request.end_date,
     )
+    project_path.write_text(project_yaml)
+
     (checkout / "analysis").mkdir(exist_ok=True)
     variables_path = checkout / "analysis" / "variables.py"
     variables_path.write_text(
@@ -145,6 +146,8 @@ def write_files(checkout, analysis_request, codelist_slug):
             END=analysis_request.end_date,
         )
     )
+
+    return project_yaml
 
 
 def commit_and_push(checkout, analysis_request):
@@ -178,8 +181,16 @@ def commit_and_push(checkout, analysis_request):
 
 
 def submit_analysis(analysis_request):
-    commit_sha = create_analysis_commit(analysis_request, settings.WORKSPACE_REPO)
+    commit_sha, project_yaml = create_analysis_commit(
+        analysis_request, settings.WORKSPACE_REPO
+    )
     analysis_request.commit_sha = commit_sha
-    analysis_request.save()
-    # TODO: run it. For now we notify
+    analysis_request.save(update_fields=["commit_sha"])
+
+    # submit a JobRequest to job-server, we update the AnalysisRequest again
+    # here so a failure talking to job-server doesn't lose the request details
+    url = jobserver.submit_job_request(analysis_request, project_yaml)
+    analysis_request.job_request_url = url
+    analysis_request.save(update_fields=["job_request_url"])
+
     notify_analysis_request_submitted(analysis_request)
