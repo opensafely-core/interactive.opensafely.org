@@ -70,3 +70,45 @@ def test_registration_request_response_change_save_does_nothing(client, admin_us
     assert response.status_code == 200
     saved_request = RegistrationRequest.objects.last()
     assert saved_request.review_status is None
+
+
+def test_registration_request_render_change_form_edit_adds_review_status_approved(
+    client, admin_user
+):
+    client.force_login(admin_user)
+    request = RegistrationRequestFactory()
+    request.review(admin_user, "2022-01-01", RegistrationRequest.ReviewStatus.APPROVED)
+    request.save()
+
+    response = client.get(
+        reverse("admin:interactive_registrationrequest_change", args=(request.id,))
+    )
+
+    assert response.status_code == 200
+    assert response.context["is_approved"]
+
+
+def test_registration_request_render_change_form_edit_adds_review_status_denied(
+    client, admin_user
+):
+    client.force_login(admin_user)
+    request = RegistrationRequestFactory()
+    request.review(admin_user, "2022-01-01", RegistrationRequest.ReviewStatus.DENIED)
+    request.save()
+
+    response = client.get(
+        reverse("admin:interactive_registrationrequest_change", args=(request.id,))
+    )
+
+    assert response.status_code == 200
+    assert not response.context["is_approved"]
+
+
+def test_registration_request_render_change_form_new_request_not_permitted(
+    client, admin_user
+):
+    client.force_login(admin_user)
+
+    response = client.get(reverse("admin:interactive_registrationrequest_add"))
+
+    assert response.status_code == 403

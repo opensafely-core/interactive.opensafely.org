@@ -18,8 +18,10 @@
 {% endblock %}
 
 {% block submit_buttons_bottom %}
+    {% if not is_approved %}
     <div class="submit-row">
             <input type="submit" value="Approve" name="_approve-request" class="approve">
             <input type="submit" value="Deny" name="_deny-request" class="deny">
     </div>
+    {% endif %}
 {% endblock %}
