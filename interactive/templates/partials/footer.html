@@ -3,43 +3,26 @@
     <div class="container">
       <ul class="flex flex-col md:flex-row md:flex-wrap gap-4 md:gap-x-6 font-semibold mb-8 text-center justify-center" aria-label="Footer links">
         <li>
-          <a
-            href="https://www.opensafely.org/"
-            class="text-slate-700 transition-all rounded-sm outline outline-offset-2 outline-transparent hover:text-oxford-600 hover:outline-oxford-400 focus:text-oxford-600 focus:outline-oxford-400"
-          >
-            OpenSAFELY
-          </a>
+          {% include "components/link.html" with href="https://www.opensafely.org/" content="OpenSAFELY" newtab=True %}
         </li>
         <li>
-          <a
-            href="https://www.opencodelists.org/"
-            class="text-slate-700 transition-all rounded-sm outline outline-offset-2 outline-transparent hover:text-oxford-600 hover:outline-oxford-400 focus:text-oxford-600 focus:outline-oxford-400"
-          >
-            OpenCodelists
-          </a>
+          {% include "components/link.html" with href="https://www.opencodelists.org/" content="OpenCodelists" newtab=True %}
         </li>
         <li>
-          <a
-            href="https://www.bennett.ox.ac.uk/"
-            class="text-slate-700 transition-all rounded-sm outline outline-offset-2 outline-transparent hover:text-oxford-600 hover:outline-oxford-400 focus:text-oxford-600 focus:outline-oxford-400"
-          >
-            Bennett Institute for Applied Data Science
-          </a>
+          {% include "components/link.html" with href="https://www.bennett.ox.ac.uk/" content="Bennett Institute for Applied Data Science" newtab=True %}
         </li>
         <li>
-          <a
-            href="https://www.ox.ac.uk/"
-            class="text-slate-700 transition-all rounded-sm outline outline-offset-2 outline-transparent hover:text-oxford-600 hover:outline-oxford-400 focus:text-oxford-600 focus:outline-oxford-400"
-          >
-            University of Oxford
-          </a>
+          {% include "components/link.html" with href="https://www.ox.ac.uk/" content="University of Oxford" newtab=True %}
         </li>
       </ul>
-      <p class="text-slate-600 max-w-prose mx-auto text-center" aria-label="Copyright statement">
+      <p class="text-slate-600 max-w-prose mx-auto text-center mb-5" aria-label="Copyright statement">
         © University of Oxford for the Bennett Institute for Applied Data Science {% now "Y" %}.
         This work may be copied freely for non-commercial research and study.
         If you wish to do any of the other acts restricted by the copyright you should apply in writing to
-        <a href="mailto:bennett@phc.ox.ac.uk" class="font-semibold text-slate-700 transition-all rounded-sm outline outline-transparent hover:text-oxford-600 hover:outline-oxford-400 focus:text-oxford-600 focus:outline-oxford-400">bennett@phc.ox.ac.uk</a>.
+        {% include "components/link.html" with href="mailto:bennett@phc.ox.ac.uk" content="bennett@phc.ox.ac.uk" %}.
+      </p>
+      <p class="text-slate-600 max-w-prose mx-auto text-center">
+        {% include "components/link.html" with href="https://www.opensafely.org/privacy" content="Privacy Policy" newtab=True %}
       </p>
     </div>
   </div>
