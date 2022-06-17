@@ -17,7 +17,7 @@ class AnalysisRequestFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = AnalysisRequest
 
-    id = timeflake.random()  # noqa: A003
+    id = factory.LazyAttribute(lambda _: timeflake.random())  # noqa: A003
     user = factory.SubFactory("tests.factories.UserFactory")
     title = factory.Sequence(lambda n: f"Analysis Request {n}")
     start_date = factory.Faker("date")
