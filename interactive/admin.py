@@ -1,8 +1,7 @@
 import django.contrib.auth.admin  # noqa: F401
 import django.contrib.auth.models  # noqa: F401
 from django.contrib import admin, auth
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.shortcuts import redirect
 from django.utils import timezone
 
 # the module name is app_name.models
@@ -59,9 +58,7 @@ class RegistrationRequestAdmin(admin.ModelAdmin):
             self.message_user(
                 request, f"The request for {obj.full_name} has been approved"
             )
-            return HttpResponseRedirect(
-                reverse("admin:interactive_registrationrequest_changelist")
-            )
+            return redirect("admin:interactive_registrationrequest_changelist")
         elif "_deny-request" in request.POST:
             obj.review(
                 request.user, timezone.now(), RegistrationRequest.ReviewStatus.DENIED
@@ -70,9 +67,7 @@ class RegistrationRequestAdmin(admin.ModelAdmin):
             self.message_user(
                 request, f"The request for {obj.full_name} has been denied"
             )
-            return HttpResponseRedirect(
-                reverse("admin:interactive_registrationrequest_changelist")
-            )
+            return redirect("admin:interactive_registrationrequest_changelist")
         return super().response_change(request, obj)
 
     def render_change_form(
