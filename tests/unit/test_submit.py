@@ -1,3 +1,5 @@
+import subprocess
+
 import pipeline
 import pytest
 import requests
@@ -63,6 +65,33 @@ def test_commit_files(tmp_path, workspace_repo):
     ps = submit.git("show", commit, cwd=workspace_repo, capture_output=True)
     assert analysis_request.codelist_slug in ps.stdout
     assert str(analysis_request.id) in ps.stdout
+
+
+def test_commit_files_parallel_change_to_upstream(tmp_path, workspace_repo):
+    analysis_request = AnalysisRequestFactory()
+
+    # prepare initial checkout
+    checkout = tmp_path / "checkout"
+    submit.git("clone", workspace_repo, checkout)
+    (checkout / "project.yaml").write_text("project")
+    (checkout / "codelist.csv").write_text("codelist")
+
+    # simulate parallel change from other request
+    other_request = AnalysisRequestFactory()
+    other_checkout = tmp_path / "other"
+    submit.git("clone", workspace_repo, other_checkout)
+    (other_checkout / "project.yaml").write_text("other")
+    (other_checkout / "codelist.csv").write_text("other")
+    commit = submit.commit_and_push(other_checkout, other_request)
+    assert commit is not None
+
+    # now try commit original
+    with pytest.raises(subprocess.CalledProcessError):
+        submit.commit_and_push(checkout, analysis_request)
+
+    # ensure the tag didn't get pushed upstream
+    with pytest.raises(subprocess.CalledProcessError):
+        submit.git("show", str(analysis_request.id), cwd=workspace_repo)
 
 
 def test_create_analysis_commit(workspace_repo, add_codelist_response):

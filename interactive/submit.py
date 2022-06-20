@@ -171,12 +171,12 @@ def commit_and_push(checkout, analysis_request):
     commit_sha = ps.stdout.strip()
     # this is an super important step, makes it much easier to track commits
     git("tag", str(analysis_request.id), cwd=checkout)
-    # push the tag
-    git("push", "origin", str(analysis_request.id), cwd=checkout)
     # push to master. Note: we technically wouldn't need this from a pure git
     # pov, as a tag would be enough, but job-runner explicitly checks that
     # a commit is on the branch history, for security reasons
     git("push", "origin", "--force-with-lease", cwd=checkout)
+    # push the tag once we know the main push has succeeded
+    git("push", "origin", str(analysis_request.id), cwd=checkout)
     return commit_sha
 
 
