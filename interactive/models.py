@@ -71,6 +71,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         unique=True,
         error_messages={"unique": "A user with this email address already exists."},
     )
+    organisation = models.CharField(
+        max_length=100, verbose_name="Organisation", default="", blank=True
+    )
+    job_title = models.CharField(
+        max_length=100, verbose_name="Job title", default="", blank=True
+    )
+
     is_staff = models.BooleanField(
         "staff status",
         default=False,
@@ -88,6 +95,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
+    def create_from_registration(registration_request):
+        return User(
+            name=registration_request.full_name,
+            email=registration_request.email,
+            organisation=registration_request.organisation,
+            job_title=registration_request.job_title,
+        )
+
     def get_full_name(self):
         return self.name
 
@@ -99,11 +114,35 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class RegistrationRequest(models.Model):
+    class ReviewStatus(models.TextChoices):
+        APPROVED = "Approved"
+        DENIED = "Denied"
+
     id = TimeflakePrimaryKeyBinary()  # noqa: A003
     full_name = models.CharField(max_length=100, verbose_name="Full name")
     email = models.CharField(max_length=100, verbose_name="Email")
     organisation = models.CharField(max_length=100, verbose_name="Organisation")
     job_title = models.CharField(max_length=100, verbose_name="Job title")
+
+    reviewed_at = models.DateTimeField(default=None, blank=True, null=True)
+    reviewed_by = models.ForeignKey(
+        "interactive.User",
+        default=None,
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+    )
+    review_status = models.TextField(
+        choices=ReviewStatus.choices,
+        null=True,
+        default=None,
+        blank=True,
+    )
+
+    def review(self, user, datetime, review_status):
+        self.reviewed_by = user
+        self.reviewed_at = datetime
+        self.review_status = review_status
 
     def __str__(self) -> str:
         return (
