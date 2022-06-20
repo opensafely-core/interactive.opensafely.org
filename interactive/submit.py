@@ -10,6 +10,8 @@ from interactive.notifications import notify_analysis_request_submitted
 from reports.codelist import write_files
 from services import jobserver, opencodelists
 
+from .emails import send_analysis_request_confirmation_email
+
 
 def git(*args, check=True, text=True, **kwargs):
     """Wrapper around subprocess.run for git commands.
@@ -113,6 +115,16 @@ def submit_analysis(analysis_request, force=False):
     analysis_request.save(update_fields=["job_request_url"])
 
     notify_analysis_request_submitted(analysis_request)
+
+    send_analysis_request_confirmation_email(
+        analysis_request.user.email,
+        subject=analysis_request.title,
+        context={
+            "name": analysis_request.user.name,
+            "codelist": analysis_request.codelist_name,
+            "email": analysis_request.user.email,
+        },
+    )
 
 
 def clean_dir(path):
