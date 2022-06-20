@@ -23,10 +23,8 @@ document.querySelectorAll("input[type='submit']").forEach((submit) => {
   let submitClick = false;
 
   submit.addEventListener("click", (e) => {
-
     // Check if required fields have been filled
     if (formEl.checkValidity()) {
-
       // If click has already been submitted
       // then disable the button clicks
       if (submitClick) {
