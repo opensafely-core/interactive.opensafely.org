@@ -44,3 +44,8 @@ env = [
   "SECRET_KEY=12345",
 ]
 addopts = "--tb=native --ignore=node_modules --no-migrations"
+filterwarnings = [
+    "error",
+    "ignore:distutils Version classes are deprecated:DeprecationWarning:pytest_freezegun",
+    "ignore:distutils Version classes are deprecated:DeprecationWarning:pytest_responses",
+]

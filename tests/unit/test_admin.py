@@ -1,5 +1,8 @@
+from datetime import datetime
+
 from django.contrib.messages import get_messages
 from django.urls import reverse
+from django.utils import timezone
 
 from interactive.models import RegistrationRequest, User
 
@@ -77,7 +80,11 @@ def test_registration_request_render_change_form_edit_adds_review_status_approve
 ):
     client.force_login(admin_user)
     request = RegistrationRequestFactory()
-    request.review(admin_user, "2022-01-01", RegistrationRequest.ReviewStatus.APPROVED)
+    request.review(
+        admin_user,
+        datetime(2022, 1, 1, tzinfo=timezone.utc),
+        RegistrationRequest.ReviewStatus.APPROVED,
+    )
     request.save()
 
     response = client.get(
@@ -93,7 +100,11 @@ def test_registration_request_render_change_form_edit_adds_review_status_denied(
 ):
     client.force_login(admin_user)
     request = RegistrationRequestFactory()
-    request.review(admin_user, "2022-01-01", RegistrationRequest.ReviewStatus.DENIED)
+    request.review(
+        admin_user,
+        datetime(2022, 1, 1, tzinfo=timezone.utc),
+        RegistrationRequest.ReviewStatus.DENIED,
+    )
     request.save()
 
     response = client.get(
