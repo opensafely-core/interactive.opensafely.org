@@ -17,3 +17,24 @@ if (document.location.hostname === "interactive.opensafely.org") {
 
   document.head.appendChild(script);
 }
+
+document.querySelectorAll("input[type='submit']").forEach((submit) => {
+  const formEl = submit.parentElement.closest("form");
+  let submitClick = false;
+
+  submit.addEventListener("click", (e) => {
+
+    // Check if required fields have been filled
+    if (formEl.checkValidity()) {
+
+      // If click has already been submitted
+      // then disable the button clicks
+      if (submitClick) {
+        e.preventDefault();
+        submit.disabled = true;
+      }
+
+      submitClick = true;
+    }
+  });
+});
