@@ -48,15 +48,23 @@ def register_interest_done(request):
 
 @login_required
 def new_analysis_request(request):
-    codelists = [("", "---")] + opencodelists.fetch()
+    codelists = opencodelists.fetch()
+
+    def codelists_to_choices(codelists):
+        yield ("", "---")
+        for codelist in codelists:
+            yield (codelist["slug"], codelist["name"])
+
+    codelist_choices = list(codelists_to_choices(codelists))
+
     if request.method == "POST":
-        form = AnalysisRequestForm(request.POST, codelists=codelists)
+        form = AnalysisRequestForm(request.POST, codelists=codelist_choices)
         if form.is_valid():
             analysis_request = form.save(user=request.user)
             submit_analysis(analysis_request)
             return redirect("request_analysis_done")
     else:
-        form = AnalysisRequestForm(codelists=codelists)
+        form = AnalysisRequestForm(codelists=codelist_choices)
 
     ctx = {
         "form": form,
