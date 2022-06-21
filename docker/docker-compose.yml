@@ -63,6 +63,8 @@ services:
       - DATABASE_URL=postgres://user:pass@db:5432/interactive
     volumes:
       - ..:/app
+      # needed to run functional tests
+      - /var/run/docker.sock:/var/run/docker.sock
     # override command
     command: python manage.py runserver 0.0.0.0:8000
 
