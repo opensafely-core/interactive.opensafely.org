@@ -75,11 +75,11 @@
     data-errors="react-dropdown-errors"
     data-hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system"
     data-id="{{ form.codelist_slug.id_for_label }}"
-    data-label="Codelists"
+    data-label="Select a codelist"
     data-name="codelist_slug"
     id="react-dropdown"
     >
-      {% include "components/form-field-select.html" with id=form.codelist_slug.id_for_label label="Codelist" name="codelist_slug" required=True choices=form.codelist_slug.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" %}
+      {% include "components/form-field-select.html" with id=form.codelist_slug.id_for_label label="Select a codelist" name="codelist_slug" required=True choices=form.codelist_slug.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" %}
     </div>
   {% if debug %}
   <script type="module">

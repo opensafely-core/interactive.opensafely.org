@@ -15,7 +15,13 @@ def fetch():
             v for v in codelist["versions"] if v["status"] == "published"
         ]
         if published_versions:
-            options.append((published_versions[-1]["full_slug"], codelist["name"]))
+            options.append(
+                (
+                    published_versions[-1]["full_slug"],
+                    codelist["name"],
+                    codelist["organisation"],
+                )
+            )
     options.sort(key=lambda pair: pair[1])
     return options
 

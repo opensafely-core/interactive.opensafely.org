@@ -12,7 +12,7 @@ const choices = JSON.parse(choicesEl.textContent);
 
 // Convert choices to an object from an array
 const choiceObj = choices.map((element, i) => {
-  return { value: element[0], label: element[1] };
+  return { value: element[0], label: element[1], org: element[2] };
 });
 
 // Get the errors for the dropdown from a <script> tag loaded by Django
