@@ -191,7 +191,7 @@ export function Combobox({
           </ul>
         ) : null}
         {/* Display errors passed as a data attribute */}
-        {errors.length ? (
+        {errors?.length ? (
           <ul className="mt-2">
             <li className="text-sm text-red-700">
               {errors}
