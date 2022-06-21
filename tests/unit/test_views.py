@@ -121,6 +121,7 @@ def test_new_analysis_request_post_success(
     codelists,
     add_codelist_response,
     submit_job_request,
+    create_output_checker_issue,
     workspace_repo,
 ):
     client.force_login(user)
@@ -146,8 +147,12 @@ def test_new_analysis_request_post_success(
     assert request.job_request_url == "test-url"
     assert str(request.start_date) == "2019-09-01"
     assert str(request.end_date) == date_of_last_extract().strftime("%Y-%m-%d")
-    assert user.email in slack_messages[-1].text
-    assert "opensafely/systolic-blood-pressure-qof/v1" in slack_messages[-1].text
+
+    assert len(slack_messages) == 2
+    analysis_msg, output_msg = slack_messages
+
+    assert user.email in analysis_msg.text
+    assert "opensafely/systolic-blood-pressure-qof/v1" in analysis_msg.text
 
 
 def test_new_analysis_request_post_failure_returns_unsaved_form(
