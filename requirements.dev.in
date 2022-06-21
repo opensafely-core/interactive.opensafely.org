@@ -11,6 +11,7 @@ flake8-builtins
 flake8-implicit-str-concat
 flake8-no-pep420
 isort
+opensafely
 pip-tools
 pre-commit
 pytest
@@ -21,3 +22,11 @@ pytest-freezegun
 pytest-mock
 pytest-responses
 https://github.com/opensafely-core/pipeline/archive/refs/tags/v0.0.3.zip#egg=opensafely-pipeline
+
+# report code tests
+numpy
+pandas
+hypothesis
+
+# functional tests requirements
+opensafely  # because jobrunner cannot currently be installed in --require-hashes

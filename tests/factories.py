@@ -1,7 +1,13 @@
 import factory
 import timeflake
 
-from interactive.models import AnalysisRequest, User
+from interactive.models import (
+    END_DATE,
+    START_DATE,
+    AnalysisRequest,
+    RegistrationRequest,
+    User,
+)
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -11,6 +17,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     email = factory.Sequence(lambda n: f"user-{n}@example.com")
     name = factory.Sequence(lambda n: f"user-{n}")
     password = factory.PostGenerationMethodCall("set_password", "password!")
+    is_active = True
 
 
 class AnalysisRequestFactory(factory.django.DjangoModelFactory):
@@ -20,7 +27,14 @@ class AnalysisRequestFactory(factory.django.DjangoModelFactory):
     id = factory.LazyAttribute(lambda _: timeflake.random())  # noqa: A003
     user = factory.SubFactory("tests.factories.UserFactory")
     title = factory.Sequence(lambda n: f"Analysis Request {n}")
-    start_date = factory.Faker("date")
-    end_date = factory.Faker("date")
+    start_date = START_DATE
+    end_date = END_DATE
     codelist_name = "Asthma annual review QOF"
     codelist_slug = "opensafely/asthma-annual-review-qof"
+
+
+class RegistrationRequestFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = RegistrationRequest
+
+    id = factory.LazyAttribute(lambda _: timeflake.random())  # noqa: A003
