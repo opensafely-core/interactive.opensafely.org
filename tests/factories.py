@@ -1,7 +1,13 @@
 import factory
 import timeflake
 
-from interactive.models import END_DATE, START_DATE, AnalysisRequest, RegistrationRequest, User
+from interactive.models import (
+    END_DATE,
+    START_DATE,
+    AnalysisRequest,
+    RegistrationRequest,
+    User,
+)
 
 
 class UserFactory(factory.django.DjangoModelFactory):
