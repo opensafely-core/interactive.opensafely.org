@@ -70,6 +70,7 @@ def new_analysis_request(request):
         "form": form,
         "start_date": START_DATE,
         "end_date": END_DATE,
+        "codelists": codelists,
     }
     return render(request, "interactive/new_analysis_request.html", ctx)
 
