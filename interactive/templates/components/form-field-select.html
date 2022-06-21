@@ -9,8 +9,8 @@
     {% if required %}required{% endif %}
     {% if x_model %}x-model="{{ x_model }}"{% endif %}
   >
-    {% for choice in choices %}
-      <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+    {% for value, text in choices %}
+      <option value="{{ value }}">{{ text }}</option>
     {% endfor %}
   </select>
 </div>
