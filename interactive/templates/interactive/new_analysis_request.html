@@ -68,7 +68,7 @@
     {% endif %}
   </div>
 
-  {{ form.codelist_slug.field.choices|json_script:"react-dropdown-options" }}
+  {{ codelists|json_script:"react-dropdown-options" }}
   {{ form.codelist_slug.errors|json_script:"react-dropdown-errors" }}
   <div
     data-choices="react-dropdown-options"

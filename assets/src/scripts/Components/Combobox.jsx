@@ -160,7 +160,7 @@ export function Combobox({
                       {item.label}
                       <span className="sr-only">, </span>
                       <span className="text-xs text-gray-600 font-normal">
-                        From: {item.org}
+                        From: {item.organisation}
                       </span>
                     </li>
                   ))}
