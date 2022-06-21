@@ -7,6 +7,7 @@ from services import opencodelists
 TEST_CODELISTS = [
     {
         "name": "Systolic blood pressure QoF",
+        "organisation": "OpenSAFELY",
         "versions": [
             {
                 "full_slug": "opensafely/systolic-blood-pressure-qof/v1",
@@ -20,6 +21,7 @@ TEST_CODELISTS = [
     },
     {
         "name": "Assessment instruments and outcome measures for long covid",
+        "organisation": "OpenSAFELY",
         "versions": [
             {
                 "full_slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid/v1",
@@ -33,6 +35,7 @@ TEST_CODELISTS = [
     },
     {
         "name": "Chronic Cardiac Disease (SNOMED)",
+        "organisation": "OpenSAFELY",
         "versions": [
             {
                 "full_slug": "opensafely/chronic-cardiac-disease-snomed/v1",
@@ -67,14 +70,16 @@ def add_codelist_response(responses):
 
 def test_fetch_returns_codelists(codelists):
     expected_codelists = [
-        (
-            "opensafely/assessment-instruments-and-outcome-measures-for-long-covid/v2",
-            "Assessment instruments and outcome measures for long covid",
-        ),
-        (
-            "opensafely/systolic-blood-pressure-qof/v1",
-            "Systolic blood pressure QoF",
-        ),
+        {
+            "slug": "opensafely/assessment-instruments-and-outcome-measures-for-long-covid/v2",
+            "name": "Assessment instruments and outcome measures for long covid",
+            "organisation": "OpenSAFELY",
+        },
+        {
+            "slug": "opensafely/systolic-blood-pressure-qof/v1",
+            "name": "Systolic blood pressure QoF",
+            "organisation": "OpenSAFELY",
+        },
     ]
     assert expected_codelists == opencodelists.fetch()
 
