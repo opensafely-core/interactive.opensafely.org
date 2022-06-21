@@ -24,6 +24,7 @@ omit = [
   "interactive/wsgi.py",
   "services/sentry.py",
   "manage.py",
+  "reports/*/analysis/*",
 ]
 
 [tool.coverage.report]
@@ -45,7 +46,9 @@ env = [
 ]
 addopts = "--tb=native --ignore=node_modules --no-migrations"
 filterwarnings = [
-    "error",
     "ignore:distutils Version classes are deprecated:DeprecationWarning:pytest_freezegun",
     "ignore:distutils Version classes are deprecated:DeprecationWarning:pytest_responses",
+]
+markers = [
+    "integration: marks tests as slow (deselect with '-m \"not integration\"')",
 ]

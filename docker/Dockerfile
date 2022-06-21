@@ -163,6 +163,9 @@ LABEL org.opencontainers.image.revision=$GITREF
 #
 FROM interactive-base as interactive-dev
 
+# we need docker to run functional tests
+RUN --mount=type=cache,target=/var/cache/apt /root/docker-apt-install.sh docker.io
+
 # install development requirements
 COPY requirements.dev.txt /tmp/requirements.dev.txt
 # using cache mount instead

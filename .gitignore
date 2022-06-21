@@ -114,3 +114,5 @@ node_modules
 #
 /workspace-repo
 /coverage
+/reports/*/metadata
+/.hypothesis
