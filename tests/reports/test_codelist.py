@@ -26,7 +26,6 @@ def test_write_files(tmp_path):
     assert codelist_csv.read_text() == "codelist data"
 
     assert not Path(tmp_path / "__init__.py").exists()
-    assert not Path(tmp_path / "analysis/generate_dummy_data.py").exists()
 
     p = pipeline.load_pipeline(project)
 

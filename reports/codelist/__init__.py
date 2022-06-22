@@ -91,12 +91,11 @@ def write_files(checkout, analysis_request, codelist):
     codelist_path.write_text(codelist)
 
     project_path = checkout / "project.yaml"
-    project_path.write_text(
-        PROJECT_YAML.format(
-            id=str(analysis_request.id),
-            start_date=analysis_request.start_date,
-            end_date=analysis_request.end_date,
-            low_count_threshold=low_count_threshold,
-            rounding_base=rounding_base,
-        )
+    project_yaml = PROJECT_YAML.format(
+        id=str(analysis_request.id),
+        start_date=analysis_request.start_date,
+        end_date=analysis_request.end_date,
+        low_count_threshold=low_count_threshold,
+        rounding_base=rounding_base,
     )
+    project_path.write_text(project_yaml)

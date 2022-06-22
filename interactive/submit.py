@@ -7,70 +7,8 @@ from pathlib import Path
 from django.conf import settings
 
 from interactive.notifications import notify_analysis_request_submitted
+from reports.codelist import write_files
 from services import jobserver, opencodelists
-
-
-PROJECT_YAML = """
-version: '3.0'
-
-expectations:
-  population_size: 1000
-
-actions:
-
-  codelist_report_{ID}:
-    run: >
-      cohortextractor:latest generate_codelist_report
-        --codelist-path=codelist.csv
-        --start-date={START}
-        --end-date={END}
-        --output-dir output/{ID}
-    outputs:
-      moderately_sensitive:
-        table: output/{ID}/counts_per_*.csv
-        list_sizes: output/{ID}/list_sizes.csv
-        patient_count_table: output/{ID}/patient_count.csv
-
-  measures_{ID}:
-    run: python:latest python analysis/generate_measures.py output/{ID}
-    needs: [codelist_report_{ID}]
-    outputs:
-      moderately_sensitive:
-        measure: output/{ID}/measure_counts_per_week_per_practice.csv
-        events_count_table: output/{ID}/event_counts.csv
-        practice_count_table: output/{ID}/practice_count.csv
-
-  top_5_table_{ID}:
-    run: python:latest python analysis/top_codes_table.py output/{ID}
-    needs: [codelist_report_{ID}]
-    outputs:
-      moderately_sensitive:
-        table: output/{ID}/top_5_code_table.csv
-
-  deciles_charts_{ID}:
-    run: >
-      deciles-charts:v0.0.24
-        --input-files output/{ID}/measure_counts_per_week_per_practice.csv
-        --output-dir output/{ID}
-    config:
-      show_outer_percentiles: false
-      tables:
-        output: true
-      charts:
-        output: true
-    needs: [measures_{ID}]
-    outputs:
-      moderately_sensitive:
-        deciles_charts: output/{ID}/deciles_*.*
-"""
-
-
-VARIABLES_PY = """
-study_start_date = "{START}"
-study_end_date = "{END}"
-low_count_threshold = 100
-rounding_base = 10
-"""
 
 
 def git(*args, check=True, text=True, **kwargs):
@@ -106,7 +44,7 @@ def create_analysis_commit(analysis_request, repo):
         raise Exception(f"Commit for {analysis_request.id} already exists in {repo}")
 
     # grab the codelist contents
-    codelist_slug = opencodelists.get_codelist(analysis_request.codelist_slug)
+    codelist_data = opencodelists.get_codelist(analysis_request.codelist_slug)
 
     attempts = 0
     while True:
@@ -114,40 +52,15 @@ def create_analysis_commit(analysis_request, repo):
             with tempfile.TemporaryDirectory(suffix=str(analysis_request.id)) as tmpd:
                 checkout = Path(tmpd) / "interactive"
                 git("clone", repo, checkout)
-                project_yaml = write_files(checkout, analysis_request, codelist_slug)
+                clean_dir(checkout)
+                write_files(checkout, analysis_request, codelist_data)
                 commit_sha = commit_and_push(checkout, analysis_request)
+                project_yaml = (checkout / "project.yaml").read_text()
+                return commit_sha, project_yaml
         except Exception:
             attempts += 1
             if attempts >= 3:
                 raise
-        else:
-            return commit_sha, project_yaml
-
-
-def write_files(checkout, analysis_request, codelist_slug):
-    # this needs to be a fixed name, or else we'll litter HEAD with previous
-    # codelists
-    codelist_path = checkout / "codelist.csv"
-    codelist_path.write_text(codelist_slug)
-
-    project_path = checkout / "project.yaml"
-    project_yaml = PROJECT_YAML.format(
-        ID=str(analysis_request.id),
-        START=analysis_request.start_date,
-        END=analysis_request.end_date,
-    )
-    project_path.write_text(project_yaml)
-
-    (checkout / "analysis").mkdir(exist_ok=True)
-    variables_path = checkout / "analysis" / "variables.py"
-    variables_path.write_text(
-        VARIABLES_PY.format(
-            START=analysis_request.start_date,
-            END=analysis_request.end_date,
-        )
-    )
-
-    return project_yaml
 
 
 def commit_and_push(checkout, analysis_request):
@@ -194,3 +107,14 @@ def submit_analysis(analysis_request):
     analysis_request.save(update_fields=["job_request_url"])
 
     notify_analysis_request_submitted(analysis_request)
+
+
+def clean_dir(path):
+    """Remove all files (except .git)"""
+    for f in path.glob("**/*"):
+        if not f.is_file():
+            continue
+        relative = f.relative_to(path)
+        if str(relative).startswith(".git"):
+            continue
+        f.unlink()

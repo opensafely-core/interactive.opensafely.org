@@ -19,39 +19,6 @@ def workspace_repo(tmp_path, monkeypatch):
     return repo
 
 
-def test_write_files(tmp_path):
-    analysis_request = AnalysisRequestFactory()
-    checkout = tmp_path / "checkout"
-    checkout.mkdir()
-    submit.write_files(checkout, analysis_request, "codelist")
-
-    project = checkout / "project.yaml"
-    codelist = checkout / "codelist.csv"
-    variables = checkout / "analysis" / "variables.py"
-
-    assert codelist.read_text() == "codelist"
-    p = pipeline.load_pipeline(project)
-
-    output_dir = f"output/{analysis_request.id}"
-
-    for name, action in p.actions.items():
-        assert output_dir in action.run.args
-
-    assert (
-        analysis_request.start_date
-        in p.actions[f"codelist_report_{analysis_request.id}"].run.args
-    )
-    assert (
-        analysis_request.end_date
-        in p.actions[f"codelist_report_{analysis_request.id}"].run.args
-    )
-
-    env = {}
-    exec(variables.read_text(), None, env)
-    assert env["study_start_date"] == analysis_request.start_date
-    assert env["study_end_date"] == analysis_request.end_date
-
-
 def test_commit_files(tmp_path, workspace_repo):
     analysis_request = AnalysisRequestFactory()
     checkout = tmp_path / "checkout"
@@ -155,3 +122,18 @@ def test_create_analysis_commit_git_error_retry(
 
     assert str(exc.value) == "git error"
     assert mock_commit.call_count == 3
+
+
+def test_clean_dir(tmp_path):
+
+    foo_file = tmp_path / "foo"
+    git_file = tmp_path / ".git/gitfile"
+
+    foo_file.write_text("foo")
+    git_file.parent.mkdir()
+    git_file.write_text("git")
+
+    submit.clean_dir(tmp_path)
+
+    assert not foo_file.exists()
+    assert git_file.exists()
