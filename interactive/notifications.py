@@ -29,7 +29,6 @@ def notify_analysis_request_submitted(analysis_request):
     message += f"When complete, the output will be viewable {analysis_link}"
 
     slack.post(text=message)
-    slack.post(text=message, channel="opensafely-outputs")
 
 
 def notify_registration_request_submitted(full_name, job_title, organisation, email):
