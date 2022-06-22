@@ -151,7 +151,10 @@ class RegistrationRequest(models.Model):
 
 
 class AnalysisRequest(models.Model):
-    id = TimeflakePrimaryKeyBinary()  # noqa: A003
+    id = TimeflakePrimaryKeyBinary(  # noqa: A003
+        error_messages={"invalid": "Invalid timeflake id"}
+    )
+
     user = models.ForeignKey("interactive.User", on_delete=models.PROTECT)
     title = models.CharField(max_length=100, verbose_name="Analysis title")
     codelist_slug = models.CharField(max_length=255, verbose_name="Codelist")
@@ -180,6 +183,9 @@ class AnalysisRequest(models.Model):
 
     def get_output_url(self):
         return reverse("request_analysis_output", kwargs={"pk": self.id})
+
+    def get_github_commit_url(self):
+        return "{settings.WORKSPACE_REPO}/tree/{self.id}"
 
 
 @receiver(post_save, sender=User)

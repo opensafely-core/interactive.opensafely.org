@@ -12,7 +12,7 @@ def notify_analysis_request_submitted(analysis_request):
     # this is only a valid link if WORKSPACE_REPO is a github url, i.e.
     # not in dev
     commit_link = slack.link(
-        f"{settings.WORKSPACE_REPO}/tree/{analysis_request.id}",
+        analysis_request.get_github_commit_url(),
         str(analysis_request.id),
     )
     job_request_url = slack.link(
