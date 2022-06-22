@@ -19,12 +19,19 @@ def workspace_repo(tmp_path, monkeypatch):
     return repo
 
 
+def write_dummy_files(checkout):
+    (checkout / "project.yaml").write_text("project")
+    (checkout / "codelist.csv").write_text("codelist")
+    code = checkout / "analysis/code"
+    code.parent.mkdir(exist_ok=True)
+    code.write_text("code")
+
+
 def test_commit_files(tmp_path, workspace_repo):
     analysis_request = AnalysisRequestFactory()
     checkout = tmp_path / "checkout"
     submit.git("clone", workspace_repo, checkout)
-    (checkout / "project.yaml").write_text("project")
-    (checkout / "codelist.csv").write_text("codelist")
+    write_dummy_files(checkout)
     commit = submit.commit_and_push(checkout, analysis_request)
 
     assert commit is not None
@@ -40,15 +47,13 @@ def test_commit_files_parallel_change_to_upstream(tmp_path, workspace_repo):
     # prepare initial checkout
     checkout = tmp_path / "checkout"
     submit.git("clone", workspace_repo, checkout)
-    (checkout / "project.yaml").write_text("project")
-    (checkout / "codelist.csv").write_text("codelist")
+    write_dummy_files(checkout)
 
     # simulate parallel change from other request
     other_request = AnalysisRequestFactory()
     other_checkout = tmp_path / "other"
     submit.git("clone", workspace_repo, other_checkout)
-    (other_checkout / "project.yaml").write_text("other")
-    (other_checkout / "codelist.csv").write_text("other")
+    write_dummy_files(other_checkout)
     commit = submit.commit_and_push(other_checkout, other_request)
     assert commit is not None
 

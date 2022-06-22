@@ -66,7 +66,7 @@ def create_analysis_commit(analysis_request, repo):
 def commit_and_push(checkout, analysis_request):
     msg = f"Codelist {analysis_request.codelist_slug} ({analysis_request.id})"
     email = analysis_request.user.email
-    git("add", "project.yaml", "codelist.csv", cwd=checkout)
+    git("add", "project.yaml", "codelist.csv", "analysis", cwd=checkout)
     git(
         # -c arguments are instead of having to having to maintain stateful git config
         "-c",
