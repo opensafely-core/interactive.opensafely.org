@@ -121,7 +121,6 @@ def test_new_analysis_request_post_success(
     codelists,
     add_codelist_response,
     submit_job_request,
-    create_output_checker_issue,
     workspace_repo,
 ):
     client.force_login(user)

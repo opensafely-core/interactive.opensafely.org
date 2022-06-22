@@ -7,7 +7,7 @@ from pathlib import Path
 from django.conf import settings
 
 from interactive.notifications import notify_analysis_request_submitted
-from services import github, jobserver, opencodelists
+from services import jobserver, opencodelists
 
 
 PROJECT_YAML = """
@@ -193,6 +193,4 @@ def submit_analysis(analysis_request):
     analysis_request.job_request_url = url
     analysis_request.save(update_fields=["job_request_url"])
 
-    issue_url = github.create_issue(analysis_request.id, job_server_url=url)
-
-    notify_analysis_request_submitted(analysis_request, issue_url)
+    notify_analysis_request_submitted(analysis_request)
