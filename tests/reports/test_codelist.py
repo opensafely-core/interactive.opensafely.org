@@ -1,3 +1,5 @@
+import random
+import string
 from pathlib import Path
 
 import numpy as np
@@ -250,8 +252,16 @@ def test_redact_events_table(events_counts_table):
     testing.assert_frame_equal(obs, exp)
 
 
+def random_string():
+    return "".join(random.choices(string.ascii_letters + string.digits, k=6))
+
+
 @st.composite
 def distinct_strings_with_common_characters(draw):
+    # We must invoke the random module from within this strategy so
+    # that Hypothesis can guarantee determinism.
+    strings = st.sampled_from([random_string() for i in range(100)])
+
     list_size = draw(st.integers(min_value=3, max_value=20))
 
     count_column = draw(
@@ -262,13 +272,11 @@ def distinct_strings_with_common_characters(draw):
         )
     )
     code_column = draw(
-        st.lists(
-            st.text(min_size=1), min_size=list_size, max_size=list_size, unique=True
-        )
+        st.lists(strings, min_size=list_size, max_size=list_size, unique=True)
     )
 
-    count_column_name = draw(st.text(min_size=1))
-    code_column_name = draw(st.text(min_size=1))
+    count_column_name = draw(strings)
+    code_column_name = draw(strings)
     assume(count_column_name != code_column_name)
 
     return pd.DataFrame(
