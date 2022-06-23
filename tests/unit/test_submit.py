@@ -19,12 +19,14 @@ def workspace_repo(tmp_path, monkeypatch):
     return repo
 
 
-def write_dummy_files(checkout):
-    (checkout / "project.yaml").write_text("project")
-    (checkout / "codelist.csv").write_text("codelist")
-    code = checkout / "analysis/code"
-    code.parent.mkdir(exist_ok=True)
-    code.write_text("code")
+def write_dummy_files(
+    checkout, project_yaml="project", codelist="codelist", code="code"
+):
+    (checkout / "project.yaml").write_text(project_yaml)
+    (checkout / "codelist.csv").write_text(codelist)
+    code_file = checkout / "analysis/code"
+    code_file.parent.mkdir(exist_ok=True)
+    code_file.write_text(code)
 
 
 def test_commit_files(tmp_path, workspace_repo):
@@ -39,6 +41,36 @@ def test_commit_files(tmp_path, workspace_repo):
     ps = submit.git("show", commit, cwd=workspace_repo, capture_output=True)
     assert analysis_request.codelist_slug in ps.stdout
     assert str(analysis_request.id) in ps.stdout
+
+
+def test_commit_files_force(tmp_path, workspace_repo):
+    analysis_request = AnalysisRequestFactory()
+    checkout1 = tmp_path / "checkout1"
+    submit.git("clone", workspace_repo, checkout1)
+    write_dummy_files(checkout1)
+    commit1 = submit.commit_and_push(checkout1, analysis_request)
+
+    checkout2 = tmp_path / "checkout2"
+    submit.git("clone", workspace_repo, checkout2)
+    write_dummy_files(checkout2, project_yaml="change")
+
+    # updating the tag without foce should fail
+    with pytest.raises(subprocess.CalledProcessError):
+        submit.commit_and_push(checkout2, analysis_request)
+
+    checkout3 = tmp_path / "checkout3"
+    submit.git("clone", workspace_repo, checkout3)
+    write_dummy_files(checkout3, project_yaml="change")
+    # should work with force
+    commit2 = submit.commit_and_push(checkout3, analysis_request, force=True)
+
+    assert commit1 != commit2
+
+    # check the tag has been updated to the latest commit
+    ps = submit.git(
+        "show", str(analysis_request.id), cwd=workspace_repo, capture_output=True
+    )
+    assert commit2 in ps.stdout
 
 
 def test_commit_files_parallel_change_to_upstream(tmp_path, workspace_repo):
