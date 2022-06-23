@@ -289,7 +289,7 @@ def test_group_low_values(df, threshold):
     suppressed_count = result[result[code_column] == "Other"][count_column]
     assert len(suppressed_count) <= 1
     if len(suppressed_count) == 1:  # pragma: no cover
-        assert suppressed_count[0] >= threshold
+        assert suppressed_count.to_list()[0] >= threshold
 
 
 @st.composite
