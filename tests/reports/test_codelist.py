@@ -56,6 +56,21 @@ def test_codelist_report(tmp_path):
     # just check that it runs w/o error
     assert local_run.main(tmp_path, ["run_all"])
 
+    output_dir = tmp_path / "output" / str(analysis_request.id)
+    release_dir = output_dir / "for_release"
+
+    pd.read_csv(output_dir / "counts_per_code.csv")
+    pd.read_csv(output_dir / "counts_per_week_per_practice.csv")
+    pd.read_csv(output_dir / "list_sizes.csv")
+    pd.read_csv(output_dir / "measure_counts_per_week_per_practice.csv")
+    pd.read_csv(output_dir / "patient_count.csv")
+
+    # for_release files
+    pd.read_csv(release_dir / "event_counts.csv")
+    pd.read_csv(release_dir / "practice_count.csv")
+    pd.read_csv(release_dir / "top_5_code_table.csv")
+    assert (release_dir / "deciles_chart_counts_per_week_per_practice.png").exists()
+
 
 @pytest.fixture()
 def counts_table():
