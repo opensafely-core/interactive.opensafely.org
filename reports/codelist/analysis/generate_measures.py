@@ -5,10 +5,12 @@ from study_utils import (
     convert_weekly_to_monthly,
     redact_events_table,
     round_values,
+    write_csv,
 )
 from variables import (
     low_count_threshold,
     output_dir,
+    release_dir,
     rounding_base,
     rounding_base_practice_count,
 )
@@ -84,12 +86,15 @@ def main():
     practice_count, counts_table = practice_counts(counts_table, list_sizes)
     events_counts = total_events_counts(counts_table, patient_count)
 
-    practice_count.T.to_csv(f"{output_dir}/practice_count.csv")
-    counts_table.to_csv(
-        f"{output_dir}/measure_counts_per_week_per_practice.csv", index=False
+    write_csv(practice_count.T, release_dir / "practice_count.csv")
+    write_csv(
+        counts_table,
+        output_dir / "measure_counts_per_week_per_practice.csv",
+        index=False,
     )
-    redact_events_table(events_counts, low_count_threshold, rounding_base).to_csv(
-        f"{output_dir}/event_counts.csv"
+    write_csv(
+        redact_events_table(events_counts, low_count_threshold, rounding_base),
+        release_dir / "event_counts.csv",
     )
 
 
