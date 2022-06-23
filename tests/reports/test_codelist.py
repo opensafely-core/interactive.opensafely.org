@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pipeline
 import pytest
-from hypothesis import assume, given
+from hypothesis import assume, given, settings
 from hypothesis import strategies as st
 
 # this is not nice, but will do until we can sort jobrunner out
@@ -277,9 +277,15 @@ def distinct_strings_with_common_characters(draw):
     return df
 
 
+# Test hits occasional long GC pauses so we need to tell Hypothesis
+# not to worry about how long test case take to run.
+hypothesis_settings = dict(deadline=None)
+
+
 @given(
     distinct_strings_with_common_characters(), st.integers(min_value=1, max_value=10)
 )
+@settings(**hypothesis_settings)
 def test_group_low_values(df, threshold):
     count_column, code_column = df.columns
     result = study_utils.group_low_values(df, count_column, code_column, threshold)
