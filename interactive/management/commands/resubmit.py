@@ -22,7 +22,7 @@ class Command(BaseCommand):
             except AnalysisRequest.DoesNotExist as exc:
                 raise CommandError(f"AnalysisRequest {ar_id} does not exist") from exc
 
-            submit_analysis(r)
+            submit_analysis(r, force=True)
 
             self.stdout.write(
                 self.style.SUCCESS("AnalysisRequest {ar_id} has been resubmitted")

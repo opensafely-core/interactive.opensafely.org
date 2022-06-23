@@ -24,7 +24,7 @@ def git(*args, check=True, text=True, **kwargs):
     return subprocess.run(cmd, check=check, text=text, **kwargs)
 
 
-def create_analysis_commit(analysis_request, repo):
+def create_analysis_commit(analysis_request, repo, force=False):
 
     # add auth token if it's a real github repo
     if str(repo).startswith("https://github.com"):
@@ -54,7 +54,7 @@ def create_analysis_commit(analysis_request, repo):
                 git("clone", repo, checkout)
                 clean_dir(checkout)
                 write_files(checkout, analysis_request, codelist_data)
-                commit_sha = commit_and_push(checkout, analysis_request)
+                commit_sha = commit_and_push(checkout, analysis_request, force=force)
                 project_yaml = (checkout / "project.yaml").read_text()
                 return commit_sha, project_yaml
         except Exception:
@@ -63,8 +63,9 @@ def create_analysis_commit(analysis_request, repo):
                 raise
 
 
-def commit_and_push(checkout, analysis_request):
+def commit_and_push(checkout, analysis_request, force=False):
     msg = f"Codelist {analysis_request.codelist_slug} ({analysis_request.id})"
+    force_args = ["--force"] if force else []
     email = analysis_request.user.email
     git("add", "project.yaml", "codelist.csv", "analysis", cwd=checkout)
     git(
@@ -83,19 +84,21 @@ def commit_and_push(checkout, analysis_request):
     ps = git("rev-parse", "HEAD", capture_output=True, cwd=checkout)
     commit_sha = ps.stdout.strip()
     # this is an super important step, makes it much easier to track commits
-    git("tag", str(analysis_request.id), cwd=checkout)
+    git("tag", str(analysis_request.id), *force_args, cwd=checkout)
     # push to master. Note: we technically wouldn't need this from a pure git
     # pov, as a tag would be enough, but job-runner explicitly checks that
     # a commit is on the branch history, for security reasons
     git("push", "origin", "--force-with-lease", cwd=checkout)
     # push the tag once we know the main push has succeeded
-    git("push", "origin", str(analysis_request.id), cwd=checkout)
+    git("push", "origin", str(analysis_request.id), *force_args, cwd=checkout)
     return commit_sha
 
 
-def submit_analysis(analysis_request):
+def submit_analysis(analysis_request, force=False):
     commit_sha, project_yaml = create_analysis_commit(
-        analysis_request, settings.WORKSPACE_REPO
+        analysis_request,
+        settings.WORKSPACE_REPO,
+        force=force,
     )
     analysis_request.commit_sha = commit_sha
     analysis_request.save(update_fields=["commit_sha"])
