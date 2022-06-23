@@ -266,15 +266,14 @@ def distinct_strings_with_common_characters(draw):
             st.text(min_size=1), min_size=list_size, max_size=list_size, unique=True
         )
     )
-    assume(len(count_column) == len(code_column))
 
     count_column_name = draw(st.text(min_size=1))
     code_column_name = draw(st.text(min_size=1))
     assume(count_column_name != code_column_name)
-    df = pd.DataFrame(
+
+    return pd.DataFrame(
         data={count_column_name: count_column, code_column_name: code_column}
     )
-    return df
 
 
 # Test hits occasional long GC pauses so we need to tell Hypothesis
