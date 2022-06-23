@@ -33,15 +33,18 @@ def create_analysis_commit(analysis_request, repo, force=False):
         )  # pragma: no cover
 
     # check this commit does not already exist
-    ps = git(
-        "ls-remote",
-        "--tags",
-        repo,
-        f"refs/tags/{analysis_request.id}",
-        capture_output=True,
-    )
-    if ps.stdout != "":
-        raise Exception(f"Commit for {analysis_request.id} already exists in {repo}")
+    if not force:
+        ps = git(
+            "ls-remote",
+            "--tags",
+            repo,
+            f"refs/tags/{analysis_request.id}",
+            capture_output=True,
+        )
+        if ps.stdout != "":
+            raise Exception(
+                f"Commit for {analysis_request.id} already exists in {repo}"
+            )
 
     # grab the codelist contents
     codelist_data = opencodelists.get_codelist(analysis_request.codelist_slug)

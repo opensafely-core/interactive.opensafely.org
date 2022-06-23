@@ -25,7 +25,7 @@ class Command(BaseCommand):
             submit_analysis(r, force=True)
 
             self.stdout.write(
-                self.style.SUCCESS("AnalysisRequest {ar_id} has been resubmitted")
+                self.style.SUCCESS(f"AnalysisRequest {ar_id} has been resubmitted")
             )
-            self.stdout.write("Commit: {r.get_github_commit_url()}")
-            self.stdout.write("Job: {r.job_request_url}")
+            self.stdout.write(f"Commit: {r.get_github_commit_url()}")
+            self.stdout.write(f"Job: {r.job_request_url}")
