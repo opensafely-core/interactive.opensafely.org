@@ -252,7 +252,7 @@ def test_redact_events_table(events_counts_table):
 
 @st.composite
 def distinct_strings_with_common_characters(draw):
-    list_size = draw(st.integers(min_value=10, max_value=100))
+    list_size = draw(st.integers(min_value=3, max_value=20))
 
     count_column = draw(
         st.lists(
