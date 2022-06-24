@@ -19,45 +19,21 @@ def workspace_repo(tmp_path, monkeypatch):
     return repo
 
 
-def test_write_files(tmp_path):
-    analysis_request = AnalysisRequestFactory()
-    checkout = tmp_path / "checkout"
-    checkout.mkdir()
-    submit.write_files(checkout, analysis_request, "codelist")
-
-    project = checkout / "project.yaml"
-    codelist = checkout / "codelist.csv"
-    variables = checkout / "analysis" / "variables.py"
-
-    assert codelist.read_text() == "codelist"
-    p = pipeline.load_pipeline(project)
-
-    output_dir = f"output/{analysis_request.id}"
-
-    for name, action in p.actions.items():
-        assert output_dir in action.run.args
-
-    assert (
-        analysis_request.start_date
-        in p.actions[f"codelist_report_{analysis_request.id}"].run.args
-    )
-    assert (
-        analysis_request.end_date
-        in p.actions[f"codelist_report_{analysis_request.id}"].run.args
-    )
-
-    env = {}
-    exec(variables.read_text(), None, env)
-    assert env["study_start_date"] == analysis_request.start_date
-    assert env["study_end_date"] == analysis_request.end_date
+def write_dummy_files(
+    checkout, project_yaml="project", codelist="codelist", code="code"
+):
+    (checkout / "project.yaml").write_text(project_yaml)
+    (checkout / "codelist.csv").write_text(codelist)
+    code_file = checkout / "analysis/code"
+    code_file.parent.mkdir(exist_ok=True)
+    code_file.write_text(code)
 
 
 def test_commit_files(tmp_path, workspace_repo):
     analysis_request = AnalysisRequestFactory()
     checkout = tmp_path / "checkout"
     submit.git("clone", workspace_repo, checkout)
-    (checkout / "project.yaml").write_text("project")
-    (checkout / "codelist.csv").write_text("codelist")
+    write_dummy_files(checkout)
     commit = submit.commit_and_push(checkout, analysis_request)
 
     assert commit is not None
@@ -67,21 +43,49 @@ def test_commit_files(tmp_path, workspace_repo):
     assert str(analysis_request.id) in ps.stdout
 
 
+def test_commit_files_force(tmp_path, workspace_repo):
+    analysis_request = AnalysisRequestFactory()
+    checkout1 = tmp_path / "checkout1"
+    submit.git("clone", workspace_repo, checkout1)
+    write_dummy_files(checkout1)
+    commit1 = submit.commit_and_push(checkout1, analysis_request)
+
+    checkout2 = tmp_path / "checkout2"
+    submit.git("clone", workspace_repo, checkout2)
+    write_dummy_files(checkout2, project_yaml="change")
+
+    # updating the tag without foce should fail
+    with pytest.raises(subprocess.CalledProcessError):
+        submit.commit_and_push(checkout2, analysis_request)
+
+    checkout3 = tmp_path / "checkout3"
+    submit.git("clone", workspace_repo, checkout3)
+    write_dummy_files(checkout3, project_yaml="change")
+    # should work with force
+    commit2 = submit.commit_and_push(checkout3, analysis_request, force=True)
+
+    assert commit1 != commit2
+
+    # check the tag has been updated to the latest commit
+    ps = submit.git(
+        "show", str(analysis_request.id), cwd=workspace_repo, capture_output=True
+    )
+    assert commit2 in ps.stdout
+
+
 def test_commit_files_parallel_change_to_upstream(tmp_path, workspace_repo):
     analysis_request = AnalysisRequestFactory()
 
     # prepare initial checkout
     checkout = tmp_path / "checkout"
     submit.git("clone", workspace_repo, checkout)
-    (checkout / "project.yaml").write_text("project")
-    (checkout / "codelist.csv").write_text("codelist")
+    write_dummy_files(checkout)
 
     # simulate parallel change from other request
     other_request = AnalysisRequestFactory()
     other_checkout = tmp_path / "other"
     submit.git("clone", workspace_repo, other_checkout)
-    (other_checkout / "project.yaml").write_text("other")
-    (other_checkout / "codelist.csv").write_text("other")
+    write_dummy_files(other_checkout)
     commit = submit.commit_and_push(other_checkout, other_request)
     assert commit is not None
 
@@ -155,3 +159,18 @@ def test_create_analysis_commit_git_error_retry(
 
     assert str(exc.value) == "git error"
     assert mock_commit.call_count == 3
+
+
+def test_clean_dir(tmp_path):
+
+    foo_file = tmp_path / "foo"
+    git_file = tmp_path / ".git/gitfile"
+
+    foo_file.write_text("foo")
+    git_file.parent.mkdir()
+    git_file.write_text("git")
+
+    submit.clean_dir(tmp_path)
+
+    assert not foo_file.exists()
+    assert git_file.exists()

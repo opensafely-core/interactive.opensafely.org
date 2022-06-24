@@ -1,6 +1,6 @@
 import pandas as pd
-from study_utils import create_top_5_code_table
-from variables import low_count_threshold, output_dir, rounding_base
+from study_utils import create_top_5_code_table, write_csv
+from variables import low_count_threshold, output_dir, release_dir, rounding_base
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
         low_count_threshold=low_count_threshold,
         rounding_base=rounding_base,
     )
-    top_5_code_table.to_csv(f"{output_dir}/top_5_code_table.csv", index=False)
+    write_csv(top_5_code_table, release_dir / "top_5_code_table.csv", index=False)
 
 
 if __name__ == "__main__":

@@ -38,8 +38,8 @@ actions:
     outputs:
       moderately_sensitive:
         measure: output/{id}/measure_counts_per_week_per_practice.csv
-        events_count_table: output/{id}/event_counts.csv
-        practice_count_table: output/{id}/practice_count.csv
+        events_count_table: output/{id}/for_release/event_counts.csv
+        practice_count_table: output/{id}/for_release/practice_count.csv
 
   top_5_table_{id}:
     run: >
@@ -52,13 +52,13 @@ actions:
     needs: [codelist_report_{id}]
     outputs:
       moderately_sensitive:
-        table: output/{id}/top_5_code_table.csv
+        table: output/{id}/for_release/top_5_code_table.csv
 
   deciles_charts_{id}:
     run: >
       deciles-charts:v0.0.24
         --input-files output/{id}/measure_counts_per_week_per_practice.csv
-        --output-dir output/{id}
+        --output-dir output/{id}/for_release
     config:
       show_outer_percentiles: false
       tables:
@@ -68,7 +68,7 @@ actions:
     needs: [measures_{id}]
     outputs:
       moderately_sensitive:
-        deciles_charts: output/{id}/deciles_*.*
+        deciles_charts: output/{id}/for_release/deciles_*.*
 """
 
 
@@ -91,12 +91,11 @@ def write_files(checkout, analysis_request, codelist):
     codelist_path.write_text(codelist)
 
     project_path = checkout / "project.yaml"
-    project_path.write_text(
-        PROJECT_YAML.format(
-            id=str(analysis_request.id),
-            start_date=analysis_request.start_date,
-            end_date=analysis_request.end_date,
-            low_count_threshold=low_count_threshold,
-            rounding_base=rounding_base,
-        )
+    project_yaml = PROJECT_YAML.format(
+        id=str(analysis_request.id),
+        start_date=analysis_request.start_date,
+        end_date=analysis_request.end_date,
+        low_count_threshold=low_count_threshold,
+        rounding_base=rounding_base,
     )
+    project_path.write_text(project_yaml)

@@ -2,6 +2,11 @@ import numpy as np
 import pandas as pd
 
 
+def write_csv(df, path, **kwargs):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(path, **kwargs)
+
+
 def group_low_values(df, count_column, code_column, threshold):
     """Suppresses low values and groups suppressed values into
     a new row "Other".
