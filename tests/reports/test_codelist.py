@@ -71,6 +71,9 @@ def test_codelist_report(tmp_path):
     pd.read_csv(release_dir / "top_5_code_table.csv")
     assert (release_dir / "deciles_chart_counts_per_week_per_practice.png").exists()
 
+    # we don't want this
+    assert not (release_dir / "deciles_chart_counts_per_week_per_practice.csv").exists()
+
 
 @pytest.fixture()
 def counts_table():
