@@ -21,7 +21,11 @@ def test_resubmit_error():
 
 
 def test_resubmit_success(
-    workspace_repo, add_codelist_response, slack_messages, submit_job_request
+    workspace_repo,
+    add_codelist_response,
+    slack_messages,
+    submit_job_request,
+    create_output_checker_issue,
 ):
     analysis_request = AnalysisRequestFactory()
     add_codelist_response(analysis_request.codelist_slug, "1\n2\n3")
