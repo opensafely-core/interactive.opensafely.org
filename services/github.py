@@ -1,3 +1,5 @@
+import textwrap
+
 import requests
 from environs import Env
 from furl import furl
@@ -47,7 +49,7 @@ def create_issue(analysis_request_id, job_server_url):
 
     data = {
         "title": str(analysis_request_id),
-        "body": body,
+        "body": textwrap.dedent(body),
         "labels": ["interactive"],
     }
 
