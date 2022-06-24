@@ -185,7 +185,7 @@ class AnalysisRequest(models.Model):
         return reverse("request_analysis_output", kwargs={"pk": self.id})
 
     def get_github_commit_url(self):
-        return "{settings.WORKSPACE_REPO}/tree/{self.id}"
+        return f"{settings.WORKSPACE_REPO}/tree/{self.id}"
 
 
 @receiver(post_save, sender=User)
