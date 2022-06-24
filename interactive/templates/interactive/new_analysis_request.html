@@ -18,8 +18,8 @@
   <p>The report will also display overall summary statistics (total events, number of distinct patients affected) and which five codes in the codelist were most commonly used, with percentages.</p>
 </section>
 
-<div class="border-t border-t-slate-200 mt-6 pt-4 -mx-4">
-  <h2 class="px-4 text-xl font-bold">Submit a request</h2>
+<div class="border-t border-t-slate-200 mt-6 pt-6 -mx-10">
+  <h2 class="px-10 text-2xl font-bold">Submit a request</h2>
 </div>
 
 {% if form.errors %}
@@ -78,14 +78,14 @@
   {% vite_asset 'assets/src/scripts/dropdown.jsx' defer=true %}
 
   <div>
-    <h2 class="text-base font-semibold text-slate-700">
+    <h2 class="block mb-1 text-lg font-semibold text-slate-800">
       Date range
     </h2>
     <p class="mt-1 text-base text-slate-600">
       Analysis will cover period between
-      <time class="font-mono" datetime="{{ start_date }}">{{ start_date }}</time>
+      <time datetime="{{ start_date }}">{{ start_date }}</time>
       and
-      <time class="font-mono" datetime="{{ end_date }}">{{ end_date }}</time>
+      <time datetime="{{ end_date }}">{{ end_date }}</time>.
     </p>
   </div>
 
