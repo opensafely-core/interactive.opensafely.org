@@ -21,5 +21,5 @@ def initialise_sentry():
             dsn=sentry_dsn,
             environment=environment,
             integrations=[DjangoIntegration()],
-            send_default_pii=True,
+            send_default_pii=False,
         )

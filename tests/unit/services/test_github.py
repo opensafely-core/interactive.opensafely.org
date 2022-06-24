@@ -19,7 +19,7 @@ def add_github_response(responses):
 @pytest.fixture
 def create_output_checker_issue(add_github_response):
     add_github_response(
-        "repos/ebmdatalab/opensafely-output-review/issues",
+        "repos/opensafely/interactive/issues",
         method="POST",
         json={"html_url": "http://example.com/"},
     )

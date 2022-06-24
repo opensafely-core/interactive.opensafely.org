@@ -70,7 +70,7 @@
           <div>
             <dt class="text-slate-600 font-semibold mb-1">Time period</dt>
             <dd>
-              {{ analysis.start_date }} to {{ analysis.end_date }}
+              {{ analysis.start_date|date:"d M Y" }} to {{ analysis.end_date|date:"d M Y" }}
             </dd>
           </div>
         </dl>
@@ -82,6 +82,14 @@
             <div class="overflow-hidden shadow sm:rounded-lg">
               <table class="min-w-full divide-y divide-slate-300">
                 <tbody class="divide-y divide-slate-200 bg-white">
+                  <tr class="divide-x divide-slate-200">
+                    <th scope="row" class="whitespace-nowrap px-4 py-3.5 text-left font-semibold text-slate-900">
+                      Unique patients
+                    </th>
+                    <td class="whitespace-nowrap w-full p-4 text-slate-700 font-mono">
+                      {{ summary.2.count|intcomma }}
+                    </td>
+                  </tr>
                   <tr class="divide-x divide-slate-200">
                     <th scope="row" class="whitespace-nowrap px-4 py-3.5 text-left font-semibold text-slate-900">
                       Unique events
@@ -96,14 +104,6 @@
                     </th>
                     <td class="whitespace-nowrap w-full p-4 text-slate-700 font-mono">
                       {{ summary.1.count|intcomma }}
-                    </td>
-                  </tr>
-                  <tr class="divide-x divide-slate-200">
-                    <th scope="row" class="whitespace-nowrap px-4 py-3.5 text-left font-semibold text-slate-900">
-                      Unique patients
-                    </th>
-                    <td class="whitespace-nowrap w-full p-4 text-slate-700 font-mono">
-                      {{ summary.2.count|intcomma }}
                     </td>
                   </tr>
                 </tbody>
@@ -126,10 +126,10 @@
         {% endif %}
       </div>
       <figure>
-        <img class="mx-auto block mb-4 px-4" src="data:image;base64,{{ deciles_chart }}" />
-        <figcaption class="block font-semibold text-center text-slate-600 border-t border-slate-100 p-4 px-8">
-          Figure: The four-weekly event rate for {% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist_slug content=analysis.codelist_name %} per 1000 registered patients per practice
+        <figcaption class="block font-semibold text-center text-slate-800 border-t border-slate-100 p-4 px-8">
+          The four-weekly event rate for {% include "components/link.html" with href="https://www.opencodelists.org/codelist/"|add:analysis.codelist_slug content=analysis.codelist_name %} per 1000 registered patients per practice
         </figcaption>
+        <img class="mx-auto block mb-4 px-4" src="data:image;base64,{{ deciles_chart }}" />
       </figure>
       <div class="mx-auto mb-8 px-4 prose prose-oxford">
         <p>
