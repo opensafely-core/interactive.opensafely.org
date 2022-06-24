@@ -39,6 +39,7 @@ module.exports = {
         oxford: {
           css: {
             "--tw-prose-bullets": theme("colors.slate[600]"),
+            '--tw-prose-links': theme('colors.oxford[600]'),
           },
         },
       }),

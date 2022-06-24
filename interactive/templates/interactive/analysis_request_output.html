@@ -7,57 +7,108 @@
 {% block content %}
 <article aria-labelledby="analysisHeading">
   <header class="bg-oxford-50">
+
+    {% if user.is_staff %}
+
+    <div class="container py-8 sm:pt-16 pb-14 grid md:grid-cols-2 items-start gap-4">
+      <div class="flex flex-col-reverse">
+        <h1 id="analysisHeading" class="mt-2 text-4xl font-bold text-slate-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+          {{ analysis.codelist_name }}
+        </h1>
+        <p class="font-bold text-oxford-600 tracking-wide uppercase">
+          {% if analysis.complete_email_sent_at %}
+            {{ analysis.complete_email_sent_at|date:"d M Y" }}
+          {% else %}
+            Analysis Output
+          {% endif %}
+        </p>
+      </div>
+      <div class="rounded-md bg-white shadow p-4">
+        <div class="prose prose-oxford prose-sm text-slate-800">
+          <h2 class="border-b pb-2 mb-2">Staff actions</h2>
+          <ul>
+            <li>
+              <strong>User:</strong>
+              {{ analysis.user.name }} ({{ analysis.user.email }})
+            </li>
+            <li>
+              <strong>Commit:</strong>
+              <a class="no-underline hover:text-oxford-800 hover:underline focus:text-oxford-800 focus:underline" href="https://github.com/opensafely/interactive/commit/{{ analysis.commit_sha }}">
+                {{ analysis.commit_sha }}
+              </a>
+            </li>
+            <li>
+              <strong>Email sent to user:</strong>
+              {{ analysis.complete_email_sent_at|yesno|capfirst }}
+              {% if analysis.complete_email_sent_at %}
+                &mdash; {{ analysis.complete_email_sent_at | naturaltime }}
+              {% endif %}
+              <ul>
+                <li>
+                  {% url 'request_analysis_email' analysis.id as email_url %}
+                  {% if analysis.complete_email_sent_at %}
+                    {% include "components/button.html" with el="link" html_class="hover:text-oxford-800 hover:underline focus:text-oxford-800 focus:underline" text="Resend email to requester" href=email_url %}
+                  {% else %}
+                    {% include "components/button.html" with el="link" html_class="hover:text-oxford-800 hover:underline focus:text-oxford-800 focus:underline" text="Send an email to requester" html_class="hover:oxford-800 hover:underline" href=email_url %}
+                  {% endif %}
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {% else %}
+
     <div class="container py-8 sm:pt-16 pb-14">
       <div class="text-center">
         <div class="flex flex-col-reverse">
           <h1 id="analysisHeading" class="mt-2 text-4xl font-bold text-slate-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-            {{ analysis.title }}
+            {{ analysis.codelist_name }}
           </h1>
           <p class="font-bold text-oxford-600 tracking-wide uppercase">
-            Analysis Output
+            {% if analysis.complete_email_sent_at %}
+              {{ analysis.complete_email_sent_at|date:"d M Y" }}
+            {% else %}
+              Analysis Output
+            {% endif %}
           </p>
         </div>
-        <p class="max-w-3xl mx-auto mt-5 text-xl leading-normal text-slate-700">
+        <p class="max-w-3xl mx-auto mt-5 text-lg leading-normal text-slate-700">
           The aim of this OpenSAFELY Interactive report is to describe trends and variation in the recording of clinical codes in health records to inform further analyses.
           It is not intended to be a tool for "performance monitoring".
         </p>
-        <div class="my-4">
-          {% if user.is_staff %}
-            {% url 'request_analysis_email' analysis.id as email_url %}
-            {% if analysis.complete_email_sent_at %}
-              <p class="text-slate-500">"Analysis request is ready" email was sent {{ analysis.complete_email_sent_at | naturaltime }}</p>
-              {% include "components/button.html" with el="link" size="md" color="oxford" text="Resend email to requester" href=email_url %}
-            {% else %}
-              {% include "components/button.html" with el="link" size="md" color="oxford" text="Email to requester" href=email_url %}
-            {% endif %}
-          {% endif %}
-        </div>
       </div>
-      <div class="max-w-3xl mx-auto rounded-md bg-blue-50 border border-blue-300 p-4 pt-6 pb-7 mt-6">
+      <div class="max-w-3xl mx-auto rounded-md bg-slate-50 border border-slate-300 p-4 pt-6 pb-7 mt-6">
         <div class="flex">
           <div class="flex-shrink-0">
-            {% include "icons/outline-information-circle.svg" with html_class="h-6 w-6 text-blue-800" %}
+            {% include "icons/outline-information-circle.svg" with html_class="h-6 w-6 text-slate-800" %}
           </div>
-          <div class="ml-3 font-semibold text-blue-800">
+          <div class="ml-3 font-semibold text-slate-800">
             <p>We would like to hear your feedback about this report. Please take a moment to complete our {% include "components/link.html" with href="https://docs.google.com/forms/d/e/1FAIpQLScWikDx0UlqbEcnbzZhn5FiBTBHc2LtrfhqmmKwgOuKt4oFTQ/viewform" content="feedback form" %}.</p>
           </div>
         </div>
       </div>
-      <div class="max-w-3xl mx-auto rounded-md bg-yellow-50 border border-yellow-300 p-4 pt-6 pb-7 mt-6">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            {% include "icons/solid-exclamation.svg" with html_class="h-6 w-6 text-yellow-500" %}
-          </div>
-          <div class="ml-3 font-semibold text-yellow-800">
-            <p class="mb-3">Sharing outside of NHS England is not permitted in the current pilot phase without further approvals.</p>
-            <p>Please email team@opensafely.org if you would like to seek approval for wider sharing.</p>
-          </div>
-        </div>
-      </div>
     </div>
+
+    {% endif %}
   </header>
 
   <div class="container pt-8">
+    {% if not user.is_staff %}
+    <div class="max-w-3xl mx-auto rounded-md bg-yellow-50 border border-yellow-300 p-4 pt-6 pb-7 mb-8">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          {% include "icons/solid-exclamation.svg" with html_class="h-6 w-6 text-yellow-500" %}
+        </div>
+        <div class="ml-3 font-semibold text-yellow-800">
+          <p class="mb-3">Sharing outside of NHS England is not permitted in the current pilot phase without further approvals.</p>
+          <p>Please email team@opensafely.org if you would like to seek approval for wider sharing.</p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
     <div class="grid md:grid-cols-2 gap-8">
       <section class="bg-white shadow overflow-hidden sm:rounded-lg text-slate-700">
         <dl class="px-4 py-4 sm:px-6 grid grid-cols-1 gap-y-6">
