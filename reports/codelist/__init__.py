@@ -62,7 +62,7 @@ actions:
     config:
       show_outer_percentiles: false
       tables:
-        output: true
+        output: false
       charts:
         output: true
     needs: [measures_{id}]
