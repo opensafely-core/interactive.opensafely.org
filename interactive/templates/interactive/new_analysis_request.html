@@ -57,17 +57,6 @@
   {% csrf_token %}
   {{ form.non_field_errors }}
 
-  <div>
-    {% include "components/form-field.html" with id=form.title.id_for_label label=form.title.label name="title" required=True type="text" hint="For example: Systolic code usage" %}
-    {% if form.title.errors %}
-      <ul class="mt-2">
-        {% for error in form.title.errors %}
-          <li class="text-sm text-red-700">{{ error }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  </div>
-
   {{ codelists|json_script:"react-dropdown-options" }}
   {{ form.codelist_slug.errors|json_script:"react-dropdown-errors" }}
   <div
