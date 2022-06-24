@@ -38,8 +38,8 @@ def create_issue(analysis_request_id, job_server_url):
     f = furl(BASE_URL)
     f.path.segments += [
         "repos",
-        "ebmdatalab",
-        "opensafely-output-review",
+        "opensafely",
+        "interactive",
         "issues",
     ]
 

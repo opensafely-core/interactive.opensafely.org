@@ -8,7 +8,7 @@ from django.conf import settings
 
 from interactive.notifications import notify_analysis_request_submitted
 from reports.codelist import write_files
-from services import jobserver, opencodelists
+from services import github, jobserver, opencodelists
 
 from .emails import send_analysis_request_confirmation_email
 
@@ -114,7 +114,8 @@ def submit_analysis(analysis_request, force=False):
     analysis_request.job_request_url = url
     analysis_request.save(update_fields=["job_request_url"])
 
-    notify_analysis_request_submitted(analysis_request)
+    issue_url = github.create_issue(analysis_request.id, job_server_url=url)
+    notify_analysis_request_submitted(analysis_request, issue_url)
 
     send_analysis_request_confirmation_email(
         analysis_request.user.email,
