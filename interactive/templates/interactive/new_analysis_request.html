@@ -13,17 +13,18 @@
 <section class="prose prose-oxford sm:prose-sm text-slate-800">
   <h2 class="text-2xl font-bold mb-4">What does an analysis show?</h2>
   <p>An analysis automatically counts the number of events recorded per week in every GP practice for a selected Codelist.</p>
-  <p>The available Codelists are published by {% include "components/link.html" with href="https://www.opencodelists.org/" content="OpenSAFELY on OpenCodelists" newtab=True %} and use the {% include "components/link.html" with href="https://www.snomed.org/" content="SNOMED CT coding system" newtab=True %}.</p>
+  <p>During the pilot and dvelopment stage we have agreed with NHS England Information Governance team to restrict available codelists to pre-approved Codelists published by {% include "components/link.html" with href="https://www.opencodelists.org/" content="OpenSAFELY on OpenCodelists" newtab=True %}.</p>
   <p>The analysis uses TPP software (covering appoximately 40% of England's practices), from prior to the pandemic to the latest available date.</p>
   {% url 'about' as deciles_link %}
   <p>This produces a time trend chart, with practices {% include "components/link.html" with href=deciles_link|add:"#deciles" content="represented as deciles" newtab=True %}.</p>
-  <p class="!mb-1">The report will also display:</p>
+  <p class="!mb-2">The report will also display:</p>
   <ul>
     <li>overall summary statistics</li>
     <li>total events</li>
     <li>number of distinct patients affected</li>
     <li>five codes in the codelist were most commonly used, with percentages</li>
-  </p>
+  </ul>
+  <p>We will be developing more features in collaboration with users so please tell us about your experience using OpenSAFELY Interactive.</p>
 </section>
 
 <div class="border-t border-t-slate-200 mt-6 pt-6 -mx-10">
