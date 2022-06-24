@@ -1,3 +1,5 @@
+import textwrap
+
 import requests
 from environs import Env
 from furl import furl
@@ -20,6 +22,8 @@ session.headers = {
 
 def create_issue(analysis_request_id, job_server_url):
     body = f"""
+    **This is a public issue. Use this to approve or reject the outputs below but do not discuss any disclosure concerns in this issue.**
+
     Workspace: {job_server_url}
 
     The below outputs are located in `output/{analysis_request_id}`
@@ -45,7 +49,7 @@ def create_issue(analysis_request_id, job_server_url):
 
     data = {
         "title": str(analysis_request_id),
-        "body": body,
+        "body": textwrap.dedent(body),
         "labels": ["interactive"],
     }
 
