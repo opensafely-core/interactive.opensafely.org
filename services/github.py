@@ -20,6 +20,8 @@ session.headers = {
 
 def create_issue(analysis_request_id, job_server_url):
     body = f"""
+    **This is a public issue. Use this to approve or reject the outputs below but do not discuss any disclosure concerns in this issue.**
+
     Workspace: {job_server_url}
 
     The below outputs are located in `output/{analysis_request_id}`
