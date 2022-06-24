@@ -1,3 +1,5 @@
+import operator
+
 from services import session
 
 
@@ -9,15 +11,21 @@ def fetch():
     response = session.get(LIST_URL)
     response.raise_for_status()
 
-    options = []
+    codelists = []
     for codelist in response.json()["codelists"]:
         published_versions = [
             v for v in codelist["versions"] if v["status"] == "published"
         ]
         if published_versions:
-            options.append((published_versions[-1]["full_slug"], codelist["name"]))
-    options.sort(key=lambda pair: pair[1])
-    return options
+            codelists.append(
+                {
+                    "slug": published_versions[-1]["full_slug"],
+                    "name": codelist["name"],
+                    "organisation": codelist["organisation"],
+                }
+            )
+
+    return sorted(codelists, key=operator.itemgetter("name"))
 
 
 def get_codelist(slug):

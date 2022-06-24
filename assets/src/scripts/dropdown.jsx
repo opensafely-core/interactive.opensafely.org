@@ -8,11 +8,14 @@ const root = createRoot(container);
 
 // Get the choices for the dropdown from a <script> tag loaded by Django
 const choicesEl = document.getElementById(container.dataset.choices);
-const choices = JSON.parse(choicesEl.textContent);
 
 // Convert choices to an object from an array
-const choiceObj = choices.map((element, i) => {
-  return { value: element[0], label: element[1] };
+const choices = JSON.parse(choicesEl.textContent).map((choice, i) => {
+  return {
+    value: choice.slug,
+    label: choice.name,
+    organisation: choice.organisation,
+  };
 });
 
 // Get the errors for the dropdown from a <script> tag loaded by Django
@@ -22,5 +25,5 @@ const errors = errorsEl?.textContent ? JSON.parse(errorsEl.textContent) : null;
 
 // Render the React component
 root.render(
-  <Select choices={choiceObj} data={container.dataset} errors={errors} />
+  <Select choices={choices} data={container.dataset} errors={errors} />
 );

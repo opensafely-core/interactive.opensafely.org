@@ -68,18 +68,18 @@
     {% endif %}
   </div>
 
-  {{ form.codelist_slug.field.choices|json_script:"react-dropdown-options" }}
+  {{ codelists|json_script:"react-dropdown-options" }}
   {{ form.codelist_slug.errors|json_script:"react-dropdown-errors" }}
   <div
     data-choices="react-dropdown-options"
     data-errors="react-dropdown-errors"
     data-hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system"
     data-id="{{ form.codelist_slug.id_for_label }}"
-    data-label="Codelists"
+    data-label="Select a codelist"
     data-name="codelist_slug"
     id="react-dropdown"
     >
-      {% include "components/form-field-select.html" with id=form.codelist_slug.id_for_label label="Codelist" name="codelist_slug" required=True choices=form.codelist_slug.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" %}
+      {% include "components/form-field-select.html" with id=form.codelist_slug.id_for_label label="Select a codelist" name="codelist_slug" required=True choices=form.codelist_slug.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" %}
     </div>
   {% if debug %}
   <script type="module">

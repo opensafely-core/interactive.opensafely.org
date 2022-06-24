@@ -5,28 +5,32 @@ import { Select } from "../Components/Select";
 
 const props = {
   choices: [
-    { label: "---", value: "" },
+    { label: "---", value: "", organisation: "OpenSAFELY" },
     {
       label: "Abdominal aortic aneurysm diagnosis codes",
       value: "nhsd-primary-care-domain-refsets/aaa_cod/20210127",
-      splitValue: "nhsd-primary-care-domain-refsets",
+      organisation: "NHSD Primary Care Domain Refsets",
     },
     {
       label: "Active and inactive ethnicity codes",
       value: "nhsd-primary-care-domain-refsets/ethnall_cod/20210127",
+      organisation: "NHSD Primary Care Domain Refsets",
     },
     {
       label: "Alanine aminotransferase (ALT) tests",
       value: "opensafely/alanine-aminotransferase-alt-tests/2298df3e",
+      organisation: "OpenSAFELY",
     },
     {
       label: "Alanine aminotransferase (ALT) tests (numerical value)",
       value:
         "opensafely/alanine-aminotransferase-alt-tests-numerical-value/78d4a307",
+      organisation: "OpenSAFELY",
     },
     {
       label: "All BMI coded terms",
       value: "primis-covid19-vacc-uptake/bmi_stage/v1.2",
+      organisation: "PRIMIS Covid Vaccination Uptake Reporting",
     },
   ],
   data: {
@@ -37,7 +41,7 @@ const props = {
     label: "Codelists",
     name: "codelist_slug",
   },
-  errors: null,
+  errors: [],
 };
 
 describe("Native <select> component", () => {
@@ -59,7 +63,6 @@ describe("Native <select> component", () => {
     );
   });
 
-  // Text input displays a list of matching choices
   test("Text input displays a list of matching choices", async () => {
     render(<Select {...props} />);
 
@@ -71,7 +74,7 @@ describe("Native <select> component", () => {
     await user.clear(screen.getByRole("textbox"));
     await user.type(screen.getByRole("textbox"), props.choices[1].label);
     expect(screen.getByRole("option").textContent).toBe(
-      `${props.choices[1].label}, ${props.choices[1].splitValue}`
+      `${props.choices[1].label}, From: ${props.choices[1].organisation}`
     );
   });
 
@@ -80,7 +83,7 @@ describe("Native <select> component", () => {
 
     await user.type(screen.getByRole("textbox"), props.choices[1].label);
     expect(screen.getByRole("option").textContent).toBe(
-      `${props.choices[1].label}, ${props.choices[1].splitValue}`
+      `${props.choices[1].label}, From: ${props.choices[1].organisation}`
     );
 
     await user.click(screen.getByRole("option"));
@@ -95,7 +98,7 @@ describe("Native <select> component", () => {
     await user.type(screen.getByRole("textbox"), "{Backspace}");
     await waitFor(() =>
       expect(screen.getByRole("option").textContent).toBe(
-        `${props.choices[1].label}, ${props.choices[1].splitValue}`
+        `${props.choices[1].label}, From: ${props.choices[1].organisation}`
       )
     );
     expect(container.querySelector('[role="option"]')).toHaveClass(
@@ -108,7 +111,7 @@ describe("Native <select> component", () => {
 
     await user.type(screen.getByRole("textbox"), props.choices[1].label);
     expect(screen.getByRole("option").textContent).toBe(
-      `${props.choices[1].label}, ${props.choices[1].splitValue}`
+      `${props.choices[1].label}, From: ${props.choices[1].organisation}`
     );
 
     await user.click(screen.getByRole("option"));
@@ -131,7 +134,7 @@ describe("Native <select> component", () => {
 
     await user.type(screen.getByRole("textbox"), props.choices[1].label);
     expect(screen.getByRole("option").textContent).toBe(
-      `${props.choices[1].label}, ${props.choices[1].splitValue}`
+      `${props.choices[1].label}, From: ${props.choices[1].organisation}`
     );
     await user.click(screen.getByRole("option"));
 

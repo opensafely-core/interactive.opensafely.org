@@ -158,9 +158,9 @@ export function Combobox({
                       })}
                     >
                       {item.label}
-                      <span className="sr-only">,{" "}</span>
+                      <span className="sr-only">, </span>
                       <span className="text-xs text-gray-600 font-normal">
-                        {item.value.split("/")[0].toString()}
+                        From: {item.organisation}
                       </span>
                     </li>
                   ))}
@@ -173,10 +173,29 @@ export function Combobox({
             </ul>
           ) : null}
         </div>
+        {/* When the user selects a codelist, allow them to view it on the
+         *  Codelists website.
+         */}
+        {selectedItem ? (
+          <ul className="text-sm mt-2 list-disc pl-4">
+            <li>
+              <a
+                className="text-oxford-600 font-semibold underline underline-offset-1 transition-colors hover:text-oxford-700 hover:no-underline focus:text-oxford-900 focus:no-underline"
+                rel="noopener noreferrer"
+                target="_blank"
+                href={`https://www.opencodelists.org/codelist/${selectedItem.value}`}
+              >
+                View “{selectedItem.label}” codelist &#8599;
+              </a>
+            </li>
+          </ul>
+        ) : null}
         {/* Display errors passed as a data attribute */}
-        {errors ? (
+        {errors?.length ? (
           <ul className="mt-2">
-            <li className="text-sm text-red-700">{errors}</li>
+            <li className="text-sm text-red-700">
+              {errors}
+            </li>
           </ul>
         ) : null}
 
@@ -207,22 +226,6 @@ export function Combobox({
               What is SNOMED CT?
             </a>
           </li>
-
-          {/* When the user selects a codelist, allow them to view it on the
-           *  Codelists website.
-           */}
-          {selectedItem ? (
-            <li>
-              <a
-                className="text-oxford-600 font-semibold underline underline-offset-1 transition-colors hover:text-oxford-700 hover:no-underline focus:text-oxford-900 focus:no-underline"
-                rel="noopener noreferrer"
-                target="_blank"
-                href={`https://www.opencodelists.org/codelist/${selectedItem.value}`}
-              >
-                View “{selectedItem.label}” codelist
-              </a>
-            </li>
-          ) : null}
         </ul>
       </div>
     </>
