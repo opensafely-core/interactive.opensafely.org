@@ -10,12 +10,20 @@
 {% endblock template_heading %}
 
 {% block template_content %}
-<section class="prose prose-oxford text-slate-800 pb-2">
+<section class="prose prose-oxford sm:prose-sm text-slate-800">
   <h2 class="text-2xl font-bold mb-4">What does an analysis show?</h2>
-  <p>This is an interactive tool that automatically counts, for a {% include "components/link.html" with href="https://www.opencodelists.org/" content="selected codelist" newtab=True %}, the number of events recorded per week in every GP practice using TPP software (~40% of England's practices), from prior to the pandemic to the latest available date (approximately 1-2 weeks lag time).</p>
+  <p>An analysis automatically counts the number of events recorded per week in every GP practice for a selected Codelist.</p>
+  <p>The available Codelists are published by {% include "components/link.html" with href="https://www.opencodelists.org/" content="OpenSAFELY on OpenCodelists" newtab=True %} and use the {% include "components/link.html" with href="https://www.snomed.org/" content="SNOMED CT coding system" newtab=True %}.</p>
+  <p>The analysis uses TPP software (covering appoximately 40% of England's practices), from prior to the pandemic to the latest available date.</p>
   {% url 'about' as deciles_link %}
-  <p>This produces a time trend chart, with practices are represented as {% include "components/link.html" with href=deciles_link|add:"#deciles" content="deciles" newtab=True %}.</p>
-  <p>The report will also display overall summary statistics (total events, number of distinct patients affected) and which five codes in the codelist were most commonly used, with percentages.</p>
+  <p>This produces a time trend chart, with practices {% include "components/link.html" with href=deciles_link|add:"#deciles" content="represented as deciles" newtab=True %}.</p>
+  <p class="!mb-1">The report will also display:</p>
+  <ul>
+    <li>overall summary statistics</li>
+    <li>total events</li>
+    <li>number of distinct patients affected</li>
+    <li>five codes in the codelist were most commonly used, with percentages</li>
+  </p>
 </section>
 
 <div class="border-t border-t-slate-200 mt-6 pt-6 -mx-10">
