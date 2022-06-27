@@ -134,6 +134,13 @@ def test_new_analysis_request_post_success(
         {"codelist_slug": "opensafely/systolic-blood-pressure-qof/v1"},
         follow=True,
     )
+    assert response.status_code == 200
+
+    # success should redirect elsewhere
+    assert response.redirect_chain == [
+        (reverse("request_analysis_done"), 302)
+    ], response.redirect_chain
+
     assert b"Your request is being processed" in response.content
 
     # check we created the correct number of AnalysisRequests, if we have more
