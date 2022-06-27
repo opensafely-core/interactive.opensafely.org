@@ -128,15 +128,19 @@ def test_new_analysis_request_post_success(
     codelist_slug = "opensafely/systolic-blood-pressure-qof/v1"
     codelist_name = "Systolic blood pressure QoF"
     add_codelist_response(codelist_slug, codelist_name)
-    with assert_difference(AnalysisRequest.objects.count, expected_difference=1):
-        response = client.post(
-            reverse("new_analysis_request"),
-            {"codelist_slug": "opensafely/systolic-blood-pressure-qof/v1"},
-            follow=True,
-        )
+
+    response = client.post(
+        reverse("new_analysis_request"),
+        {"codelist_slug": "opensafely/systolic-blood-pressure-qof/v1"},
+        follow=True,
+    )
     assert b"Your request is being processed" in response.content
 
-    request = AnalysisRequest.objects.last()
+    # check we created the correct number of AnalysisRequests, if we have more
+    # we either a bug in the view or leaky tests (also a bug)
+    assert AnalysisRequest.objects.count() == 1
+
+    request = AnalysisRequest.objects.first()
     assert request.user == user
     assert request.title == ""
     assert request.codelist_slug == codelist_slug
