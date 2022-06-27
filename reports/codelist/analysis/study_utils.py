@@ -48,7 +48,7 @@ def group_low_values(df, count_column, code_column, threshold):
 
         # add suppressed count as "Other" row (if > threshold)
         if suppressed_count > threshold:
-            suppressed_count = {"code": "Other", count_column: suppressed_count}
+            suppressed_count = {code_column: "Other", count_column: suppressed_count}
             df = pd.concat([df, pd.DataFrame([suppressed_count])], ignore_index=True)
 
     return df
