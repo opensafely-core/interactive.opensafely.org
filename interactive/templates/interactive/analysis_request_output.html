@@ -39,7 +39,7 @@
             </li>
             <li>
               <strong>Email sent to user:</strong>
-              {{ analysis.complete_email_sent_at|yesno|capfirst }}
+              {{ analysis.complete_email_sent_at|yesno:"Yes,No" }}
               {% if analysis.complete_email_sent_at %}
                 &mdash; {{ analysis.complete_email_sent_at | naturaltime }}
               {% endif %}
