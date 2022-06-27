@@ -131,17 +131,14 @@ def test_new_analysis_request_post_success(
     with assert_difference(AnalysisRequest.objects.count, expected_difference=1):
         response = client.post(
             reverse("new_analysis_request"),
-            {
-                "title": "An Analysis",
-                "codelist_slug": "opensafely/systolic-blood-pressure-qof/v1",
-            },
+            {"codelist_slug": "opensafely/systolic-blood-pressure-qof/v1"},
             follow=True,
         )
     assert b"Your request is being processed" in response.content
 
     request = AnalysisRequest.objects.last()
     assert request.user == user
-    assert request.title == "An Analysis"
+    assert request.title == ""
     assert request.codelist_slug == codelist_slug
     assert request.codelist_name == codelist_name
     assert request.job_request_url == "test-url"

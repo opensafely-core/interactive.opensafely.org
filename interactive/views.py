@@ -60,7 +60,15 @@ def new_analysis_request(request):
     if request.method == "POST":
         form = AnalysisRequestForm(request.POST, codelists=codelist_choices)
         if form.is_valid():
-            analysis_request = form.save(user=request.user)
+            codelist_slug = form.cleaned_data["codelist_slug"]
+            codelist_name = dict(codelist_choices)[codelist_slug]
+            analysis_request = AnalysisRequest.objects.create(
+                start_date=START_DATE,
+                end_date=END_DATE,
+                user=request.user,
+                codelist_slug=codelist_slug,
+                codelist_name=codelist_name,
+            )
             submit_analysis(analysis_request)
             return redirect("request_analysis_done")
     else:
