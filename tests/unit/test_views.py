@@ -149,7 +149,7 @@ def test_new_analysis_request_post_success(
 
     request = AnalysisRequest.objects.first()
     assert request.user == user
-    assert request.title == ""
+    assert request.title == codelist_name
     assert request.codelist_slug == codelist_slug
     assert request.codelist_name == codelist_name
     assert request.job_request_url == "test-url"

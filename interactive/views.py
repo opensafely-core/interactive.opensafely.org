@@ -63,6 +63,7 @@ def new_analysis_request(request):
             codelist_slug = form.cleaned_data["codelist_slug"]
             codelist_name = dict(codelist_choices)[codelist_slug]
             analysis_request = AnalysisRequest.objects.create(
+                title=codelist_name,
                 start_date=START_DATE,
                 end_date=END_DATE,
                 user=request.user,
