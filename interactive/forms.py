@@ -11,6 +11,8 @@ class RegistrationRequestForm(forms.ModelForm):
 
 class AnalysisRequestForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        self.codelists = kwargs.pop("codelists")
+        codelists = kwargs.pop("codelists")
+
         super().__init__(*args, **kwargs)
-        self.fields["codelist_slug"] = forms.ChoiceField(choices=self.codelists)
+
+        self.fields["codelist_slug"] = forms.ChoiceField(choices=codelists)
