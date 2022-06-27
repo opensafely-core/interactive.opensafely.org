@@ -165,7 +165,6 @@ def test_new_analysis_request_post_failure_returns_unsaved_form(
             {"title": "", "codelist": "opensafely/systolic-blood-pressure-qof"},
         )
 
-    assert b"Analysis title" in response.content
     assert b"Submit" in response.content
     assert slack_messages == []
 
@@ -180,7 +179,6 @@ def test_new_analysis_request_post_failure_with_invalid_codelist(
             {"title": "Sneaky study", "codelist": "sneaky-user/my-codelist"},
         )
 
-    assert b"Analysis title" in response.content
     assert b"Submit" in response.content
     assert slack_messages == []
 
