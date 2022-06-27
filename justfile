@@ -128,8 +128,8 @@ fix: devenv
     $BIN/isort .
 
 # Run the dev project
-run: devenv db workspace-repo
-    $BIN/python manage.py runserver
+run *args: devenv db workspace-repo
+    $BIN/python manage.py runserver {{ args }}
 
 # Remove built assets and collected static files
 assets-clean:
