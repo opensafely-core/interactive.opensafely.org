@@ -53,8 +53,7 @@ class RegistrationRequestAdmin(admin.ModelAdmin):
                 request.user, timezone.now(), RegistrationRequest.ReviewStatus.APPROVED
             )
             obj.save()
-            user = User.create_from_registration(obj)
-            user.save()
+            User.create_from_registration(obj)
             self.message_user(
                 request, f"The request for {obj.full_name} has been approved"
             )
