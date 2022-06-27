@@ -286,7 +286,7 @@ def test_group_low_values(df, threshold):
 
     assert list(result.columns) == list(df.columns)
     assert not (result[count_column] < threshold).any()
-    suppressed_count = result[result[code_column] == "Other"][count_column]
+    suppressed_count = result.loc[result[code_column] == "Other", count_column].values
     assert len(suppressed_count) <= 1
     if len(suppressed_count) == 1:  # pragma: no cover
         assert suppressed_count.to_list()[0] >= threshold
