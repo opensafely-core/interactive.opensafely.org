@@ -12,6 +12,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from furl import furl
@@ -92,6 +93,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         ),
     )
 
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
@@ -142,6 +145,8 @@ class RegistrationRequest(models.Model):
         blank=True,
     )
 
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+
     def review(self, user, datetime, review_status):
         self.reviewed_by = user
         self.reviewed_at = datetime
@@ -169,6 +174,8 @@ class AnalysisRequest(models.Model):
     )
     complete_email_sent_at = models.DateTimeField(default=None, blank=True, null=True)
     job_request_url = models.TextField(default="")
+
+    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.title} ({self.codelist_slug})"
