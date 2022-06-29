@@ -29,6 +29,7 @@ class RegistrationRequestAdmin(admin.ModelAdmin):
     change_form_template = "admin/registration_review_form.html"
     list_display = ["full_name", "email", "job_title", "organisation", "review_status"]
     list_filter = ["review_status", "organisation"]
+    readonly_fields = ["created_at"]
 
     def has_add_permission(self, request):
         return False
@@ -98,6 +99,7 @@ class RegistrationRequestAdmin(admin.ModelAdmin):
 @admin.register(AnalysisRequest)
 class AnalysisRequestAdmin(admin.ModelAdmin):
     list_display = ["user", "title", "codelist_slug", "start_date", "end_date"]
+    readonly_fields = ["created_at"]
 
     def has_add_permission(self, request):
         return False
