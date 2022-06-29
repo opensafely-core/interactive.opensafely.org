@@ -239,6 +239,38 @@ def test_group_low_values_hypothesis(df, threshold):
         assert suppressed_count.tolist()[0] >= threshold
 
 
+def test_group_low_values_above_threshold_returns_table():
+    threshold = 10
+    df = pd.DataFrame({"a": [11, 12, 13, 14, 15], "b": [18, 27, 37, 84, 35]})
+    count_column, code_column = df.columns
+
+    result = study_utils.group_low_values(df, count_column, code_column, threshold)
+
+    pd.testing.assert_frame_equal(result, df)
+
+
+def test_group_low_values_below_threshold_returns_amended_table():
+    threshold = 10
+    df = pd.DataFrame({"a": [1, 2, 3, 14, 15], "b": [18, 27, 37, 84, 35]})
+    count_column, code_column = df.columns
+    expected = pd.DataFrame({"a": {0: 15.0, 1: 20.0}, "b": {0: 35.0, 1: "Other"}})
+
+    result = study_utils.group_low_values(df, count_column, code_column, threshold)
+
+    pd.testing.assert_frame_equal(result, expected)
+
+
+def test_group_low_values_all_below_threshold_returns_table_with_single_values():
+    threshold = 10
+    df = pd.DataFrame({"a": [1, 2, 3, 1, 5], "b": [1, 7, 3, 4, 3]})
+    count_column, code_column = df.columns
+    expected = pd.DataFrame({"a": {0: 12.0}, "b": {0: "Other"}})
+
+    result = study_utils.group_low_values(df, count_column, code_column, threshold)
+
+    pd.testing.assert_frame_equal(result, expected)
+
+
 @st.composite
 def random_events_table(draw):
     total_events = draw(
