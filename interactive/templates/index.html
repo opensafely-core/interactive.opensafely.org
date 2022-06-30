@@ -20,8 +20,21 @@
               <ul class="mt-8 flex sm:justify-center lg:justify-start">
                 {% if user.is_authenticated %}
                   <li class="inline-flex rounded-md shadow group relative">
-                    {% url 'new_analysis_request' as get_started_url %}
-                    {% include "components/button.html" with el="link" href=get_started_url size="lg" color="oxford-50" text="Get started" %}
+                    <div class="opacity-75">
+                      {% include "components/button.html" with el="button" type="button" disabled=True size="lg" color="oxford-50" text="Get started" %}
+                    </div>
+                    <div class="absolute bg-transparent pb-3 -translate-y-full">
+                      <span
+                        class="
+                          text-sm text-semibold w-full bg-rose-300 text-rose-900 py-2 px-3 rounded shadow-xl text-center
+                          block opacity-0 scale-0 transition-all
+                          group-hover:opacity-100 group-hover:scale-100
+                          before:block before:absolute before:-bottom-1 before:h-3 before:w-3 before:bg-rose-300 before:left-1/2 before:-translate-x-1/2 before:rotate-45
+                        "
+                      >
+                        This service is temporarily unavailable, please try again later.
+                      </span>
+                    </div>
                   </li>
                 {% else %}
                   <li class="inline-flex rounded-md shadow">
