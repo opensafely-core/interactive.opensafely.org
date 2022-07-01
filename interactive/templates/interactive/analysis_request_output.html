@@ -13,7 +13,7 @@
     <div class="container py-8 sm:pt-16 pb-14 grid md:grid-cols-2 items-start gap-4">
       <div class="flex flex-col-reverse">
         <h1 id="analysisHeading" class="mt-2 text-4xl font-bold text-slate-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-          {{ analysis.codelist_name }}
+          {{ analysis.title }}
         </h1>
         <p class="font-bold text-oxford-600 tracking-wide uppercase">
           {% if analysis.complete_email_sent_at %}
@@ -96,7 +96,6 @@
   </header>
 
   <div class="container pt-8">
-    {% if not user.is_staff %}
     <div class="max-w-3xl mx-auto rounded-md bg-yellow-50 border border-yellow-300 p-4 pt-6 pb-7 mb-8">
       <div class="flex">
         <div class="flex-shrink-0">
@@ -108,7 +107,6 @@
         </div>
       </div>
     </div>
-    {% endif %}
     <div class="grid md:grid-cols-2 gap-8">
       <section class="bg-white shadow overflow-hidden sm:rounded-lg text-slate-700">
         <dl class="px-4 py-4 sm:px-6 grid grid-cols-1 gap-y-6">
