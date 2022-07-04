@@ -28,7 +28,7 @@ omit = [
 ]
 
 [tool.coverage.report]
-fail_under = 95
+fail_under = 100
 skip_covered = true
 
 [tool.coverage.html]

@@ -42,11 +42,7 @@ password_reset_urls = [
 ]
 
 request_analysis_urls = [
-    path(
-        "",
-        RedirectView.as_view(pattern_name="home", permanent=False),
-        name="new_analysis_request",
-    ),
+    path("", views.new_analysis_request, name="new_analysis_request"),
     path(
         "done",
         views.new_analysis_request_done,
