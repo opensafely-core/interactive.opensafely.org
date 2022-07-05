@@ -128,20 +128,28 @@ def test_new_analysis_request_post_success(
     codelist_slug = "opensafely/systolic-blood-pressure-qof/v1"
     codelist_name = "Systolic blood pressure QoF"
     add_codelist_response(codelist_slug, codelist_name)
-    with assert_difference(AnalysisRequest.objects.count, expected_difference=1):
-        response = client.post(
-            reverse("new_analysis_request"),
-            {
-                "title": "An Analysis",
-                "codelist_slug": "opensafely/systolic-blood-pressure-qof/v1",
-            },
-            follow=True,
-        )
+
+    response = client.post(
+        reverse("new_analysis_request"),
+        {"codelist_slug": "opensafely/systolic-blood-pressure-qof/v1"},
+        follow=True,
+    )
+    assert response.status_code == 200
+
+    # success should redirect elsewhere
+    assert response.redirect_chain == [
+        (reverse("request_analysis_done"), 302)
+    ], response.redirect_chain
+
     assert b"Your request is being processed" in response.content
 
-    request = AnalysisRequest.objects.last()
+    # check we created the correct number of AnalysisRequests, if we have more
+    # we either a bug in the view or leaky tests (also a bug)
+    assert AnalysisRequest.objects.count() == 1
+
+    request = AnalysisRequest.objects.first()
     assert request.user == user
-    assert request.title == "An Analysis"
+    assert request.title == codelist_name
     assert request.codelist_slug == codelist_slug
     assert request.codelist_name == codelist_name
     assert request.job_request_url == "test-url"
@@ -165,7 +173,6 @@ def test_new_analysis_request_post_failure_returns_unsaved_form(
             {"title": "", "codelist": "opensafely/systolic-blood-pressure-qof"},
         )
 
-    assert b"Analysis title" in response.content
     assert b"Submit" in response.content
     assert slack_messages == []
 
@@ -180,7 +187,6 @@ def test_new_analysis_request_post_failure_with_invalid_codelist(
             {"title": "Sneaky study", "codelist": "sneaky-user/my-codelist"},
         )
 
-    assert b"Analysis title" in response.content
     assert b"Submit" in response.content
     assert slack_messages == []
 

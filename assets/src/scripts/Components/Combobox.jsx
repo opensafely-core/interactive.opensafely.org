@@ -77,7 +77,7 @@ export function Combobox({
     <>
       <label
         {...getLabelProps()}
-        className="block text-base font-semibold text-slate-700"
+        className="block mb-1 text-lg font-semibold text-slate-800"
       >
         {/* Display the label passed in via data-label attribute */}
         {data.label}
