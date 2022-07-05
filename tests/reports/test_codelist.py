@@ -1,10 +1,12 @@
+import random
+import string
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import pipeline
 import pytest
-from hypothesis import assume, given
+from hypothesis import assume, given, settings
 from hypothesis import strategies as st
 
 # this is not nice, but will do until we can sort jobrunner out
@@ -250,9 +252,17 @@ def test_redact_events_table(events_counts_table):
     testing.assert_frame_equal(obs, exp)
 
 
+def random_string():
+    return "".join(random.choices(string.ascii_letters + string.digits, k=6))
+
+
 @st.composite
 def distinct_strings_with_common_characters(draw):
-    list_size = draw(st.integers(min_value=10, max_value=100))
+    # We must invoke the random module from within this strategy so
+    # that Hypothesis can guarantee determinism.
+    strings = st.sampled_from([random_string() for i in range(100)])
+
+    list_size = draw(st.integers(min_value=3, max_value=20))
 
     count_column = draw(
         st.lists(
@@ -262,24 +272,27 @@ def distinct_strings_with_common_characters(draw):
         )
     )
     code_column = draw(
-        st.lists(
-            st.text(min_size=1), min_size=list_size, max_size=list_size, unique=True
-        )
+        st.lists(strings, min_size=list_size, max_size=list_size, unique=True)
     )
-    assume(len(count_column) == len(code_column))
 
-    count_column_name = draw(st.text(min_size=1))
-    code_column_name = draw(st.text(min_size=1))
+    count_column_name = draw(strings)
+    code_column_name = draw(strings)
     assume(count_column_name != code_column_name)
-    df = pd.DataFrame(
+
+    return pd.DataFrame(
         data={count_column_name: count_column, code_column_name: code_column}
     )
-    return df
+
+
+# Test hits occasional long GC pauses so we need to tell Hypothesis
+# not to worry about how long test case take to run.
+hypothesis_settings = dict(deadline=None)
 
 
 @given(
     distinct_strings_with_common_characters(), st.integers(min_value=1, max_value=10)
 )
+@settings(**hypothesis_settings)
 def test_group_low_values(df, threshold):
     count_column, code_column = df.columns
     result = study_utils.group_low_values(df, count_column, code_column, threshold)
@@ -289,7 +302,7 @@ def test_group_low_values(df, threshold):
     suppressed_count = result.loc[result[code_column] == "Other", count_column].values
     assert len(suppressed_count) <= 1
     if len(suppressed_count) == 1:  # pragma: no cover
-        assert suppressed_count.to_list()[0] >= threshold
+        assert suppressed_count.tolist()[0] >= threshold
 
 
 @st.composite

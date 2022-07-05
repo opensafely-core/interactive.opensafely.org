@@ -24,7 +24,7 @@ def test_about(client):
     assert response.status_code == 200
 
 
-def test_login_success(client, user, codelists):
+def test_login_success(client, user):
     response = client.post(
         reverse("login"),
         {"username": user.email, "password": "password!"},
@@ -322,10 +322,10 @@ def test_csrf_failure(client):
 
 
 def assert_logged_in(client, user):
-    response = client.get(reverse("new_analysis_request"))
+    response = client.get(reverse("request_analysis_done"))
     assert response.status_code == 200
 
 
 def assert_not_logged_in(client, user):
-    response = client.get(reverse("new_analysis_request"))
+    response = client.get(reverse("request_analysis_done"))
     assert response.status_code == 302
