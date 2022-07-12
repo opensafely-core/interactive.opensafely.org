@@ -36,7 +36,7 @@
     "@heroicons/react": "^1.0.6",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.5.2",
-    "@tailwindcss/typography": "^0.5.2",
+    "@tailwindcss/typography": "^0.5.3",
     "alpinejs": "^3.10.2",
     "downshift": "^6.1.7",
     "prop-types": "^15.8.1",
