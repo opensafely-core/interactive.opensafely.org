@@ -70,6 +70,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "csp.middleware.CSPMiddleware",
+    "interactive.middleware.XSSFilteringMiddleware",
 ]
 
 ROOT_URLCONF = "interactive.urls"
