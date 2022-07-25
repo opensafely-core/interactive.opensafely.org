@@ -258,10 +258,17 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+# CSP
+# https://django-csp.readthedocs.io/en/latest/configuration.html
 CSP_REPORT_ONLY = DEBUG
-CSP_CONNECT_SRC = (False, "ws://localhost:3000/static/bundle/")[DJANGO_VITE_DEV_MODE]
-CSP_FONT_SRC = (False, "data:")[DJANGO_VITE_DEV_MODE]
-CSP_IMG_SRC = ("'self'", "data: w3.org/svg/2000")
+CSP_IMG_SRC = ["'self'", "data: w3.org/svg/2000"]
+
+# which directives to set a nonce for
 CSP_INCLUDE_NONCE_IN = ["script-src-elem"]
-CSP_SCRIPT_SRC_ELEM = (False, ("http://localhost:3000"))[DJANGO_VITE_DEV_MODE]
-CSP_STYLE_SRC = (False, "'unsafe-inline'")[DJANGO_VITE_DEV_MODE]
+
+# configure django-csp to work with Vite when using it in dev mode
+if DJANGO_VITE_DEV_MODE:
+    CSP_CONNECT_SRC = ["ws://localhost:3000/static/bundle/"]
+    CSP_FONT_SRC = ["data:"]
+    CSP_SCRIPT_SRC_ELEM = ["http://localhost:3000"]
+    CSP_STYLE_SRC = ["'unsafe-inline'"]
