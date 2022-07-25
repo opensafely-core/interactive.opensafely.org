@@ -1,12 +1,7 @@
-import("vite/modulepreload-polyfill");
-import persist from "@alpinejs/persist";
-import Alpine from "alpinejs";
+import "vite/modulepreload-polyfill";
+import "@alpinejs/persist/dist/cdn";
+import "./lib/alpinejs-csp-cdn";
 import "../styles/main.css";
-
-Alpine.plugin(persist);
-window.Alpine = Alpine;
-
-Alpine.start();
 
 if (document.location.hostname === "interactive.opensafely.org") {
   const script = document.createElement("script");
@@ -36,3 +31,34 @@ document.querySelectorAll("input[type='submit']").forEach((submit) => {
     }
   });
 });
+
+Alpine.data("account-menu", () => ({
+  isAccountMenuOpen: false,
+
+  accountMenuToggle() {
+    this.isAccountMenuOpen = !this.isAccountMenuOpen;
+  },
+  accountMenuHide() {
+    this.isAccountMenuOpen = false;
+  },
+}));
+
+Alpine.data("beta-banner", () => ({
+  isBetaBannerVisible: Alpine.$persist(true),
+
+  hideBetaBanner() {
+    this.isBetaBannerVisible = false;
+  },
+}));
+
+Alpine.data("toast", () => ({
+  isToastVisible: true,
+
+  init() {
+    setTimeout(() => (this.isToastVisible = false), 5000);
+  },
+
+  hideToast() {
+    this.isToastVisible = false;
+  },
+}));

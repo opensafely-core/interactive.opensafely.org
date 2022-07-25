@@ -5,9 +5,9 @@
     <div
       aria-live="assertive"
       class="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
-      x-data="{ show: true }"
-      {% if 'autohide' in message.tags %}x-init="setTimeout(() => show = false, 5000)"{% endif %}
-      x-show="show"
+      x-data="toast"
+      {% if 'autohide' in message.tags %}x-init="init"{% endif %}
+      x-show="isToastVisible"
       x-transition:enter="transform ease-out duration-300 transition"
       x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
       x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
@@ -34,7 +34,7 @@
             </p>
           </div>
           <div class="ml-4 flex-shrink-0 flex">
-            <button @click="show = false" class="bg-white rounded-md inline-flex text-slate-400 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-oxford-500">
+            <button x-on:click="hideToast" class="bg-white rounded-md inline-flex text-slate-400 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-oxford-500">
               <span class="sr-only">Close</span>
               {% include "icons/solid-x.svg" with html_class="h-5 w-5" %}
             </button>
