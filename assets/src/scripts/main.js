@@ -1,6 +1,7 @@
 import "vite/modulepreload-polyfill";
 import "@alpinejs/persist/dist/cdn";
-import "./lib/alpinejs-csp-cdn";
+import Alpine from "alpinejs/packages/csp/dist/module.esm";
+import "@alpinejs/persist";
 import "../styles/main.css";
 
 if (document.location.hostname === "interactive.opensafely.org") {
@@ -43,13 +44,15 @@ Alpine.data("account-menu", () => ({
   },
 }));
 
-Alpine.data("beta-banner", () => ({
-  isBetaBannerVisible: Alpine.$persist(true),
+Alpine.data("beta-banner", function () {
+  return {
+    isBetaBannerVisible: this.$persist(true),
 
-  hideBetaBanner() {
-    this.isBetaBannerVisible = false;
-  },
-}));
+    hideBetaBanner() {
+      this.isBetaBannerVisible = false;
+    },
+  };
+});
 
 Alpine.data("toast", () => ({
   isToastVisible: true,
@@ -62,3 +65,6 @@ Alpine.data("toast", () => ({
     this.isToastVisible = false;
   },
 }));
+
+window.Alpine = Alpine;
+window.Alpine.start();
