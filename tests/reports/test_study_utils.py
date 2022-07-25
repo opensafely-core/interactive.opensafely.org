@@ -232,6 +232,7 @@ hypothesis_settings = dict(deadline=None)
     distinct_strings_with_common_characters(), st.integers(min_value=1, max_value=10)
 )
 @settings(**hypothesis_settings)
+@pytest.mark.hypothesis
 def test_group_low_values_hypothesis(df, threshold):
     count_column, code_column = df.columns
     result = study_utils.group_low_values(df, count_column, code_column, threshold)
@@ -304,6 +305,7 @@ def random_events_table(draw):
     st.integers(min_value=1, max_value=1000),
     st.integers(min_value=1, max_value=10),
 )
+@pytest.mark.hypothesis
 def test_redact_events_table_hypothesis(df, threshold, rounding_base):
     result = study_utils.redact_events_table(df.T, threshold, rounding_base)
 

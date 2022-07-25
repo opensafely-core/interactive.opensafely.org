@@ -20,6 +20,7 @@ pytest_plugins = [
 
 
 settings.register_profile("ci", max_examples=1000, derandomize=True)
+settings.register_profile("local", max_examples=10000)
 
 
 @pytest.fixture(autouse=True)
