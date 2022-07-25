@@ -106,12 +106,17 @@ events_counts_params = [
     # all low numbers
     {
         "obs": {"count": [4, 1, 1]},
-        "exp": {"count": [np.nan, np.nan, np.nan]},
+        "exp": {"count": ["<=5", "<=5", "<=5"]},
     },
     # some low numbers
     {
         "obs": {"count": [12, 2, 3]},
-        "exp": {"count": [10, np.nan, np.nan]},
+        "exp": {"count": [10, "<=5", "<=5"]},
+    },
+    # some low numbers, inc low count threshold
+    {
+        "obs": {"count": [10, 5, 3]},
+        "exp": {"count": [10, "<=5", "<=5"]},
     },
 ]
 
@@ -172,14 +177,14 @@ def test_redact_events_table(events_counts_table):
     # make events table
 
     events_table = pd.DataFrame(
-        {"count": pd.Series(events_counts_table["obs"]["count"])},
+        {"count": events_counts_table["obs"]["count"]},
         index=["total_events", "events_in_latest_period", "unique_patients"],
     )
 
     obs = study_utils.redact_events_table(events_table, 5, 5)
 
     exp = pd.DataFrame(
-        {"count": pd.Series(events_counts_table["exp"]["count"])},
+        {"count": events_counts_table["exp"]["count"]},
         index=["total_events", "events_in_latest_period", "unique_patients"],
     )
 
