@@ -264,7 +264,7 @@ INTERNAL_IPS = [
 # https://django-csp.readthedocs.io/en/latest/configuration.html
 CSP_REPORT_ONLY = DEBUG
 CSP_IMG_SRC = ["'self'", "data: w3.org/svg/2000"]
-CSP_SCRIPT_SRC_ELEM = ["'self'"]
+CSP_SCRIPT_SRC_ELEM = ["'self'", "https://plausible.io"]
 CSP_STYLE_SRC_ELEM = ["'self'"]
 CSP_FONT_SRC = ["'self'"]
 
