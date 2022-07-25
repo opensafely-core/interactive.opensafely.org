@@ -16,6 +16,10 @@ export default defineConfig({
     emptyOutDir: true,
   },
   clearScreen: false,
+  server: {
+    port: 3000,
+    origin: "http://localhost:3000"
+  },
   plugins: [
     viteReact(),
     legacy({
