@@ -76,7 +76,7 @@ jobs:
         env:
           SECRET_KEY: 12345 # Fake key for GitHub Actions
         run: |
-          just test
+          just test --hypothesis-profile ci
 
   lint-dockerfile:
     runs-on: ubuntu-latest
@@ -97,7 +97,7 @@ jobs:
       - name: Build docker image and run tests in it
         run: |
           # build docker and run test
-          just docker-test
+          just docker-test --hypothesis-profile ci
           # test the prod image builds, as its slightly different, and has caught us out before.
           just docker-build prod
 
