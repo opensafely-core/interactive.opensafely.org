@@ -263,10 +263,12 @@ INTERNAL_IPS = [
 # CSP
 # https://django-csp.readthedocs.io/en/latest/configuration.html
 CSP_REPORT_ONLY = DEBUG
+CSP_DEFAULT_SRC = ["'none'"]
+CSP_FONT_SRC = ["'self'"]
 CSP_IMG_SRC = ["'self'", "data: w3.org/svg/2000"]
+CSP_MANIFEST_SRC = ["'self'"]
 CSP_SCRIPT_SRC_ELEM = ["'self'", "https://plausible.io"]
 CSP_STYLE_SRC_ELEM = ["'self'"]
-CSP_FONT_SRC = ["'self'"]
 
 # which directives to set a nonce for
 CSP_INCLUDE_NONCE_IN = ["script-src-elem"]
@@ -274,9 +276,9 @@ CSP_INCLUDE_NONCE_IN = ["script-src-elem"]
 # configure django-csp to work with Vite when using it in dev mode
 if DJANGO_VITE_DEV_MODE:
     CSP_CONNECT_SRC = ["ws://localhost:3000/static/bundle/"]
-    CSP_FONT_SRC = ["'self'", "data:"]
+    CSP_FONT_SRC = ["'self'", "data:", "http://localhost:3000"]
     CSP_SCRIPT_SRC_ELEM = ["'self'", "http://localhost:3000"]
-    CSP_STYLE_SRC = ["'self'", "'unsafe-inline'"]
+    CSP_STYLE_SRC_ELEM = ["'self'", "'unsafe-inline'"]
 
 
 # Permissions Policy
