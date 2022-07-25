@@ -257,3 +257,11 @@ OPENCODELISTS_URL = furl(
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+CSP_REPORT_ONLY = DEBUG
+CSP_CONNECT_SRC = (False, "ws://localhost:3000/static/bundle/")[DJANGO_VITE_DEV_MODE]
+CSP_FONT_SRC = (False, "data:")[DJANGO_VITE_DEV_MODE]
+CSP_IMG_SRC = ("'self'", "data: w3.org/svg/2000")
+CSP_INCLUDE_NONCE_IN = ["script-src-elem"]
+CSP_SCRIPT_SRC_ELEM = (False, ("http://localhost:3000"))[DJANGO_VITE_DEV_MODE]
+CSP_STYLE_SRC = (False, "'unsafe-inline'")[DJANGO_VITE_DEV_MODE]
