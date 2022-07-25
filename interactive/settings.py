@@ -61,6 +61,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "django_permissions_policy.PermissionsPolicyMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -272,3 +273,10 @@ if DJANGO_VITE_DEV_MODE:
     CSP_FONT_SRC = ["data:"]
     CSP_SCRIPT_SRC_ELEM = ["http://localhost:3000"]
     CSP_STYLE_SRC = ["'unsafe-inline'"]
+
+
+# Permissions Policy
+# https://github.com/adamchainz/django-permissions-policy/blob/main/README.rst
+PERMISSIONS_POLICY = {
+    "interest-cohort": [],
+}
