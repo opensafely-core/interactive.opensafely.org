@@ -106,12 +106,17 @@ events_counts_params = [
     # all low numbers
     {
         "obs": {"count": [4, 1, 1]},
-        "exp": {"count": [np.nan, np.nan, np.nan]},
+        "exp": {"count": ["<=5", "<=5", "<=5"]},
     },
     # some low numbers
     {
         "obs": {"count": [12, 2, 3]},
-        "exp": {"count": [10, np.nan, np.nan]},
+        "exp": {"count": [10, "<=5", "<=5"]},
+    },
+    # some low numbers, inc low count threshold
+    {
+        "obs": {"count": [10, 5, 3]},
+        "exp": {"count": [10, "<=5", "<=5"]},
     },
 ]
 
@@ -172,14 +177,14 @@ def test_redact_events_table(events_counts_table):
     # make events table
 
     events_table = pd.DataFrame(
-        {"count": pd.Series(events_counts_table["obs"]["count"])},
+        {"count": events_counts_table["obs"]["count"]},
         index=["total_events", "events_in_latest_period", "unique_patients"],
     )
 
     obs = study_utils.redact_events_table(events_table, 5, 5)
 
     exp = pd.DataFrame(
-        {"count": pd.Series(events_counts_table["exp"]["count"])},
+        {"count": events_counts_table["exp"]["count"]},
         index=["total_events", "events_in_latest_period", "unique_patients"],
     )
 
@@ -227,6 +232,7 @@ hypothesis_settings = dict(deadline=None)
     distinct_strings_with_common_characters(), st.integers(min_value=1, max_value=10)
 )
 @settings(**hypothesis_settings)
+@pytest.mark.hypothesis
 def test_group_low_values_hypothesis(df, threshold):
     count_column, code_column = df.columns
     result = study_utils.group_low_values(df, count_column, code_column, threshold)
@@ -299,6 +305,7 @@ def random_events_table(draw):
     st.integers(min_value=1, max_value=1000),
     st.integers(min_value=1, max_value=10),
 )
+@pytest.mark.hypothesis
 def test_redact_events_table_hypothesis(df, threshold, rounding_base):
     result = study_utils.redact_events_table(df.T, threshold, rounding_base)
 

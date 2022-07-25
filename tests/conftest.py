@@ -2,6 +2,7 @@ import os
 from collections import namedtuple
 
 import pytest
+from hypothesis import settings
 
 import services
 
@@ -16,6 +17,10 @@ pytest_plugins = [
     "tests.unit.services.test_opencodelists",
     "tests.unit.test_submit",
 ]
+
+
+settings.register_profile("ci", max_examples=1000, derandomize=True)
+settings.register_profile("local", max_examples=10000)
 
 
 @pytest.fixture(autouse=True)
