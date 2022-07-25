@@ -227,9 +227,9 @@ numpy==1.22.4 \
     # via
     #   -r requirements.dev.in
     #   pandas
-opensafely==1.27.0 \
-    --hash=sha256:dd877ef9f1889ecf235d143b3cbd55df2e9a1128217f28efbf4bf37bd80e7574 \
-    --hash=sha256:f91593dca7e5ef3881d03d1bad98955d580396f62103f97f3d9dfc6f7bdc139e
+opensafely==1.27.1 \
+    --hash=sha256:4cab8ef94f70fc5a79e288f27d58d954edb58db2dbb6a796417cc37d81a34f4f \
+    --hash=sha256:c95b9bdae8b043e8738f58e777222b6b8965f31a6ad09c7a9e3227f85221e4d9
     # via -r requirements.dev.in
 opensafely-pipeline @ https://github.com/opensafely-core/pipeline/archive/refs/tags/v0.0.3.zip \
     --hash=sha256:cefffa137f3fc380722eb07a5fefbd4b333b60c01b81503cb22c4ab7540ae9ac
