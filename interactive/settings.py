@@ -61,6 +61,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "django_permissions_policy.PermissionsPolicyMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -68,6 +69,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "csp.middleware.CSPMiddleware",
+    "interactive.middleware.XSSFilteringMiddleware",
 ]
 
 ROOT_URLCONF = "interactive.urls"
@@ -256,3 +259,38 @@ OPENCODELISTS_URL = furl(
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+# CSP
+# https://django-csp.readthedocs.io/en/latest/configuration.html
+CSP_REPORT_ONLY = DEBUG
+CSP_DEFAULT_SRC = ["'none'"]
+CSP_CONNECT_SRC = ["https://plausible.io"]
+CSP_FONT_SRC = ["'self'"]
+CSP_IMG_SRC = ["'self'", "data: w3.org/svg/2000"]
+CSP_MANIFEST_SRC = ["'self'"]
+CSP_SCRIPT_SRC = CSP_SCRIPT_SRC_ELEM = ["'self'", "https://plausible.io"]
+CSP_STYLE_SRC = CSP_STYLE_SRC_ELEM = ["'self'"]
+
+# which directives to set a nonce for
+CSP_INCLUDE_NONCE_IN = ["script-src", "script-src-elem"]
+
+# configure django-csp to work with Vite when using it in dev mode
+if DJANGO_VITE_DEV_MODE:
+    CSP_CONNECT_SRC = ["ws://localhost:3000/static/bundle/", "https://plausible.io"]
+    CSP_FONT_SRC = ["'self'", "http://localhost:3000"]
+    CSP_SCRIPT_SRC = CSP_SCRIPT_SRC_ELEM = [
+        "'self'",
+        "https://plausible.io",
+        "http://localhost:3000",
+    ]
+    CSP_STYLE_SRC = CSP_STYLE_SRC_ELEM = [
+        "'self'",
+        "'unsafe-inline'",
+    ]
+
+
+# Permissions Policy
+# https://github.com/adamchainz/django-permissions-policy/blob/main/README.rst
+PERMISSIONS_POLICY = {
+    "interest-cohort": [],
+}

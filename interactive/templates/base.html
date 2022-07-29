@@ -10,16 +10,6 @@
   <title>{% block meta_title %}{% endblock meta_title %}</title>
   <meta name="description" content="{% block meta_description %}{% endblock meta_description %}">
 
-  <script type="module">
-    document.documentElement.classList.remove("no-js");
-    document.documentElement.classList.add("js", "modern-js");
-  </script>
-
-  <script nomodule>
-    document.documentElement.classList.remove("no-js");
-    document.documentElement.classList.add("js", "legacy-js");
-  </script>
-
   <link rel="manifest" href="{% static "manifest.webmanifest" %}">
   <link rel="icon" href="{% static "favicon.ico" %}" sizes="any">
   <link rel="icon" href="{% static "icon.svg" %}" type="image/svg+xml">
