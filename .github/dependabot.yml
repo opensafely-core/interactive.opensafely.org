@@ -6,6 +6,9 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 20
+    ignore:
+      - dependency-name: "pandas"
+      - dependency-name: "numpy"
 
   - package-ecosystem: "npm"
     directory: "/"
