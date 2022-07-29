@@ -76,6 +76,7 @@ jobs:
         env:
           SECRET_KEY: 12345 # Fake key for GitHub Actions
         run: |
+          just check-migrations
           just test --hypothesis-profile ci
 
   lint-dockerfile:

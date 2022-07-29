@@ -114,12 +114,17 @@ upgrade env package="": virtualenv
 test *ARGS: devenv assets-collect db
     $BIN/python -m pytest --cov=. --cov-report html --cov-report term-missing:skip-covered {{ ARGS }}
 
+
 # Run only tests marked as being hypothesis tests using the local profile specified in conftest
 test-hypothesis *ARGS: devenv db
     $BIN/python -m pytest -m hypothesis --hypothesis-profile local {{ ARGS }}
 
 
-# runs the format (black), sort (isort) and lint (flake8) check but does not change any files
+check-migrations: devenv
+    $BIN/python manage.py makemigrations --dry-run --check
+
+
+# runs the format (black), sort (isort) and lint (flake8) checks but does not change any files
 check: devenv
     $BIN/black --check .
     $BIN/isort --check-only --diff .
