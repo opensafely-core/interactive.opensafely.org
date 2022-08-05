@@ -10,17 +10,17 @@ from interactive.models import AnalysisRequest, RegistrationRequest, User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    fields = ["name", "email"]
-    list_display = ["name", "email", "job_title", "organisation"]
+    fields = ["email", "name", "job_title", "organisation", "is_staff"]
+    list_display = ["email", "name", "is_staff", "job_title", "organisation"]
     search_fields = ["email", "name", "job_title", "organisation"]
-    list_filter = ["organisation"]
+    list_filter = ["is_staff", "organisation"]
+    readonly_fields = ["email"]
 
     def has_add_permission(self, request):
         return False
 
 
 # Remove standard admin
-# admin.site.unregister(auth.models.User)
 admin.site.unregister(auth.models.Group)
 
 
