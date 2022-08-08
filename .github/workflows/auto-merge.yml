@@ -1,0 +1,43 @@
+name: Approve and enable auto-merge for Dependabot updates
+
+on: pull_request
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1.3.3
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - uses: actions/checkout@v3
+        with:
+          # use ref here so we're on the HEAD of the PR branch
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Check we're dealing with Action or Python updates
+        id: check-labels
+        run: |
+          if gh pr view --json labels -q .labels | grep -q -E '"name":"github_actions"|"name":"python"'; then
+            echo ::set-output name=is-wanted-dependency::'y'
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge for Dependabot PRs
+        if: ${{ startsWith(steps.check-labels.outputs.is-wanted-dependency, 'y') }}
+        run: |
+          set -eu
+
+          gh pr review --approve "$PR_URL"
+          gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
