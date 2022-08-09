@@ -2,9 +2,6 @@ name: Approve and enable auto-merge for Dependabot updates
 
 on:
   pull_request:
-    branches:
-      - 'dependabot/github_actions/**'
-      - 'dependabot/pip/**'
 
 permissions:
   pull-requests: write
@@ -13,7 +10,7 @@ permissions:
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    if: ${{ github.actor == 'dependabot[bot]' && !contains(github.head_ref, 'npm_and_yarn') }}
     steps:
       - name: Dependabot metadata
         id: metadata
