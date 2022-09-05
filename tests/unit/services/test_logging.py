@@ -7,7 +7,10 @@ def test_timestamper_timestamp_debug_mode(monkeypatch, freezer):
     monkeypatch.setattr("services.logging.DEBUG", True)
 
     log = timestamper(None, None, {"event": "some logs"})
-    assert log == {"event": "some logs", "timestamp": datetime.now().isoformat() + "Z"}
+    assert log == {
+        "event": "some logs",
+        "timestamp": datetime.now().isoformat() + "Z",
+    }
 
 
 def test_timestamper_timestamp_production_mode(monkeypatch):
