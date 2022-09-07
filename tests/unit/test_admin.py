@@ -1,8 +1,7 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from django.contrib.messages import get_messages
 from django.urls import reverse
-from django.utils import timezone
 
 from interactive.models import RegistrationRequest, User
 

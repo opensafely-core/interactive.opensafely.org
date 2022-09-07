@@ -56,7 +56,7 @@ def test_login_failure_wrong_password(client, user):
 
 def test_logout(client, user):
     client.force_login(user)
-    response = client.get(reverse("logout"), follow=True)
+    response = client.post(reverse("logout"), follow=True)
     assert b"You have successfully logged out" in response.content
     assert_not_logged_in(client, user)
 
