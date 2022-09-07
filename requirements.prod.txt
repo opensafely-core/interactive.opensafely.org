@@ -238,9 +238,9 @@ six==1.16.0 \
     # via
     #   furl
     #   orderedmultidict
-slack-sdk==3.18.1 \
-    --hash=sha256:63ce5e6253a31873d6c921c9feaa842a93a2f56e6e009cb7daf406f4bc4df798 \
-    --hash=sha256:a25d3d2bf0bf605d54d764d4a463fe7c0659ee24c13d75653e2bec247bd5998b
+slack-sdk==3.18.3 \
+    --hash=sha256:1bac09ed465bf9a0a120afce495b328969af7f032fe38cacbadace3dc1e49709 \
+    --hash=sha256:d28a661a7fde37c1763e594be19899a51e76ce7c480172c9cf22e217a72731c3
     # via -r requirements.prod.in
 sqlparse==0.4.2 \
     --hash=sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae \
