@@ -1,4 +1,4 @@
-import { SelectorIcon, XIcon } from "@heroicons/react/solid";
+import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { useCombobox } from "downshift";
 import { arrayOf, func, shape, string } from "prop-types";
 import { useState } from "react";
@@ -114,7 +114,7 @@ export function Combobox({
               tabIndex={-1}
               type="button"
             >
-              <XIcon className="h-5 w-5 text-gray-400" />
+              <XMarkIcon className="h-5 w-5 text-gray-400" />
             </button>
           ) : (
             <button
@@ -124,7 +124,7 @@ export function Combobox({
               tabIndex={-1}
               type="button"
             >
-              <SelectorIcon className="h-5 w-5 text-gray-400" />
+              <ChevronUpDownIcon className="h-5 w-5 text-gray-400" />
             </button>
           )}
         </div>
