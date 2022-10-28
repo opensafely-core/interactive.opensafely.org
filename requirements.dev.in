@@ -5,6 +5,7 @@
 # pip-compile --generate-hashes --output-file=requirements.dev.txt requirements.dev.in
 
 black
+coverage
 factory_boy
 flake8
 flake8-builtins
@@ -15,7 +16,6 @@ opensafely
 pip-tools
 pre-commit
 pytest
-pytest-cov
 pytest-django
 pytest-env
 pytest-freezegun

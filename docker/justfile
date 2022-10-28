@@ -30,7 +30,7 @@ copy-assets: build
 # run tests in docker container
 test *args="": copy-assets
     docker-compose up --detach db
-    docker-compose run --rm test python -m pytest --cov=. --cov-report html --cov-report term-missing:skip-covered {{ args }}
+    docker-compose run --rm test bash -c "python -m coverage run --module pytest {{ args }} && python -m coverage report || python -m coverage html"
 
 
 # run dev server in docker container

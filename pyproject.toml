@@ -26,9 +26,16 @@ omit = [
   "manage.py",
   "reports/*/analysis/*",
 ]
+source = [
+  "interactive",
+  "reports",
+  "services",
+  "tests",
+]
 
 [tool.coverage.report]
 fail_under = 100
+show_missing = true
 skip_covered = true
 
 [tool.coverage.html]

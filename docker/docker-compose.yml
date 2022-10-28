@@ -81,7 +81,7 @@ services:
       - DATABASE_URL=postgres://user:pass@db:5432/interactive
     # override entrypoint and command
     entrypoint: /app/docker/entrypoints/test.sh
-    command: python -m pytest --cov=. --cov-report html --cov-report term-missing:skip-covered
+    command: bash -c "python -m coverage run --module pytest && python -m coverage report || python -m coverage html"
 
 volumes:
   postgres_data:
