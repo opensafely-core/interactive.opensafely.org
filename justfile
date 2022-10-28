@@ -109,10 +109,11 @@ upgrade env package="": virtualenv
     FORCE=true "{{ just_executable() }}" requirements-{{ env }} $opts
 
 
-# *ARGS is variadic, 0 or more. This allows us to do `just test -k match`, for example.
+# *args is variadic, 0 or more. This allows us to do `just test -k match`, for example.
 # Run the tests
-test *ARGS: devenv assets-collect db
-    $BIN/python -m pytest --cov=. --cov-report html --cov-report term-missing:skip-covered {{ ARGS }}
+test *args: devenv assets-collect db
+    $BIN/coverage run --module pytest {{ args }}
+    $BIN/coverage report || $BIN/coverage html
 
 
 # Run only tests marked as being hypothesis tests using the local profile specified in conftest

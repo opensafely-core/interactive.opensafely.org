@@ -15,6 +15,7 @@ exclude = '''
 
 [tool.coverage.run]
 branch = true
+dynamic_context = "test_function"
 omit = [
   ".direnv/*",
   ".venv/*",
@@ -26,12 +27,20 @@ omit = [
   "manage.py",
   "reports/*/analysis/*",
 ]
+source = [
+  "interactive",
+  "reports",
+  "services",
+  "tests",
+]
 
 [tool.coverage.report]
 fail_under = 100
+show_missing = true
 skip_covered = true
 
 [tool.coverage.html]
+show_contexts = true
 
 [tool.isort]
 profile = "black"
