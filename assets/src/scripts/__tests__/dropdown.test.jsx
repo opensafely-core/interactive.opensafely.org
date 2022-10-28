@@ -54,9 +54,9 @@ describe("Native <select> component", () => {
     expect(select.options.length).toBe(props.choices.length);
     expect(select.options[select.selectedIndex].value).toBeUndefined;
 
-    const textbox = screen.getByRole("textbox");
-    await user.type(textbox, props.choices[1].label);
-    expect(textbox.value).toBe(props.choices[1].label);
+    const combobox = screen.getByRole("combobox");
+    await user.type(combobox, props.choices[1].label);
+    expect(combobox.value).toBe(props.choices[1].label);
     await user.click(screen.getByRole("option"));
     expect(select.options[select.selectedIndex].value).toBe(
       props.choices[1].value
@@ -67,12 +67,12 @@ describe("Native <select> component", () => {
     render(<Select {...props} />);
 
     await user.type(
-      screen.getByRole("textbox"),
+      screen.getByRole("combobox"),
       props.choices[4].label.slice(0, 6)
     );
     expect(screen.getAllByRole("option").length).toBe(2);
-    await user.clear(screen.getByRole("textbox"));
-    await user.type(screen.getByRole("textbox"), props.choices[1].label);
+    await user.clear(screen.getByRole("combobox"));
+    await user.type(screen.getByRole("combobox"), props.choices[1].label);
     expect(screen.getByRole("option").textContent).toBe(
       `${props.choices[1].label}, From: ${props.choices[1].organisation}`
     );
@@ -81,7 +81,7 @@ describe("Native <select> component", () => {
   test("Selected item gets a highlighted class", async () => {
     const { container } = render(<Select {...props} />);
 
-    await user.type(screen.getByRole("textbox"), props.choices[1].label);
+    await user.type(screen.getByRole("combobox"), props.choices[1].label);
     expect(screen.getByRole("option").textContent).toBe(
       `${props.choices[1].label}, From: ${props.choices[1].organisation}`
     );
@@ -92,10 +92,10 @@ describe("Native <select> component", () => {
     expect(select.options[select.selectedIndex].value).toBe(
       props.choices[1].value
     );
-    expect(screen.getByRole("textbox").value).toBe(props.choices[1].label);
+    expect(screen.getByRole("combobox").value).toBe(props.choices[1].label);
 
-    await user.click(screen.getByRole("textbox"));
-    await user.type(screen.getByRole("textbox"), "{Backspace}");
+    await user.click(screen.getByRole("combobox"));
+    await user.type(screen.getByRole("combobox"), "{Backspace}");
     await waitFor(() =>
       expect(screen.getByRole("option").textContent).toBe(
         `${props.choices[1].label}, From: ${props.choices[1].organisation}`
@@ -109,7 +109,7 @@ describe("Native <select> component", () => {
   test("Selected item gets remove on clear selection click", async () => {
     render(<Select {...props} />);
 
-    await user.type(screen.getByRole("textbox"), props.choices[1].label);
+    await user.type(screen.getByRole("combobox"), props.choices[1].label);
     expect(screen.getByRole("option").textContent).toBe(
       `${props.choices[1].label}, From: ${props.choices[1].organisation}`
     );
@@ -132,22 +132,22 @@ describe("Native <select> component", () => {
   test("Selected item is revert to display onBlur of input", async () => {
     render(<Select {...props} />);
 
-    await user.type(screen.getByRole("textbox"), props.choices[1].label);
+    await user.type(screen.getByRole("combobox"), props.choices[1].label);
     expect(screen.getByRole("option").textContent).toBe(
       `${props.choices[1].label}, From: ${props.choices[1].organisation}`
     );
     await user.click(screen.getByRole("option"));
 
     await user.type(
-      screen.getByRole("textbox"),
+      screen.getByRole("combobox"),
       "{Backspace}{Backspace}{Backspace}"
     );
-    expect(screen.getByRole("textbox").value).toBe(
+    expect(screen.getByRole("combobox").value).toBe(
       props.choices[1].label.slice(0, -3)
     );
 
     await user.tab();
-    expect(screen.getByRole("textbox").value).toBe(props.choices[1].label);
+    expect(screen.getByRole("combobox").value).toBe(props.choices[1].label);
     const select = screen.getByTestId(props.data.name);
     expect(select.options[select.selectedIndex].value).toBe(
       props.choices[1].value
