@@ -287,7 +287,7 @@ def test_bad_request():
     request = factory.get("/")
     response = views.bad_request(request)
     assert response.status_code == 400
-    assert b"Bad request" in response.content
+    assert "Bad request" in response.rendered_content
 
 
 def test_permission_denied():
@@ -295,7 +295,7 @@ def test_permission_denied():
     request = factory.get("/")
     response = views.permission_denied(request)
     assert response.status_code == 403
-    assert b"Permission denied" in response.content
+    assert "Permission denied" in response.rendered_content
 
 
 def test_page_not_found():
@@ -303,7 +303,7 @@ def test_page_not_found():
     request = factory.get("/")
     response = views.page_not_found(request)
     assert response.status_code == 404
-    assert b"Page not found" in response.content
+    assert "Page not found" in response.rendered_content
 
 
 def test_server_error():
@@ -311,14 +311,14 @@ def test_server_error():
     request = factory.get("/")
     response = views.server_error(request)
     assert response.status_code == 500
-    assert b"Server error" in response.content
+    assert "Server error" in response.rendered_content
 
 
 def test_csrf_failure(client):
     client.handler.enforce_csrf_checks = True
     response = client.post(reverse("home"), {})
     assert response.status_code == 400
-    assert b"CSRF Failed" in response.content
+    assert "CSRF Failed" in response.rendered_content
 
 
 def assert_logged_in(client, user):

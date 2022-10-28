@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
+from django.template.response import TemplateResponse
 from django.utils import timezone
 from furl import furl
 
@@ -18,11 +19,11 @@ from .notifications import notify_registration_request_submitted
 
 
 def index(request):
-    return render(request, "index.html")
+    return TemplateResponse(request, "index.html")
 
 
 def about(request):
-    return render(request, "about.html")
+    return TemplateResponse(request, "about.html")
 
 
 def register_interest(request):
@@ -39,11 +40,13 @@ def register_interest(request):
             return redirect("register_interest_done")
     else:
         form = RegistrationRequestForm()
-    return render(request, "interactive/register_interest.html", {"form": form})
+    return TemplateResponse(
+        request, "interactive/register_interest.html", {"form": form}
+    )
 
 
 def register_interest_done(request):
-    return render(request, "interactive/register_interest_done.html")
+    return TemplateResponse(request, "interactive/register_interest_done.html")
 
 
 @login_required
@@ -81,12 +84,12 @@ def new_analysis_request(request):
         "end_date": END_DATE,
         "codelists": codelists,
     }
-    return render(request, "interactive/new_analysis_request.html", ctx)
+    return TemplateResponse(request, "interactive/new_analysis_request.html", ctx)
 
 
 @login_required
 def new_analysis_request_done(request):
-    return render(request, "interactive/new_analysis_request_done.html")
+    return TemplateResponse(request, "interactive/new_analysis_request_done.html")
 
 
 @login_required
@@ -99,7 +102,7 @@ def analysis_request_output(request, pk):
     if outputs := jobserver.fetch_release(str(analysis_request.id)):
         context.update(outputs)
 
-    return render(
+    return TemplateResponse(
         request,
         "interactive/analysis_request_output.html",
         context,
@@ -149,7 +152,7 @@ class LogoutView(DjangoLogoutView):
 # Error pages
 #
 def bad_request(request, exception=None):
-    return render(
+    return TemplateResponse(
         request,
         "error.html",
         status=400,
@@ -162,7 +165,7 @@ def bad_request(request, exception=None):
 
 
 def permission_denied(request, exception=None):
-    return render(
+    return TemplateResponse(
         request,
         "error.html",
         status=403,
@@ -175,7 +178,7 @@ def permission_denied(request, exception=None):
 
 
 def page_not_found(request, exception=None):
-    return render(
+    return TemplateResponse(
         request,
         "error.html",
         status=404,
@@ -188,7 +191,7 @@ def page_not_found(request, exception=None):
 
 
 def server_error(request):
-    return render(
+    return TemplateResponse(
         request,
         "error.html",
         status=500,
@@ -201,7 +204,7 @@ def server_error(request):
 
 
 def csrf_failure(request, reason=""):
-    return render(
+    return TemplateResponse(
         request,
         "error.html",
         status=400,
