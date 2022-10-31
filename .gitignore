@@ -116,3 +116,4 @@ node_modules
 /coverage
 /reports/*/metadata
 /.hypothesis
+/.pytest_cache
