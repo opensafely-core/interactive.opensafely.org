@@ -1,0 +1,17 @@
+{% extends "emails/base.txt" %}
+
+{% block content %}
+Hi {{ name }},
+
+Thank you for your interest in OpenSAFELY Interactive.
+
+Please click on the link to finish setting up your account:
+
+{{ url }}
+
+Once you've setup your account, you'll be able to login to the website, {{ domain }}, and request an analysis by clicking on "Get started".
+
+In the early development phase, you will be able to analyse the rate of recorded coding activity in primary care across a specified time period, using all SNOMED CT codelists that have been used in OpenSAFELY projects for covid-related purposes.
+
+Once your analysis has been run, we will send you an email with instructions on how to view the results.
+{% endblock %}
