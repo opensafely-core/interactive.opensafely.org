@@ -12,6 +12,7 @@ environs[django]
 furl
 gunicorn
 html2text
+incuna-mail
 psycopg2-binary
 requests
 sentry-sdk

@@ -1,0 +1,13 @@
+{% extends "emails/base.txt" %}
+
+{% block content %}
+Hi {{ name }},
+
+You submitted an analysis request for the {{ codelist }} codelist.
+
+We will send an email to {{ email }} when your analysis is ready.
+
+During the pilot phase results will be checked carefully by our team for privacy and security reasons.
+We aim to process requests within half a working day, although it may take up to two working days.
+We are working to improve and automate these processes in the future.
+{% endblock %}
