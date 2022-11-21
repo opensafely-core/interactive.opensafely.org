@@ -18,14 +18,6 @@ from .models import END_DATE, START_DATE, AnalysisRequest
 from .notifications import notify_registration_request_submitted
 
 
-def index(request):
-    return TemplateResponse(request, "index.html")
-
-
-def about(request):
-    return TemplateResponse(request, "about.html")
-
-
 def register_interest(request):
     if request.method == "POST":
         form = RegistrationRequestForm(request.POST)
@@ -43,10 +35,6 @@ def register_interest(request):
     return TemplateResponse(
         request, "interactive/register_interest.html", {"form": form}
     )
-
-
-def register_interest_done(request):
-    return TemplateResponse(request, "interactive/register_interest_done.html")
 
 
 @login_required
