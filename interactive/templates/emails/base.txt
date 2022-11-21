@@ -1,0 +1,9 @@
+{% block content %}{% endblock %}
+Kind regards,
+The OpenSAFELY Team
+
+OpenSAFELY Interactive is a new tool in active development. Please let us know your thoughts on how we can improve the service by filling out our feedback form:
+
+https://docs.google.com/forms/d/e/1FAIpQLScWikDx0UlqbEcnbzZhn5FiBTBHc2LtrfhqmmKwgOuKt4oFTQ/viewform
+
+or by emailing us at: team@opensafely.org

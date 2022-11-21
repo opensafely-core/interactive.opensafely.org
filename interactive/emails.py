@@ -1,6 +1,9 @@
 import html2text
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from furl import furl
+from incuna_mail import send
 
 
 def send_welcome_email(email, context):
@@ -19,21 +22,24 @@ def send_welcome_email(email, context):
     msg.send()
 
 
-def send_analysis_request_email(email, context):
-    subject = f"OpenSAFELY: {context.get('title')}"
-    html_body = render_to_string("emails/analysis_done.html", context)
-    text_body = _convert_html(html_body)
+def send_analysis_request_email(email, analysis_request):
+    output_url = furl(settings.BASE_URL) / analysis_request.get_output_url()
 
-    msg = EmailMultiAlternatives(
-        subject=subject,
-        from_email="OpenSAFELY Interactive <no-reply@mg.interactive.opensafely.org>",
-        reply_to=("OpenSAFELY Team <team@opensafely.org>",),
-        to=[email],
-        body=text_body,
+    context = {
+        "name": analysis_request.user.name,
+        "title": analysis_request.title,
+        "url": output_url,
+    }
+
+    send(
+        to=email,
+        subject=f"OpenSAFELY: {context.get('title')}",
+        sender="OpenSAFELY Interactive <no-reply@mg.interactive.opensafely.org>",
+        reply_to=["OpenSAFELY Team <team@opensafely.org>"],
+        template_name="emails/analysis_done.txt",
+        html_template_name="emails/analysis_done.html",
+        context=context,
     )
-    msg.attach_alternative(html_body, "text/html")
-    msg.send()
-
 
 def send_analysis_request_confirmation_email(to, subject, context):
     subject = f"OpenSAFELY: {subject} submitted"

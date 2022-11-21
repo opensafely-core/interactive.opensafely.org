@@ -1,0 +1,11 @@
+{% extends "emails/base.txt" %}
+
+{% block content %}
+Hi {{ name }},
+
+Your analysis titled "{{ title }}" using OpenSAFELY interactive has now finished running. You can view the results at:
+
+{{ url }}
+
+These results are not publicly accessible and are only viewable when logged into your OpenSAFELY Interactive account. Please do not share these results with anyone. If you would like to share the results, please send an email to us at team@opensafely.org
+{% endblock %}
