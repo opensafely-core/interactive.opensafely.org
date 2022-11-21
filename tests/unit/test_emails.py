@@ -59,15 +59,7 @@ def test_send_analysis_request_confirmation_email(mailoutbox):
     user = UserFactory()
     analysis_request = AnalysisRequestFactory(user=user)
 
-    context = {
-        "name": user.name,
-        "codelist": analysis_request.codelist_name,
-        "email": user.email,
-    }
-
-    send_analysis_request_confirmation_email(
-        user.email, analysis_request.title, context
-    )
+    send_analysis_request_confirmation_email(user.email, analysis_request)
 
     # reference the last email because creating a user creates one too
     # TODO: remove the signal creating this email
