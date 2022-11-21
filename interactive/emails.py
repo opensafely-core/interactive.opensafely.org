@@ -41,20 +41,23 @@ def send_analysis_request_email(email, analysis_request):
         context=context,
     )
 
-def send_analysis_request_confirmation_email(to, subject, context):
-    subject = f"OpenSAFELY: {subject} submitted"
-    html_body = render_to_string("emails/analysis_confirmation.html", context)
-    text_body = _convert_html(html_body)
 
-    msg = EmailMultiAlternatives(
-        subject=subject,
-        from_email="OpenSAFELY Interactive <no-reply@mg.interactive.opensafely.org>",
-        reply_to=("OpenSAFELY Team <team@opensafely.org>",),
-        to=[to],
-        body=text_body,
+def send_analysis_request_confirmation_email(email, analysis_request):
+    context = {
+        "name": analysis_request.user.name,
+        "codelist": analysis_request.codelist_name,
+        "email": analysis_request.user.email,
+    }
+
+    send(
+        to=email,
+        subject=f"OpenSAFELY: {analysis_request.title} submitted",
+        sender="OpenSAFELY Interactive <no-reply@mg.interactive.opensafely.org>",
+        reply_to=["OpenSAFELY Team <team@opensafely.org>"],
+        template_name="emails/analysis_confirmation.txt",
+        html_template_name="emails/analysis_confirmation.html",
+        context=context,
     )
-    msg.attach_alternative(html_body, "text/html")
-    msg.send()
 
 
 def _convert_html(raw_html):
