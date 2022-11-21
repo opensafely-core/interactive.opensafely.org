@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as DjangoLoginView
@@ -8,7 +7,6 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.views.generic import FormView
-from furl import furl
 
 from interactive.submit import submit_analysis
 from services import jobserver, opencodelists
@@ -100,12 +98,7 @@ def analysis_request_email(request, pk):
         return permission_denied(request)
 
     analysis_request = get_object_or_404(AnalysisRequest, pk=pk)
-    context = {
-        "name": analysis_request.user.name,
-        "title": analysis_request.title,
-        "url": furl(settings.BASE_URL) / analysis_request.get_output_url(),
-    }
-    send_analysis_request_email(analysis_request.user.email, context)
+    send_analysis_request_email(analysis_request.user.email, analysis_request)
 
     analysis_request.complete_email_sent_at = timezone.now()
     analysis_request.save()
