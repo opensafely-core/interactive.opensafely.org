@@ -29,11 +29,6 @@ def enable_db_access_for_all_tests(db):
 
 
 @pytest.fixture
-def user():
-    return UserFactory()
-
-
-@pytest.fixture
 def admin_user():
     return UserFactory(is_staff=True, is_superuser=True)
 
