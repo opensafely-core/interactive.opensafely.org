@@ -7,6 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.utils import timezone
+from django.views.generic import FormView
 from furl import furl
 
 from interactive.submit import submit_analysis
@@ -18,23 +19,19 @@ from .models import END_DATE, START_DATE, AnalysisRequest
 from .notifications import notify_registration_request_submitted
 
 
-def register_interest(request):
-    if request.method == "POST":
-        form = RegistrationRequestForm(request.POST)
-        if form.is_valid():
-            form.save()
-            notify_registration_request_submitted(
-                form.instance.full_name,
-                form.instance.job_title,
-                form.instance.organisation,
-                form.instance.email,
-            )
-            return redirect("register_interest_done")
-    else:
-        form = RegistrationRequestForm()
-    return TemplateResponse(
-        request, "interactive/register_interest.html", {"form": form}
-    )
+class RegisterInterest(FormView):
+    form_class = RegistrationRequestForm
+    template_name = "interactive/register_interest.html"
+
+    def form_valid(self, form):
+        form.save()
+        notify_registration_request_submitted(
+            form.instance.full_name,
+            form.instance.job_title,
+            form.instance.organisation,
+            form.instance.email,
+        )
+        return redirect("register_interest_done")
 
 
 @login_required

@@ -65,6 +65,9 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="index.html"), name="home"),
     path("about", TemplateView.as_view(template_name="about.html"), name="about"),
     path(
+        "register-interest/", views.RegisterInterest.as_view(), name="register_interest"
+    ),
+    path(
         "register-interest/done",
         TemplateView.as_view(template_name="interactive/register_interest_done.html"),
         name="register_interest_done",
