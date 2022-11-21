@@ -31,8 +31,12 @@ def test_login_success(client):
         {"username": user.email, "password": "password!"},
         follow=True,
     )
+
+    # check that our post-login configuration is correct
+    assert response.redirect_chain == [("/", 302)]
+
+    # check our success message has been rendered
     assert b"You have successfully logged in" in response.content
-    assert_logged_in(client)
 
 
 def test_login_failure_wrong_username(client):
@@ -331,11 +335,6 @@ def test_csrf_failure(client):
     response = client.post(reverse("home"), {})
     assert response.status_code == 400
     assert "CSRF Failed" in response.rendered_content
-
-
-def assert_logged_in(client):
-    response = client.get(reverse("request_analysis_done"))
-    assert response.status_code == 200
 
 
 def assert_not_logged_in(client):
