@@ -75,7 +75,7 @@ def test_register_interest_get(client):
     assert response.status_code == 200
 
 
-def test_register_interest_post_success(client, slack_messages):
+def test_register_interest_post_success(client, get_slack_messages):
     with assert_difference(RegistrationRequest.objects.count, expected_difference=1):
         response = client.post(
             reverse("register_interest"),
@@ -91,8 +91,11 @@ def test_register_interest_post_success(client, slack_messages):
 
     request = RegistrationRequest.objects.last()
     assert request.full_name == "Alice"
-    assert "alice@test.com" in slack_messages[-1].text
-    assert "Unit test" in slack_messages[-1].text
+
+    messages = get_slack_messages()
+    assert len(messages) == 1
+    assert "alice@test.com" in messages[-1]["text"]
+    assert "Unit test" in messages[-1]["text"]
 
 
 def test_register_interest_post_failure_returns_unsaved_form(client, slack_messages):

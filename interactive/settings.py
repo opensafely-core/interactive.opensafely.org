@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "anymail",
     "django.contrib.staticfiles",
     "django_extensions",
+    "django_slack",
     "django_vite",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -291,3 +292,10 @@ if DJANGO_VITE_DEV_MODE:
 PERMISSIONS_POLICY = {
     "interest-cohort": [],
 }
+
+
+# Slack
+# https://django-slack.readthedocs.io/
+SLACK_BACKEND = env.str("SLACK_BACKEND", default="django_slack.backends.ConsoleBackend")
+SLACK_CHANNEL = "interactive-requests"
+SLACK_TOKEN = env.str("SLACK_BOT_TOKEN", default="")

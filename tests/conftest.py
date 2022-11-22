@@ -2,6 +2,7 @@ import os
 from collections import namedtuple
 
 import pytest
+from django_slack.utils import get_backend
 from hypothesis import settings
 
 import services
@@ -54,3 +55,11 @@ def slack_messages(monkeypatch):
 
     monkeypatch.setattr("services.slack.post", post)
     return messages
+
+
+@pytest.fixture
+def get_slack_messages():
+    backend = get_backend()
+    backend.reset_messages()
+
+    yield backend.retrieve_messages

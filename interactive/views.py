@@ -22,13 +22,8 @@ class RegisterInterest(FormView):
     template_name = "interactive/register_interest.html"
 
     def form_valid(self, form):
-        form.save()
-        notify_registration_request_submitted(
-            form.instance.full_name,
-            form.instance.job_title,
-            form.instance.organisation,
-            form.instance.email,
-        )
+        registration = form.save()
+        notify_registration_request_submitted(registration)
         return redirect("register_interest_done")
 
 
