@@ -214,9 +214,6 @@ CSRF_FAILURE_VIEW = "interactive.views.csrf_failure"
 CSRF_TRUSTED_ORIGINS = [BASE_URL]
 SESSION_COOKIE_SECURE = not DEBUG
 
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
-
 # THIRD PARTY SETTINGS
 
 sentry.initialise_sentry()

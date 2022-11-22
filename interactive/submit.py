@@ -118,13 +118,7 @@ def submit_analysis(analysis_request, force=False):
     notify_analysis_request_submitted(analysis_request, issue_url)
 
     send_analysis_request_confirmation_email(
-        analysis_request.user.email,
-        subject=analysis_request.title,
-        context={
-            "name": analysis_request.user.name,
-            "codelist": analysis_request.codelist_name,
-            "email": analysis_request.user.email,
-        },
+        analysis_request.user.email, analysis_request
     )
 
 
