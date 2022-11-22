@@ -17,6 +17,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
+from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 
 from interactive import views
@@ -61,12 +62,14 @@ request_analysis_urls = [
 ]
 
 urlpatterns = [
-    path("", views.index, name="home"),
-    path("about", views.about, name="about"),
-    path("register-interest/", views.register_interest, name="register_interest"),
+    path("", TemplateView.as_view(template_name="index.html"), name="home"),
+    path("about", TemplateView.as_view(template_name="about.html"), name="about"),
+    path(
+        "register-interest/", views.RegisterInterest.as_view(), name="register_interest"
+    ),
     path(
         "register-interest/done",
-        views.register_interest_done,
+        TemplateView.as_view(template_name="interactive/register_interest_done.html"),
         name="register_interest_done",
     ),
     path("admin/", admin.site.urls),

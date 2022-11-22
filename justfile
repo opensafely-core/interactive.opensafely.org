@@ -155,7 +155,7 @@ assets-build:
   npm run build
 
 # Collect the static files
-assets-collect:
+assets-collect: devenv
   $BIN/python manage.py collectstatic --no-input
 
 # Clean, reinstall, build and collect all assets

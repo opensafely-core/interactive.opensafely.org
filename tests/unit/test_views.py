@@ -8,7 +8,7 @@ from interactive.models import (
     RegistrationRequest,
     date_of_last_extract,
 )
-from tests.factories import AnalysisRequestFactory
+from tests.factories import AnalysisRequestFactory, UserFactory
 
 from .assertions import assert_difference, assert_no_difference
 
@@ -23,41 +23,51 @@ def test_about(client):
     assert response.status_code == 200
 
 
-def test_login_success(client, user):
+def test_login_success(client):
+    user = UserFactory()
+
     response = client.post(
         reverse("login"),
         {"username": user.email, "password": "password!"},
         follow=True,
     )
+
+    # check that our post-login configuration is correct
+    assert response.redirect_chain == [("/", 302)]
+
+    # check our success message has been rendered
     assert b"You have successfully logged in" in response.content
-    assert_logged_in(client, user)
 
 
-def test_login_failure_wrong_username(client, user):
+def test_login_failure_wrong_username(client):
     response = client.post(
         reverse("login"),
         {"username": "malice@test.com", "password": "password!"},
         follow=True,
     )
     assert b"Please enter a correct email address and password" in response.content
-    assert_not_logged_in(client, user)
+    assert_not_logged_in(client)
 
 
-def test_login_failure_wrong_password(client, user):
+def test_login_failure_wrong_password(client):
+    user = UserFactory()
+
     response = client.post(
         reverse("login"),
         {"username": user.email, "password": "wordpass"},
         follow=True,
     )
     assert b"Please enter a correct email address and password" in response.content
-    assert_not_logged_in(client, user)
+    assert_not_logged_in(client)
 
 
-def test_logout(client, user):
+def test_logout(client):
+    user = UserFactory()
+
     client.force_login(user)
     response = client.post(reverse("logout"), follow=True)
     assert b"You have successfully logged out" in response.content
-    assert_not_logged_in(client, user)
+    assert_not_logged_in(client)
 
 
 def test_register_interest_get(client):
@@ -65,7 +75,7 @@ def test_register_interest_get(client):
     assert response.status_code == 200
 
 
-def test_register_interest_post_success(client, user, slack_messages):
+def test_register_interest_post_success(client, slack_messages):
     with assert_difference(RegistrationRequest.objects.count, expected_difference=1):
         response = client.post(
             reverse("register_interest"),
@@ -85,9 +95,7 @@ def test_register_interest_post_success(client, user, slack_messages):
     assert "Unit test" in slack_messages[-1].text
 
 
-def test_register_interest_post_failure_returns_unsaved_form(
-    client, user, slack_messages
-):
+def test_register_interest_post_failure_returns_unsaved_form(client, slack_messages):
     with assert_no_difference(RegistrationRequest.objects.count):
         response = client.post(
             reverse("register_interest"),
@@ -102,7 +110,9 @@ def test_register_interest_post_failure_returns_unsaved_form(
     assert slack_messages == []
 
 
-def test_new_analysis_request_get(client, user, codelists):
+def test_new_analysis_request_get(client, codelists):
+    user = UserFactory()
+
     client.force_login(user)
     response = client.get(reverse("new_analysis_request"))
     assert response.status_code == 200
@@ -115,7 +125,6 @@ def test_new_analysis_request_get_not_logged_in(client):
 
 def test_new_analysis_request_post_success(
     client,
-    user,
     slack_messages,
     codelists,
     add_codelist_response,
@@ -123,6 +132,8 @@ def test_new_analysis_request_post_success(
     create_output_checker_issue,
     workspace_repo,
 ):
+    user = UserFactory()
+
     client.force_login(user)
     codelist_slug = "opensafely/systolic-blood-pressure-qof/v1"
     codelist_name = "Systolic blood pressure QoF"
@@ -163,8 +174,10 @@ def test_new_analysis_request_post_success(
 
 
 def test_new_analysis_request_post_failure_returns_unsaved_form(
-    client, user, slack_messages, codelists
+    client, slack_messages, codelists
 ):
+    user = UserFactory()
+
     client.force_login(user)
     with assert_no_difference(AnalysisRequest.objects.count):
         response = client.post(
@@ -177,8 +190,10 @@ def test_new_analysis_request_post_failure_returns_unsaved_form(
 
 
 def test_new_analysis_request_post_failure_with_invalid_codelist(
-    client, user, slack_messages, codelists
+    client, slack_messages, codelists
 ):
+    user = UserFactory()
+
     client.force_login(user)
     with assert_no_difference(AnalysisRequest.objects.count):
         response = client.post(
@@ -190,12 +205,14 @@ def test_new_analysis_request_post_failure_with_invalid_codelist(
     assert slack_messages == []
 
 
-def test_new_analysis_request_post_not_logged_in(client, user):
+def test_new_analysis_request_post_not_logged_in(client):
     response = client.post(reverse("new_analysis_request"))
     assert response.status_code == 302
 
 
-def test_analysis_request_output(client, user, monkeypatch):
+def test_analysis_request_output(client, monkeypatch):
+    user = UserFactory()
+
     def release_outputs(analysis_request_id):
         return {"deciles_chart": ""}
 
@@ -212,13 +229,15 @@ def test_analysis_request_output(client, user, monkeypatch):
     assert "deciles_chart" in response.context
 
 
-def test_analysis_request_output_not_logged_in(client, user):
+def test_analysis_request_output_not_logged_in(client):
     pk = timeflake.random()
     response = client.get(reverse("request_analysis_output", kwargs={"pk": pk}))
     assert response.status_code == 302
 
 
-def test_analysis_request_output_not_authorised(client, user):
+def test_analysis_request_output_not_authorised(client):
+    user = UserFactory()
+
     client.force_login(user)
     analysis_request = AnalysisRequestFactory()
     response = client.get(
@@ -258,7 +277,9 @@ def test_analysis_request_email_admin_can_view(client, admin_user):
     assert str(messages[0]).startswith("Email sent")
 
 
-def test_analysis_request_email_user_not_authorised(client, user):
+def test_analysis_request_email_user_not_authorised(client):
+    user = UserFactory()
+
     client.force_login(user)
     analysis_request = AnalysisRequestFactory()
 
@@ -316,11 +337,6 @@ def test_csrf_failure(client):
     assert "CSRF Failed" in response.rendered_content
 
 
-def assert_logged_in(client, user):
-    response = client.get(reverse("request_analysis_done"))
-    assert response.status_code == 200
-
-
-def assert_not_logged_in(client, user):
+def assert_not_logged_in(client):
     response = client.get(reverse("request_analysis_done"))
     assert response.status_code == 302
