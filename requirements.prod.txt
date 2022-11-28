@@ -260,9 +260,9 @@ sqlparse==0.4.2 \
     --hash=sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae \
     --hash=sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d
     # via django
-structlog==22.2.0 \
-    --hash=sha256:4edfe1d9f15f8a4bf365a817f7182af5d610596c155434b7564bfe7d40c2753c \
-    --hash=sha256:bb1aa189214c30372a8afaa592f9556756aeb690e1ad7eb34391d7b5fa0f09b2
+structlog==22.3.0 \
+    --hash=sha256:b403f344f902b220648fa9f286a23c0cc5439a5844d271fec40562dbadbc70ad \
+    --hash=sha256:e7509391f215e4afb88b1b80fa3ea074be57a5a17d794bd436a5c949da023333
     # via -r requirements.prod.in
 timeflake==0.4.2 \
     --hash=sha256:0fa4d9da342876dab9b1cab9a00a82a1c85e3d48b4931619220c1ccbb2a6a073 \
