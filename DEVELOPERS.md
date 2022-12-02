@@ -95,3 +95,14 @@ To view the compiled assets:
 Vite builds the assets and outputs them to the `assets/dist` folder.
 
 [Django Staticfiles app](https://docs.djangoproject.com/en/4.0/ref/contrib/staticfiles/) then collects the files and places them in the `staticfiles/bundle` folder, with the manifest file located at `staticfiles/bundle/manifest.json`.
+
+
+## Rotating the GitHub token
+1. Log into the `opensafely-interactive-bot` GitHub account (credentials are in Bitwarden).
+1. Got to the [Personal access tokens (classic) page](https://github.com/settings/tokens).
+1. Click on `opensafely-interactive-token`.
+1. Click "Regenerate token".
+1. Set the expiry to 90 days.
+1. Copy the new token.
+1. ssh into `dokku3.ebmdatalab.net`
+1. Run: `dokku config:set interactive GITHUB_TOKEN=<the new token>`
