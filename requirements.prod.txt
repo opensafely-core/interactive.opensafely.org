@@ -252,9 +252,9 @@ six==1.16.0 \
     #   furl
     #   incuna-mail
     #   orderedmultidict
-slack-sdk==3.19.4 \
-    --hash=sha256:67b05e636fee6e2cb2ed140fc79cb1cd370a7a983ec6e60fdebaf83e48a53383 \
-    --hash=sha256:71e222f5a55d2f704638602f0883def9d331539462edc6d9cb88f83044fbce70
+slack-sdk==3.19.5 \
+    --hash=sha256:0b52bb32a87c71f638b9eb47e228dffeebf89de5e762684ef848276f9f186c84 \
+    --hash=sha256:47fb4af596243fe6585a92f3034de21eb2104a55cc9fd59a92ef3af17cf9ddd8
     # via -r requirements.prod.in
 sqlparse==0.4.2 \
     --hash=sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae \
