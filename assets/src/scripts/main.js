@@ -54,6 +54,16 @@ Alpine.data("beta-banner", function () {
   };
 });
 
+Alpine.data("notify-banner", function () {
+  return {
+    isNotifyBannerVisible: this.$persist(true),
+
+    hideNotifyBanner() {
+      this.isNotifyBannerVisible = false;
+    },
+  };
+});
+
 Alpine.data("toast", () => ({
   isToastVisible: true,
 

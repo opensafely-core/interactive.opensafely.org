@@ -98,6 +98,22 @@
     </p>
   </div>
 
-  {% include "components/button.html" with el="input" color="oxford" html_class="w-full" size="lg" type="submit" text="Submit" %}
+  <div class="group relative">
+    <div class="bg-transparent justify-center">
+      <span
+        class="
+          text-sm text-semibold bg-rose-300 text-rose-900 py-2 px-3 mb-4 rounded shadow-xl text-center
+          block opacity-0 scale-0 transition-all
+          group-hover:opacity-100 group-hover:scale-100
+          before:block before:absolute before:-bottom-1 before:h-3 before:w-3 before:bg-rose-300 before:left-1/2 before:-translate-x-1/2 before:rotate-45
+        "
+      >
+        This service is currently unavailable.
+      </span>
+    </div>
+    <div class="opacity-75">
+      {% include "components/button.html" with el="input" color="oxford" html_class="w-full" disabled="true" size="lg" type="submit" text="Submit" %}
+    </div>
+  </div>
 </form>
 {% endblock template_content %}
