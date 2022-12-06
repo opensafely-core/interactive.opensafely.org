@@ -3,11 +3,7 @@ from django.contrib.messages import get_messages
 from django.urls import reverse
 
 from interactive import views
-from interactive.models import (
-    AnalysisRequest,
-    RegistrationRequest,
-    date_of_last_extract,
-)
+from interactive.models import AnalysisRequest, RegistrationRequest
 from tests.factories import AnalysisRequestFactory, UserFactory
 
 from .assertions import assert_difference, assert_no_difference
@@ -123,57 +119,7 @@ def test_new_analysis_request_get_not_logged_in(client):
     assert response.status_code == 302
 
 
-def test_new_analysis_request_post_success(
-    client,
-    slack_messages,
-    codelists,
-    add_codelist_response,
-    submit_job_request,
-    create_output_checker_issue,
-    workspace_repo,
-):
-    user = UserFactory()
-
-    client.force_login(user)
-    codelist_slug = "opensafely/systolic-blood-pressure-qof/v1"
-    codelist_name = "Systolic blood pressure QoF"
-    add_codelist_response(codelist_slug, codelist_name)
-
-    response = client.post(
-        reverse("new_analysis_request"),
-        {"codelist_slug": "opensafely/systolic-blood-pressure-qof/v1"},
-        follow=True,
-    )
-    assert response.status_code == 200
-
-    # success should redirect elsewhere
-    assert response.redirect_chain == [
-        (reverse("request_analysis_done"), 302)
-    ], response.redirect_chain
-
-    assert b"Your request is being processed" in response.content
-
-    # check we created the correct number of AnalysisRequests, if we have more
-    # we either a bug in the view or leaky tests (also a bug)
-    assert AnalysisRequest.objects.count() == 1
-
-    request = AnalysisRequest.objects.first()
-    assert request.user == user
-    assert request.title == codelist_name
-    assert request.codelist_slug == codelist_slug
-    assert request.codelist_name == codelist_name
-    assert request.job_request_url == "test-url"
-    assert str(request.start_date) == "2019-09-01"
-    assert str(request.end_date) == date_of_last_extract().strftime("%Y-%m-%d")
-
-    assert len(slack_messages) == 2
-    analysis_msg, output_msg = slack_messages
-
-    assert user.email in analysis_msg.text
-    assert "opensafely/systolic-blood-pressure-qof/v1" in analysis_msg.text
-
-
-def test_new_analysis_request_post_failure_returns_unsaved_form(
+def test_new_analysis_request_post_returns_unsaved_form(
     client, slack_messages, codelists
 ):
     user = UserFactory()
@@ -189,20 +135,13 @@ def test_new_analysis_request_post_failure_returns_unsaved_form(
     assert slack_messages == []
 
 
-def test_new_analysis_request_post_failure_with_invalid_codelist(
-    client, slack_messages, codelists
-):
+def test_request_analysis_done_returns_template(client):
     user = UserFactory()
-
     client.force_login(user)
-    with assert_no_difference(AnalysisRequest.objects.count):
-        response = client.post(
-            reverse("new_analysis_request"),
-            {"title": "Sneaky study", "codelist": "sneaky-user/my-codelist"},
-        )
 
-    assert b"Submit" in response.content
-    assert slack_messages == []
+    response = client.get(reverse("request_analysis_done"))
+
+    assert response.status_code == 200
 
 
 def test_new_analysis_request_post_not_logged_in(client):
