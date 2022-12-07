@@ -34,17 +34,24 @@ test *args="": copy-assets
 
 
 # run dev server in docker container
-serve: copy-assets
+serve env="dev" *options="": copy-assets
     docker-compose up --detach db
-    docker-compose up dev
+    docker-compose up {{ options }} {{ env }}
 
 
-# run command in dev container
-run *args="bash": copy-assets
+# run command in container
+run env="dev" *args="bash": copy-assets
     docker-compose up --detach db
-    docker-compose run dev {{ args }}
+    docker-compose run {{ env }} {{ args }}
 
 
-# exec command in existing dev container
-exec *args="bash": copy-assets
-    docker-compose exec dev {{ args }}
+# exec command in existing container
+exec env="dev" *args="bash": copy-assets
+    docker-compose exec {{ env }} {{ args }}
+
+
+# run a basic functional smoke test against a running container
+smoke-test host="http://localhost:8000":
+    #!/bin/bash
+    set -eu
+    curl -I {{ host }} -s --compressed --fail --retry 20 --retry-delay 1 --retry-all-errors

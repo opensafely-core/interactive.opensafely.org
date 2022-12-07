@@ -95,15 +95,27 @@ jobs:
       - uses: actions/checkout@v3
       - uses: extractions/setup-just@95b912dc5d3ed106a72907f2f9b91e76d60bdb76  # v1.5.0
 
-      - name: Build docker image and run tests in it
+      - name: Run unit tests on docker dev image
         run: |
           # build docker and run test
           just docker-test --hypothesis-profile ci
+
+  docker-smoke-test:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: extractions/setup-just@95b912dc5d3ed106a72907f2f9b91e76d60bdb76  # v1.5.0
+
+      - name: Run smoke test on prod image
+        run: |
           # test the prod image builds, as its slightly different, and has caught us out before.
-          just docker-build prod
+          just docker-serve prod -d
+          sleep 5
+          just docker-smoke-test || { docker logs docker_prod_1; exit 1; }
 
   deploy:
-    needs: [check, test, docker-test, lint-dockerfile]
+    needs: [check, test, docker-test, lint-dockerfile, docker-smoke-test]
     runs-on: ubuntu-22.04
 
     concurrency: deploy-production

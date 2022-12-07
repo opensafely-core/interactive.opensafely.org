@@ -170,8 +170,8 @@ docker-test *args="": _env
     {{ just_executable() }} docker/test {{ args }}
 
 # run dev server in docker container
-docker-serve: _env
-    {{ just_executable() }} docker/serve
+docker-serve env="dev" *options="": _env
+    {{ just_executable() }} docker/serve {{ env }} {{ options }}
 
 # run cmd in dev docker continer
 docker-run *args="bash": _env
@@ -180,3 +180,7 @@ docker-run *args="bash": _env
 # exec command in an existing dev docker container
 docker-exec *args="bash": _env
     {{ just_executable() }} docker/exec {{ args }}
+
+# run basic smoke test against a running docker container
+docker-smoke-test host="http://localhost:8000": _env
+    {{ just_executable() }} docker/smoke-test {{ host }}
