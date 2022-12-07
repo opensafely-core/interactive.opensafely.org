@@ -13,7 +13,7 @@ on:
 
 jobs:
   assets:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -40,7 +40,7 @@ jobs:
           path: assets/dist/bundle
 
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -55,7 +55,7 @@ jobs:
 
   test:
     needs: [assets, check]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -80,7 +80,7 @@ jobs:
           just test --hypothesis-profile ci
 
   lint-dockerfile:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - uses: hadolint/hadolint-action@v3.0.0
@@ -89,7 +89,7 @@ jobs:
           failure-threshold: error
 
   docker-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -104,7 +104,7 @@ jobs:
 
   deploy:
     needs: [check, test, docker-test, lint-dockerfile]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     concurrency: deploy-production
 
