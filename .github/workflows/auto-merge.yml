@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   dependabot:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: ${{ github.actor == 'dependabot[bot]' && !contains(github.head_ref, 'npm_and_yarn') }}
     steps:
       - name: Dependabot metadata

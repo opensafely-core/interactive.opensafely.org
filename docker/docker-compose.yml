@@ -33,8 +33,15 @@ services:
         - GITREF
     # use dockers builitin PID daemon
     init: true
+    # used when running the image in CI/locally
+    env_file:
+      - ../.env
+    environment:
+      - DEBUG=0
+      # override db hostname, so we can reach it within the container
+      - DATABASE_URL=postgres://user:pass@db:5432/interactive
     ports:
-      - "8000:8000"
+      - "8000:5000"
 
   node-assets:
     extends:
