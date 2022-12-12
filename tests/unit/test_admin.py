@@ -1,11 +1,25 @@
 from datetime import datetime, timezone
 
+from django.contrib.admin.sites import AdminSite
 from django.contrib.messages import get_messages
 from django.urls import reverse
 
+from interactive.admin import UserAdmin
 from interactive.models import RegistrationRequest, User
 
-from ..factories import RegistrationRequestFactory
+from ..factories import RegistrationRequestFactory, UserFactory
+
+
+def test_admin_make_inactive_makes_users_inactive(client, admin_user):
+    client.force_login(admin_user)
+
+    UserFactory()
+    user_admin = UserAdmin(User, AdminSite())
+    queryset = User.objects.all()
+
+    user_admin.make_inactive(None, queryset)
+
+    assert User.objects.filter(is_active=True).count() == 0
 
 
 def test_registration_request_response_change_loads_successfully(client, admin_user):
