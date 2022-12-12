@@ -10,14 +10,26 @@ from interactive.models import AnalysisRequest, RegistrationRequest, User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    fields = ["email", "name", "job_title", "organisation", "is_staff"]
-    list_display = ["email", "name", "is_staff", "job_title", "organisation"]
+    fields = ["email", "name", "job_title", "organisation", "is_staff", "is_active"]
+    list_display = [
+        "email",
+        "name",
+        "is_staff",
+        "is_active",
+        "job_title",
+        "organisation",
+    ]
     search_fields = ["email", "name", "job_title", "organisation"]
-    list_filter = ["is_staff", "organisation"]
+    list_filter = ["is_staff", "is_active", "organisation"]
     readonly_fields = ["email"]
+    actions = ["make_inactive"]
 
     def has_add_permission(self, request):
         return False
+
+    @admin.action
+    def make_inactive(self, request, queryset):
+        queryset.update(is_active=False)
 
 
 # Remove standard admin
