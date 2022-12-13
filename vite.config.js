@@ -9,7 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "assets/src/scripts/main.js",
-        dropdown: "assets/src/scripts/dropdown.jsx",
+        form: "assets/src/scripts/form/index.jsx",
       },
     },
     outDir: "assets/dist/bundle",
@@ -29,7 +29,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
-    setupFiles: "./assets/src/scripts/__tests__/setup.js",
+    setupFiles: "./assets/src/scripts/form/__tests__/setup.js",
     coverage: {
       lines: 95,
       functions: 95,

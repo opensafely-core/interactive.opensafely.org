@@ -1,6 +1,6 @@
 import "vite/modulepreload-polyfill";
 import { createRoot } from "react-dom/client";
-import { Select } from "./Components/Select";
+import App from "./App";
 
 // Create a root element for React to render in
 const container = document.getElementById("react-dropdown");
@@ -25,5 +25,5 @@ const errors = errorsEl?.textContent ? JSON.parse(errorsEl.textContent) : null;
 
 // Render the React component
 root.render(
-  <Select choices={choices} data={container.dataset} errors={errors} />
+  <App choices={choices} data={container.dataset} errors={errors} />
 );
