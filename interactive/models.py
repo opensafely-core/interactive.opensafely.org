@@ -72,11 +72,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         error_messages={"unique": "A user with this email address already exists."},
     )
     organisation = models.CharField(
-        max_length=100, verbose_name="Organisation", default="", blank=True
+        max_length=100, verbose_name="Organisation", default=""
     )
-    job_title = models.CharField(
-        max_length=100, verbose_name="Job title", default="", blank=True
-    )
+    job_title = models.CharField(max_length=100, verbose_name="Job title", default="")
 
     is_staff = models.BooleanField(
         "staff status",
@@ -92,7 +90,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ),
     )
 
-    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, null=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -124,11 +122,10 @@ class RegistrationRequest(models.Model):
     organisation = models.CharField(max_length=100, verbose_name="Organisation")
     job_title = models.CharField(max_length=100, verbose_name="Job title")
 
-    reviewed_at = models.DateTimeField(default=None, blank=True, null=True)
+    reviewed_at = models.DateTimeField(default=None, null=True)
     reviewed_by = models.ForeignKey(
         "interactive.User",
         default=None,
-        blank=True,
         null=True,
         on_delete=models.PROTECT,
     )
@@ -136,10 +133,9 @@ class RegistrationRequest(models.Model):
         choices=ReviewStatus.choices,
         null=True,
         default=None,
-        blank=True,
     )
 
-    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, null=True)
 
     def __str__(self) -> str:
         return (
@@ -161,10 +157,10 @@ class AnalysisRequest(models.Model):
     commit_sha = models.CharField(
         max_length=40, verbose_name="Repo commit SHA", null=True
     )
-    complete_email_sent_at = models.DateTimeField(default=None, blank=True, null=True)
+    complete_email_sent_at = models.DateTimeField(default=None, null=True)
     job_request_url = models.TextField(default="")
 
-    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, null=True)
 
     def __str__(self) -> str:
         return f"{self.title} ({self.codelist_slug})"
