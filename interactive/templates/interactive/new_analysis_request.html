@@ -77,14 +77,14 @@
     </div>
   {% if debug %}
   <script type="module" nonce="{{ request.csp_nonce }}">
-    import RefreshRuntime from 'http://localhost:3000/@react-refresh'
+    import RefreshRuntime from 'http://localhost:5173/@react-refresh'
     RefreshRuntime.injectIntoGlobalHook(window)
     window.$RefreshReg$ = () => {}
     window.$RefreshSig$ = () => (type) => type
     window.__vite_plugin_react_preamble_installed__ = true
   </script>
   {% endif %}
-  {% vite_asset 'assets/src/scripts/dropdown.jsx' defer=true %}
+  {% vite_asset 'assets/src/scripts/form/index.jsx' defer=true %}
 
   <div>
     <h2 class="block mb-1 text-lg font-semibold text-slate-800">
