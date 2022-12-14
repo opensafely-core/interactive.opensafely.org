@@ -46,27 +46,8 @@
         </ul>
         {% endif %}
 
-        <div>
-          {% include "includes/form_text.html" with field=form.name label="Name" name="name" %}
-          {% if form.name.errors %}
-            <ul class="mt-2">
-              {% for error in form.name.errors %}
-                <li class="text-sm text-red-700">{{ error }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </div>
-
-        <div>
-          {% include "includes/form_text.html" with field=form.email label="Email address" name="email" %}
-          {% if form.email.errors %}
-            <ul class="mt-2">
-              {% for error in form.email.errors %}
-                <li class="text-sm text-red-700">{{ error }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </div>
+        {% include "includes/form_text.html" with field=form.name label="Name" name="name" %}
+        {% include "includes/form_text.html" with field=form.email label="Email address" name="email" %}
 
         <div>
           <h4>Analysis requests</h4>
