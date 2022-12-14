@@ -97,17 +97,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    @classmethod
-    def create_from_registration(cls, registration_request):
-        return cls.objects.get_or_create(
-            email=registration_request.email,
-            defaults={
-                "name": registration_request.full_name,
-                "organisation": registration_request.organisation,
-                "job_title": registration_request.job_title,
-            },
-        )
-
     def get_full_name(self):
         return self.name
 
@@ -151,11 +140,6 @@ class RegistrationRequest(models.Model):
     )
 
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
-
-    def review(self, user, datetime, review_status):
-        self.reviewed_by = user
-        self.reviewed_at = datetime
-        self.review_status = review_status
 
     def __str__(self) -> str:
         return (
