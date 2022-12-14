@@ -48,6 +48,7 @@
 
         {% include "includes/form_text.html" with field=form.name label="Name" name="name" %}
         {% include "includes/form_text.html" with field=form.email label="Email address" name="email" %}
+        {% include "includes/form_checkbox.html" with field=form.is_staff label="Staff?" name="is_staff" %}
 
         <div>
           <h4>Analysis requests</h4>
