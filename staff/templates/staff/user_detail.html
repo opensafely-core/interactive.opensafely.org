@@ -2,7 +2,7 @@
 
 {% load humanize %}
 
-{% block metatitle %}{{ user.username }}: Staff Area | OpenSAFELY Interactive{% endblock metatitle %}
+{% block metatitle %}{{ user.name }}: Staff Area | OpenSAFELY Interactive{% endblock metatitle %}
 
 {% block breadcrumbs %}
 <nav class="breadcrumb-container breadcrumb--danger" aria-label="breadcrumb">
@@ -25,13 +25,7 @@
 {% block jumbotron %}
 <div class="jumbotron jumbotron-fluid jumbotron--danger pt-md-2">
   <div class="container">
-    <h1 class="display-4">{{ user.name }}</h1>
-
-    <ul class="list-unstyled lead">
-      <li>
-        <strong>Created at:</strong> {{ user.date_joined }}
-      </li>
-    </ul>
+    <h1 class="display-4">{{ user }}</h1>
   </div>
 </div>
 {% endblock jumbotron %}
@@ -53,23 +47,21 @@
         {% endif %}
 
         <div>
-          {% include "components/form-field.html" with id=form.email.id_for_label label=form.email.label inputmode="email" name="email" required=True type="email" value=form.email.value %}
-          {% if form.email.errors %}
+          {% include "includes/form_text.html" with field=form.name label="Name" name="name" %}
+          {% if form.name.errors %}
             <ul class="mt-2">
-              {% for error in form.email.errors %}
+              {% for error in form.name.errors %}
                 <li class="text-sm text-red-700">{{ error }}</li>
               {% endfor %}
             </ul>
           {% endif %}
         </div>
 
-        <pre>{{ form.name.widget.value }}</pre>
-
         <div>
-          {% include "components/form-field.html" with id=form.name.id_for_label label=form.name.label inputmode="text" name="name" required=True type="text" value=form.name.value %}
-          {% if form.name.errors %}
+          {% include "includes/form_text.html" with field=form.email label="Email address" name="email" %}
+          {% if form.email.errors %}
             <ul class="mt-2">
-              {% for error in form.name.errors %}
+              {% for error in form.email.errors %}
                 <li class="text-sm text-red-700">{{ error }}</li>
               {% endfor %}
             </ul>

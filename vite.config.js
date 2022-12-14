@@ -9,6 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "assets/src/scripts/main.js",
+        bootstrap: "assets/src/scripts/bootstrap.js",
         form: "assets/src/scripts/form/index.jsx",
       },
     },
