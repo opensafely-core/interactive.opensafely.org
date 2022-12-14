@@ -131,6 +131,7 @@ class RegistrationRequest(models.Model):
         "interactive.User",
         null=True,
         on_delete=models.PROTECT,
+        related_name="reviewed_registration_requests",
     )
     review_status = models.TextField(choices=ReviewStatus.choices, null=True)
 
@@ -150,7 +151,11 @@ class AnalysisRequest(models.Model):
         error_messages={"invalid": "Invalid timeflake id"}
     )
 
-    user = models.ForeignKey("interactive.User", on_delete=models.PROTECT)
+    user = models.ForeignKey(
+        "interactive.User",
+        on_delete=models.PROTECT,
+        related_name="analysis_requests",
+    )
     title = models.TextField(verbose_name="Analysis title")
     codelist_slug = models.TextField(verbose_name="Codelist")
     codelist_name = models.TextField(verbose_name="Codelist")

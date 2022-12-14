@@ -28,7 +28,7 @@ class UserDetail(UpdateView):
     template_name = "staff/user_detail.html"
 
     def get_context_data(self, **kwargs):
-        analysis_requests = self.object.analysisrequest_set.order_by(Lower("title"))
+        analysis_requests = self.object.analysis_requests.order_by(Lower("title"))
 
         return super().get_context_data(**kwargs) | {
             "analysis_requests": analysis_requests,
