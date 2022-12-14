@@ -85,6 +85,7 @@ urlpatterns = [
     ),
     path("request-analysis/", include(request_analysis_urls)),
     path("password-reset/", include(password_reset_urls)),
+    path("staff/", include("staff.urls", namespace="staff")),
     path("favicon.ico", RedirectView.as_view(url=settings.STATIC_URL + "favicon.ico")),
     path("robots.txt", RedirectView.as_view(url=settings.STATIC_URL + "robots.txt")),
 ]

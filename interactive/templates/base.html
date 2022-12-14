@@ -19,6 +19,7 @@
   {% vite_asset 'assets/src/scripts/main.js' defer=true %}
 </head>
 <body class="min-h-screen flex flex-col {% block body_class %}{% endblock body_class %}">
+  {% block staff_nav %}{% endblock %}
   {% include "partials/header.html" %}
   {% include "partials/toast.html" %}
   {% include "partials/banner.html" %}

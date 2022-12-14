@@ -1,6 +1,7 @@
 from datetime import date
 
 import pytest
+from django.urls import reverse
 
 from interactive.models import (
     AnalysisRequest,
@@ -8,6 +9,7 @@ from interactive.models import (
     User,
     date_of_last_extract,
 )
+from tests.factories import AnalysisRequestFactory, UserFactory
 
 
 def test_user_manager_create_user_successfully():
@@ -32,10 +34,26 @@ def test_user_get_full_name_returns_name():
     assert user.get_full_name() == "Alice Test"
 
 
+def test_user_get_staff_url():
+    user = UserFactory()
+
+    url = user.get_staff_url()
+
+    assert url == reverse("staff:user-detail", kwargs={"pk": user.pk})
+
+
 def test_user_string_repr():
     user = User()
     user.email = "alice@test.com"
     assert str(user) == "alice@test.com"
+
+
+def test_analysis_request_get_staff_url():
+    analysis = AnalysisRequestFactory()
+
+    url = analysis.get_staff_url()
+
+    assert url == reverse("staff:analysis-request-detail", kwargs={"pk": analysis.pk})
 
 
 def test_analysis_request_string_repr():

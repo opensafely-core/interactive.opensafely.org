@@ -243,28 +243,40 @@ def test_analysis_request_email_user_not_logged_in(client):
 
 def test_bad_request(rf):
     request = rf.get("/")
+    request.user = UserFactory()
+
     response = views.bad_request(request)
+
     assert response.status_code == 400
     assert "Bad request" in response.rendered_content
 
 
 def test_permission_denied(rf):
     request = rf.get("/")
+    request.user = UserFactory()
+
     response = views.permission_denied(request)
+
     assert response.status_code == 403
     assert "Permission denied" in response.rendered_content
 
 
 def test_page_not_found(rf):
     request = rf.get("/")
+    request.user = UserFactory()
+
     response = views.page_not_found(request)
+
     assert response.status_code == 404
     assert "Page not found" in response.rendered_content
 
 
 def test_server_error(rf):
     request = rf.get("/")
+    request.user = UserFactory()
+
     response = views.server_error(request)
+
     assert response.status_code == 500
     assert "Server error" in response.rendered_content
 

@@ -120,6 +120,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         return reverse("password_reset_confirm", kwargs={"uidb64": uid, "token": token})
 
+    def get_staff_url(self):
+        return reverse("staff:user-detail", kwargs={"pk": self.pk})
+
 
 class RegistrationRequest(models.Model):
     class ReviewStatus(models.TextChoices):
@@ -195,6 +198,9 @@ class AnalysisRequest(models.Model):
 
     def get_output_url(self):
         return reverse("request_analysis_output", kwargs={"pk": self.id})
+
+    def get_staff_url(self):
+        return reverse("staff:analysis-request-detail", kwargs={"pk": self.pk})
 
     def get_github_commit_url(self):
         return f"{settings.WORKSPACE_REPO}/tree/{self.id}"

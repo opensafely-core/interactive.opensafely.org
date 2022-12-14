@@ -1,0 +1,101 @@
+{% extends "staff/base.html" %}
+
+{% load humanize %}
+
+{% block metatitle %}{{ user.username }}: Staff Area | OpenSAFELY Interactive{% endblock metatitle %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb-container breadcrumb--danger" aria-label="breadcrumb">
+  <div class="container">
+    <ol class="breadcrumb rounded-0 mb-0 px-0">
+      <li class="breadcrumb-item">
+        <a href="{% url 'staff:index' %}">Staff area</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'staff:user-list' %}">Users</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ user.name }}
+      </li>
+    </ol>
+  </div>
+</nav>
+{% endblock breadcrumbs %}
+
+{% block jumbotron %}
+<div class="jumbotron jumbotron-fluid jumbotron--danger pt-md-2">
+  <div class="container">
+    <h1 class="display-4">{{ user.name }}</h1>
+
+    <ul class="list-unstyled lead">
+      <li>
+        <strong>Created at:</strong> {{ user.date_joined }}
+      </li>
+    </ul>
+  </div>
+</div>
+{% endblock jumbotron %}
+
+{% block staff_content %}
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-9 col-xl-8">
+
+      <form method="POST">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <ul>
+          {% for error in form.non_field_errors %}
+          <li class="text-danger">{{ error }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div>
+          {% include "components/form-field.html" with id=form.email.id_for_label label=form.email.label inputmode="email" name="email" required=True type="email" value=form.email.value %}
+          {% if form.email.errors %}
+            <ul class="mt-2">
+              {% for error in form.email.errors %}
+                <li class="text-sm text-red-700">{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+
+        <pre>{{ form.name.widget.value }}</pre>
+
+        <div>
+          {% include "components/form-field.html" with id=form.name.id_for_label label=form.name.label inputmode="text" name="name" required=True type="text" value=form.name.value %}
+          {% if form.name.errors %}
+            <ul class="mt-2">
+              {% for error in form.name.errors %}
+                <li class="text-sm text-red-700">{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+
+        <div>
+          <h4>Analysis requests</h4>
+
+          <div class="list-group mb-3">
+            {% for analysis_request in analysis_requests %}
+            <a class="list-group-item list-group-item-action" href="{{ analysis_request.get_staff_url }}">
+              {{ analysis_request.title }}
+            </a>
+            {% empty %}
+            <p class="list-group-item">No analysis requests.</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock staff_content %}

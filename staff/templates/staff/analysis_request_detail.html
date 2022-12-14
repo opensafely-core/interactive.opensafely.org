@@ -1,0 +1,97 @@
+
+{% extends "staff/base.html" %}
+
+{% load humanize %}
+
+{% block metatitle %}{{ user.username }}: Staff Area | OpenSAFELY Interactive{% endblock metatitle %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb-container breadcrumb--danger" aria-label="breadcrumb">
+  <div class="container">
+    <ol class="breadcrumb rounded-0 mb-0 px-0">
+      <li class="breadcrumb-item">
+        <a href="{% url 'staff:index' %}">Staff area</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'staff:analysis-request-list' %}">Analysis Requests</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ analysis_request.title }}
+      </li>
+    </ol>
+  </div>
+</nav>
+{% endblock breadcrumbs %}
+
+{% block jumbotron %}
+<div class="jumbotron jumbotron-fluid jumbotron--danger pt-md-2">
+  <div class="container">
+    <h1 class="display-4">{{ analysis_request.title }}</h1>
+
+    <ul class="list-unstyled lead">
+      <li>
+        <strong>Created at:</strong> {{ analysis_request.created_at }}
+      </li>
+    </ul>
+  </div>
+</div>
+{% endblock jumbotron %}
+
+{% block staff_content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-xl-9">
+      <div class="card">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>Title:</strong>
+            <code>{{ analysis_request.title }}</code>
+          </li>
+          <li class="list-group-item">
+            <strong>Created at:</strong>
+            <time datetime="{{ analysis_request.created_at }}">{{ analysis_request.created_at }}</time>
+          </li>
+          <li class="list-group-item">
+            <strong>Author:</strong>
+            <a href="{{ analysis_request.user.get_staff_url }}">{{ analysis_request.user.email }}</a>
+          </li>
+          <li class="list-group-item">
+            <strong>Codelist:</strong>
+            <a href="">{{ analysis_request.codelist_name }}</a>
+          </li>
+          <li class="list-group-item">
+            <strong>Start date:</strong>
+            <time datetime="{{ analysis_request.start_date }}">{{ analysis_request.start_date }}</time>
+          </li>
+          <li class="list-group-item">
+            <strong>End date:</strong>
+            <time datetime="{{ analysis_request.end_date }}">{{ analysis_request.end_date }}</time>
+          </li>
+          <li class="list-group-item">
+            <strong>Commit SHA:</strong>
+            <code>{{ analysis_request.commit_sha }}</code>
+          </li>
+          <li class="list-group-item">
+            <strong>Complete email sent at:</strong>
+            {% if analysis_request.complete_email_sent_at %}
+            <time datetime="{{ analysis_request.complete_email_sent_at }}">
+              {{ analysis_request.complete_email_sent_at }}
+            </time>
+            {% else %}
+            <span>-</span>
+            {% endif %}
+          </li>
+          <li class="list-group-item">
+            <strong>JobRequest URL:</strong>
+            {% if analysis_request.job_request_url %}
+            <a href="{{ settings.JOB_SERVER_URL }}{{ analysis_request.job_request_url }}">View</a>
+            {% else %}
+            <span>-</span>
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock staff_content %}
