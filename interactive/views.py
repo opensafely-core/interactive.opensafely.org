@@ -81,12 +81,12 @@ def analysis_request_email(request, pk):
         return permission_denied(request)
 
     analysis_request = get_object_or_404(AnalysisRequest, pk=pk)
-    send_analysis_request_email(analysis_request.user.email, analysis_request)
+    send_analysis_request_email(analysis_request.created_by.email, analysis_request)
 
     analysis_request.complete_email_sent_at = timezone.now()
     analysis_request.save()
 
-    messages.success(request, f"Email sent to {analysis_request.created_by}")
+    messages.success(request, f"Email sent to {analysis_request.created_by.email}")
     return redirect("request_analysis_output", pk)
 
 

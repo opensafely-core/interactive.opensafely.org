@@ -151,11 +151,6 @@ class AnalysisRequest(models.Model):
         error_messages={"invalid": "Invalid timeflake id"}
     )
 
-    user = models.ForeignKey(
-        "interactive.User",
-        on_delete=models.PROTECT,
-        related_name="analysis_requests",
-    )
     title = models.TextField(verbose_name="Analysis title")
     codelist_slug = models.TextField(verbose_name="Codelist")
     codelist_name = models.TextField(verbose_name="Codelist")
@@ -166,16 +161,17 @@ class AnalysisRequest(models.Model):
     job_request_url = models.TextField(default="")
 
     created_at = models.DateTimeField(default=timezone.now)
+    created_by = models.ForeignKey(
+        "interactive.User",
+        on_delete=models.PROTECT,
+        related_name="analysis_requests",
+    )
 
     def __str__(self) -> str:
         return f"{self.title} ({self.codelist_slug})"
 
-    @property
-    def created_by(self):
-        return self.user.email
-
     def visible_to(self, user):
-        return self.user == user or user.is_staff
+        return self.created_by == user or user.is_staff
 
     def get_codelist_url(self):
         oc = furl("https://www.opencodelists.org/codelist/")

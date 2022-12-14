@@ -25,12 +25,13 @@ class AnalysisRequestFactory(factory.django.DjangoModelFactory):
         model = AnalysisRequest
 
     id = factory.LazyAttribute(lambda _: timeflake.random())  # noqa: A003
-    user = factory.SubFactory("tests.factories.UserFactory")
     title = factory.Sequence(lambda n: f"Analysis Request {n}")
     start_date = START_DATE
     end_date = END_DATE
     codelist_name = "Asthma annual review QOF"
     codelist_slug = "opensafely/asthma-annual-review-qof"
+
+    created_by = factory.SubFactory("tests.factories.UserFactory")
 
 
 class RegistrationRequestFactory(factory.django.DjangoModelFactory):

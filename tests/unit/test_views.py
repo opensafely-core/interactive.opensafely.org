@@ -158,7 +158,7 @@ def test_analysis_request_output(client, monkeypatch):
     monkeypatch.setattr(views.jobserver, "fetch_release", release_outputs)
 
     client.force_login(user)
-    analysis_request = AnalysisRequestFactory(user=user)
+    analysis_request = AnalysisRequestFactory(created_by=user)
 
     response = client.get(
         reverse("request_analysis_output", kwargs={"pk": analysis_request.id})

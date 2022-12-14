@@ -10,7 +10,7 @@ from ....factories import AnalysisRequestFactory, UserFactory
 
 def test_userdetail_get_success(rf, staff_user):
     user = UserFactory()
-    AnalysisRequestFactory(user=user)
+    AnalysisRequestFactory(created_by=user)
 
     request = rf.get("/")
     request.user = staff_user

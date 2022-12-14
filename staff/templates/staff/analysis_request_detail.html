@@ -55,7 +55,7 @@
           </li>
           <li class="list-group-item">
             <strong>Author:</strong>
-            <a href="{{ analysis_request.user.get_staff_url }}">{{ analysis_request.user.email }}</a>
+            <a href="{{ analysis_request.created_by.get_staff_url }}">{{ analysis_request.created_by.email }}</a>
           </li>
           <li class="list-group-item">
             <strong>Codelist:</strong>

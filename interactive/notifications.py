@@ -24,7 +24,7 @@ def notify_analysis_request_submitted(analysis_request, issue_url):
 
     issue_link = slack.link(issue_url, "tracked here")
 
-    message = f"{analysis_request.created_by} submitted an analysis request called *{analysis_request.title}*\n"
+    message = f"{analysis_request.created_by.email} submitted an analysis request called *{analysis_request.title}*\n"
     message += f"Using codelist: {codelist_link}\n"
     message += f"Commit: {commit_link}\n"
     message += f"A job has been {job_request_url}\n"

@@ -19,8 +19,8 @@ configured_searches = [
         "fields": [
             "codelist_name",
             "title",
-            "user__email",
-            "user__name",
+            "created_by__email",
+            "created_by__name",
         ],
         "order_by": "created_at",
     },

@@ -71,7 +71,7 @@ def create_analysis_commit(analysis_request, repo, force=False):
 def commit_and_push(checkout, analysis_request, force=False):
     msg = f"Codelist {analysis_request.codelist_slug} ({analysis_request.id})"
     force_args = ["--force"] if force else []
-    email = analysis_request.user.email
+    email = analysis_request.created_by.email
     git("add", "project.yaml", "codelist.csv", "analysis", cwd=checkout)
     git(
         # -c arguments are instead of having to having to maintain stateful git config
@@ -118,7 +118,7 @@ def submit_analysis(analysis_request, force=False):
     notify_analysis_request_submitted(analysis_request, issue_url)
 
     send_analysis_request_confirmation_email(
-        analysis_request.user.email, analysis_request
+        analysis_request.created_by.email, analysis_request
     )
 
 
