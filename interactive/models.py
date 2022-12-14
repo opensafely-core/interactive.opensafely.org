@@ -68,17 +68,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         error_messages={"invalid": "Invalid timeflake id"}
     )
 
-    name = models.CharField(max_length=100)
+    name = models.TextField()
     email = models.EmailField(
         verbose_name="email address",
-        max_length=100,
         unique=True,
         error_messages={"unique": "A user with this email address already exists."},
     )
-    organisation = models.CharField(
-        max_length=100, verbose_name="Organisation", default=""
-    )
-    job_title = models.CharField(max_length=100, verbose_name="Job title", default="")
+    organisation = models.TextField(verbose_name="Organisation", default="")
+    job_title = models.TextField(verbose_name="Job title", default="")
 
     is_staff = models.BooleanField(
         "staff status",
@@ -124,10 +121,10 @@ class RegistrationRequest(models.Model):
         error_messages={"invalid": "Invalid timeflake id"}
     )
 
-    full_name = models.CharField(max_length=100, verbose_name="Full name")
-    email = models.CharField(max_length=100, verbose_name="Email")
-    organisation = models.CharField(max_length=100, verbose_name="Organisation")
-    job_title = models.CharField(max_length=100, verbose_name="Job title")
+    full_name = models.TextField(verbose_name="Full name")
+    email = models.TextField(verbose_name="Email")
+    organisation = models.TextField(verbose_name="Organisation")
+    job_title = models.TextField(verbose_name="Job title")
 
     reviewed_at = models.DateTimeField(null=True)
     reviewed_by = models.ForeignKey(
@@ -154,14 +151,12 @@ class AnalysisRequest(models.Model):
     )
 
     user = models.ForeignKey("interactive.User", on_delete=models.PROTECT)
-    title = models.CharField(max_length=100, verbose_name="Analysis title")
-    codelist_slug = models.CharField(max_length=255, verbose_name="Codelist")
-    codelist_name = models.CharField(max_length=255, verbose_name="Codelist")
+    title = models.TextField(verbose_name="Analysis title")
+    codelist_slug = models.TextField(verbose_name="Codelist")
+    codelist_name = models.TextField(verbose_name="Codelist")
     start_date = models.DateField()
     end_date = models.DateField()
-    commit_sha = models.CharField(
-        max_length=40, verbose_name="Repo commit SHA", null=True
-    )
+    commit_sha = models.TextField(verbose_name="Repo commit SHA", null=True)
     complete_email_sent_at = models.DateTimeField(null=True)
     job_request_url = models.TextField(default="")
 
