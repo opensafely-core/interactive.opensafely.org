@@ -122,18 +122,13 @@ class RegistrationRequest(models.Model):
     organisation = models.CharField(max_length=100, verbose_name="Organisation")
     job_title = models.CharField(max_length=100, verbose_name="Job title")
 
-    reviewed_at = models.DateTimeField(default=None, null=True)
+    reviewed_at = models.DateTimeField(null=True)
     reviewed_by = models.ForeignKey(
         "interactive.User",
-        default=None,
         null=True,
         on_delete=models.PROTECT,
     )
-    review_status = models.TextField(
-        choices=ReviewStatus.choices,
-        null=True,
-        default=None,
-    )
+    review_status = models.TextField(choices=ReviewStatus.choices, null=True)
 
     created_at = models.DateTimeField(default=timezone.now, null=True)
 
@@ -157,7 +152,7 @@ class AnalysisRequest(models.Model):
     commit_sha = models.CharField(
         max_length=40, verbose_name="Repo commit SHA", null=True
     )
-    complete_email_sent_at = models.DateTimeField(default=None, null=True)
+    complete_email_sent_at = models.DateTimeField(null=True)
     job_request_url = models.TextField(default="")
 
     created_at = models.DateTimeField(default=timezone.now, null=True)
