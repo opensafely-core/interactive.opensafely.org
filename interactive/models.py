@@ -137,6 +137,9 @@ class RegistrationRequest(models.Model):
             f"{self.full_name} ({self.email}), {self.job_title} at {self.organisation}"
         )
 
+    def get_staff_url(self):
+        return reverse("staff:registration-request-detail", kwargs={"pk": self.pk})
+
 
 class AnalysisRequest(models.Model):
     id = TimeflakePrimaryKeyBinary(  # noqa: A003

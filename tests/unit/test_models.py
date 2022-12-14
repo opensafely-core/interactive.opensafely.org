@@ -9,7 +9,11 @@ from interactive.models import (
     User,
     date_of_last_extract,
 )
-from tests.factories import AnalysisRequestFactory, UserFactory
+from tests.factories import (
+    AnalysisRequestFactory,
+    RegistrationRequestFactory,
+    UserFactory,
+)
 
 
 def test_user_manager_create_user_successfully():
@@ -70,6 +74,16 @@ def test_register_interest_string_repr():
     request.organisation = "The Bennett Institute"
     request.job_title = "Tester"
     assert str(request) == "Alice (alice@test.com), Tester at The Bennett Institute"
+
+
+def test_registration_request_get_staff_url():
+    registration = RegistrationRequestFactory()
+
+    url = registration.get_staff_url()
+
+    assert url == reverse(
+        "staff:registration-request-detail", kwargs={"pk": registration.pk}
+    )
 
 
 def test_date_of_last_extract_sun_to_previous_wed(freezer):

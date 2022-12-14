@@ -1,7 +1,13 @@
 import factory
 import timeflake
 
-from interactive.models import END_DATE, START_DATE, AnalysisRequest, User
+from interactive.models import (
+    END_DATE,
+    START_DATE,
+    AnalysisRequest,
+    RegistrationRequest,
+    User,
+)
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -25,3 +31,10 @@ class AnalysisRequestFactory(factory.django.DjangoModelFactory):
     end_date = END_DATE
     codelist_name = "Asthma annual review QOF"
     codelist_slug = "opensafely/asthma-annual-review-qof"
+
+
+class RegistrationRequestFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = RegistrationRequest
+
+    id = factory.LazyAttribute(lambda _: timeflake.random())  # noqa: A003
