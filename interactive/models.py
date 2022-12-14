@@ -90,7 +90,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ),
     )
 
-    created_at = models.DateTimeField(default=timezone.now, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -130,7 +130,7 @@ class RegistrationRequest(models.Model):
     )
     review_status = models.TextField(choices=ReviewStatus.choices, null=True)
 
-    created_at = models.DateTimeField(default=timezone.now, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self) -> str:
         return (
@@ -155,7 +155,7 @@ class AnalysisRequest(models.Model):
     complete_email_sent_at = models.DateTimeField(null=True)
     job_request_url = models.TextField(default="")
 
-    created_at = models.DateTimeField(default=timezone.now, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self) -> str:
         return f"{self.title} ({self.codelist_slug})"
