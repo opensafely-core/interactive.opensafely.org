@@ -49,11 +49,25 @@ class UserList(ListView):
     model = User
     template_name = "staff/user_list.html"
 
+    def get_context_data(self):
+        return super().get_context_data() | {
+            "active_options": ["yes", "no"],
+            "staff_options": ["yes", "no"],
+        }
+
     def get_queryset(self):
         qs = super().get_queryset()
 
         # filter on the search query
         if q := self.request.GET.get("q"):
             qs = qs.filter(Q(email__icontains=q) | Q(name__icontains=q))
+
+        if active := self.request.GET.get("active"):
+            is_active = active == "yes"  # treat anything else as no/false
+            qs = qs.filter(is_active=is_active)
+
+        if staff := self.request.GET.get("staff"):
+            is_staff = staff == "yes"  # treat anything else as no/false
+            qs = qs.filter(is_staff=is_staff)
 
         return qs

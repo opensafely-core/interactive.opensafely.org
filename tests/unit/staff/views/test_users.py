@@ -78,6 +78,46 @@ def test_userdetail_without_staff_user(rf):
     assert response.url == f"{settings.LOGIN_URL}?next=/"
 
 
+def test_userlist_filter_by_active(rf, staff_user):
+    user1 = UserFactory()
+    user2 = UserFactory(is_active=False)
+
+    request = rf.get("/?active=yes")
+    request.user = staff_user
+
+    response = UserList.as_view()(request)
+
+    assert list(response.context_data["object_list"]) == [staff_user, user1]
+
+    # do the same test but with the reverse filter
+    request = rf.get("/?active=no")
+    request.user = staff_user
+
+    response = UserList.as_view()(request)
+
+    assert list(response.context_data["object_list"]) == [user2]
+
+
+def test_userlist_filter_by_staff(rf, staff_user):
+    user1 = UserFactory(is_staff=True)
+    user2 = UserFactory(is_staff=False)
+
+    request = rf.get("/?staff=yes")
+    request.user = staff_user
+
+    response = UserList.as_view()(request)
+
+    assert list(response.context_data["object_list"]) == [staff_user, user1]
+
+    # do the same test but with the reverse filter
+    request = rf.get("/?staff=no")
+    request.user = staff_user
+
+    response = UserList.as_view()(request)
+
+    assert list(response.context_data["object_list"]) == [user2]
+
+
 def test_userlist_find_by_username(rf, staff_user):
     UserFactory(name="ben")
     UserFactory(name="ben g")
