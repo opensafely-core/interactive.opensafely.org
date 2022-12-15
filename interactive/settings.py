@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "interactive",
     "staff",
     "anymail",
+    "debug_toolbar",
     "django_browser_reload",
     "django_extensions",
     "django_vite",
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django_permissions_policy.PermissionsPolicyMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",

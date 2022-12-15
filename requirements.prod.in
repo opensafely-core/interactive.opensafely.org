@@ -6,6 +6,7 @@ django
 django-anymail[mailgun]
 django-browser-reload
 django-csp
+django-debug-toolbar
 django-extensions
 django-permissions-policy
 django-vite
