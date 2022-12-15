@@ -1,4 +1,5 @@
 from django.conf import settings
+from django_slack import slack_message
 from furl import furl
 
 from services import slack
@@ -35,7 +36,14 @@ def notify_analysis_request_submitted(analysis_request, issue_url):
     slack.post(text=message, channel="opensafely-outputs")
 
 
-def notify_registration_request_submitted(full_name, job_title, organisation, email):
-    full_name_link = slack.link(email, full_name, is_email=True)
-    message = f"{full_name_link} ({job_title}) from {organisation} has registered their interest in using OpenSAFELY Interactive"
-    slack.post(text=message, channel="interactive-registration-requests")
+def notify_registration_request_submitted(user):
+    context = {
+        "full_name_link": slack.link(user.email, user.full_name, is_email=True),
+        "user": user,
+    }
+
+    slack_message(
+        "slacks/registration_request_submitted.slack",
+        channel="interactive-registration-requests",
+        context=context,
+    )
