@@ -185,10 +185,10 @@ def test_analysis_request_output_not_authorised(client):
     assert response.status_code == 403
 
 
-def test_analysis_request_output_admin_can_view(client, admin_user, monkeypatch):
+def test_analysis_request_output_admin_can_view(client, staff_user, monkeypatch):
     monkeypatch.setattr(views.jobserver, "fetch_release", lambda x: {})
 
-    client.force_login(admin_user)
+    client.force_login(staff_user)
     analysis_request = AnalysisRequestFactory()
 
     response = client.get(
@@ -198,8 +198,8 @@ def test_analysis_request_output_admin_can_view(client, admin_user, monkeypatch)
     assert response.status_code == 200
 
 
-def test_analysis_request_email_admin_can_view(client, admin_user):
-    client.force_login(admin_user)
+def test_analysis_request_email_admin_can_view(client, staff_user):
+    client.force_login(staff_user)
     analysis_request = AnalysisRequestFactory()
 
     response = client.get(
