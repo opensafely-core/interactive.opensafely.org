@@ -1,23 +1,24 @@
 import structlog
-from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView
 
 from interactive.models import RegistrationRequest
 
+from ..decorators import staff_required
+
 
 logger = structlog.get_logger(__name__)
 
 
-@method_decorator(staff_member_required, name="dispatch")
+@method_decorator(staff_required, name="dispatch")
 class RegistrationRequestDetail(DetailView):
     context_object_name = "registration_request"
     model = RegistrationRequest
     template_name = "staff/registration_request_detail.html"
 
 
-@method_decorator(staff_member_required, name="dispatch")
+@method_decorator(staff_required, name="dispatch")
 class RegistrationRequestList(ListView):
     model = RegistrationRequest
     template_name = "staff/registration_request_list.html"

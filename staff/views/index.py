@@ -1,7 +1,6 @@
 import functools
 import itertools
 
-from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Q
 from django.db.models.functions import Lower
 from django.template.response import TemplateResponse
@@ -9,6 +8,8 @@ from django.utils.decorators import method_decorator
 from django.views.generic import View
 
 from interactive.models import AnalysisRequest, User
+
+from ..decorators import staff_required
 
 
 # configure searchable models here, each must have get_staff_url defined
@@ -71,7 +72,7 @@ def get_results(q):
     return list(itertools.chain.from_iterable(queries))
 
 
-@method_decorator(staff_member_required, name="dispatch")
+@method_decorator(staff_required, name="dispatch")
 class Index(View):
     def get(self, request, *args, **kwargs):
         q = self.request.GET.get("q")

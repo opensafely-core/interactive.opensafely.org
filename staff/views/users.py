@@ -1,5 +1,4 @@
 import structlog
-from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Q
 from django.db.models.functions import Lower
 from django.utils.decorators import method_decorator
@@ -7,11 +6,13 @@ from django.views.generic import ListView, UpdateView
 
 from interactive.models import User
 
+from ..decorators import staff_required
+
 
 logger = structlog.get_logger(__name__)
 
 
-@method_decorator(staff_member_required, name="dispatch")
+@method_decorator(staff_required, name="dispatch")
 class UserDetail(UpdateView):
     fields = [
         "email",
@@ -33,7 +34,7 @@ class UserDetail(UpdateView):
         return self.object.get_staff_url()
 
 
-@method_decorator(staff_member_required, name="dispatch")
+@method_decorator(staff_required, name="dispatch")
 class UserList(ListView):
     model = User
     template_name = "staff/user_list.html"
