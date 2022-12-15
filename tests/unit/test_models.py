@@ -52,6 +52,14 @@ def test_user_string_repr():
     assert str(user) == "alice@test.com"
 
 
+def test_analysis_request_get_codelist_url():
+    analysis = AnalysisRequestFactory(codelist_slug="testing/foo")
+
+    url = analysis.get_codelist_url()
+
+    assert url == "https://www.opencodelists.org/codelist/testing/foo"
+
+
 def test_analysis_request_get_staff_url():
     analysis = AnalysisRequestFactory()
 

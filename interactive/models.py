@@ -15,6 +15,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from furl import furl
 from timeflake.extensions.django import TimeflakePrimaryKeyBinary
 
 from .emails import send_welcome_email
@@ -175,6 +176,10 @@ class AnalysisRequest(models.Model):
 
     def visible_to(self, user):
         return self.user == user or user.is_staff
+
+    def get_codelist_url(self):
+        oc = furl("https://www.opencodelists.org/codelist/")
+        return (oc / self.codelist_slug).url
 
     def get_output_url(self):
         return reverse("request_analysis_output", kwargs={"pk": self.id})
