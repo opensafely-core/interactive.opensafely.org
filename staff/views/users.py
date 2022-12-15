@@ -1,6 +1,8 @@
 import structlog
+from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.db.models.functions import Lower
+from django.http import Http404
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, UpdateView
 
@@ -29,6 +31,12 @@ class UserDetail(UpdateView):
         return super().get_context_data(**kwargs) | {
             "analysis_requests": analysis_requests,
         }
+
+    def get_object(self, queryset=None):
+        try:
+            return super().get_object(queryset=queryset)
+        except ValidationError:  # unknown timeflake ID
+            raise Http404
 
     def get_success_url(self):
         return self.object.get_staff_url()

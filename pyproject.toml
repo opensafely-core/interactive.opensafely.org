@@ -16,6 +16,7 @@ source = [
   "interactive",
   "reports",
   "services",
+  "staff",
   "tests",
 ]
 

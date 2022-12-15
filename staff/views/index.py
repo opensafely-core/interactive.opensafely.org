@@ -7,7 +7,7 @@ from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
 from django.views.generic import View
 
-from interactive.models import AnalysisRequest, User
+from interactive.models import AnalysisRequest, RegistrationRequest, User
 
 from ..decorators import staff_required
 
@@ -21,6 +21,16 @@ configured_searches = [
             "title",
             "user__email",
             "user__name",
+        ],
+        "order_by": "created_at",
+    },
+    {
+        "model": RegistrationRequest,
+        "fields": [
+            "email",
+            "full_name",
+            "job_title",
+            "organisation",
         ],
         "order_by": "created_at",
     },

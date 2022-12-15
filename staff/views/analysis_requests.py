@@ -1,4 +1,6 @@
 import structlog
+from django.core.exceptions import ValidationError
+from django.http import Http404
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView
 
@@ -15,6 +17,12 @@ class AnalysisRequestDetail(DetailView):
     context_object_name = "analysis_request"
     model = AnalysisRequest
     template_name = "staff/analysis_request_detail.html"
+
+    def get_object(self, queryset=None):
+        try:
+            return super().get_object(queryset=queryset)
+        except ValidationError:  # unknown timeflake ID
+            raise Http404
 
 
 @method_decorator(staff_required, name="dispatch")
