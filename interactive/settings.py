@@ -47,15 +47,15 @@ ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     "interactive",
     "staff",
-    "whitenoise.runserver_nostatic",
     "anymail",
-    "django.contrib.staticfiles",
     "django_extensions",
     "django_vite",
+    "whitenoise.runserver_nostatic",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
     "django.contrib.sessions",
+    "django.contrib.staticfiles",
     "django.contrib.messages",
 ]
 
