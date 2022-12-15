@@ -86,6 +86,7 @@ urlpatterns = [
     path("staff/", include("staff.urls", namespace="staff")),
     path("favicon.ico", RedirectView.as_view(url=settings.STATIC_URL + "favicon.ico")),
     path("robots.txt", RedirectView.as_view(url=settings.STATIC_URL + "robots.txt")),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
 
 handler400 = views.bad_request

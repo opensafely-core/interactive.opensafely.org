@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "interactive",
     "staff",
     "anymail",
+    "django_browser_reload",
     "django_extensions",
     "django_vite",
     "whitenoise.runserver_nostatic",
@@ -71,6 +72,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "csp.middleware.CSPMiddleware",
     "interactive.middleware.XSSFilteringMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = "interactive.urls"
