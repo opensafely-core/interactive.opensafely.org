@@ -63,7 +63,10 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
-    id = TimeflakePrimaryKeyBinary()  # noqa: A003
+    id = TimeflakePrimaryKeyBinary(  # noqa: A003
+        error_messages={"invalid": "Invalid timeflake id"}
+    )
+
     name = models.CharField(max_length=100)
     email = models.EmailField(
         verbose_name="email address",
@@ -116,7 +119,10 @@ class RegistrationRequest(models.Model):
         APPROVED = "Approved"
         DENIED = "Denied"
 
-    id = TimeflakePrimaryKeyBinary()  # noqa: A003
+    id = TimeflakePrimaryKeyBinary(  # noqa: A003
+        error_messages={"invalid": "Invalid timeflake id"}
+    )
+
     full_name = models.CharField(max_length=100, verbose_name="Full name")
     email = models.CharField(max_length=100, verbose_name="Email")
     organisation = models.CharField(max_length=100, verbose_name="Organisation")
