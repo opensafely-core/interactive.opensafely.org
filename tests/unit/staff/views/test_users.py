@@ -27,17 +27,21 @@ def test_userdetail_get_success(rf, staff_user):
 
 def test_userdetail_post_success(rf, staff_user):
     user = UserFactory(
-        email="example@example.com",
         name="Ben",
+        email="example@example.com",
+        organisation="Bennett",
+        job_title="Professor",
         is_staff=False,
         is_active=False,
     )
 
     data = {
-        "email": "test@example.com",
         "name": "test",
-        "is_staff": True,
+        "email": "test@example.com",
+        "organisation": "test",
+        "job_title": "test",
         "is_active": False,
+        "is_staff": True,
     }
     request = rf.post("/", data)
     request.user = staff_user

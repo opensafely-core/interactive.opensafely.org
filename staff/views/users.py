@@ -18,9 +18,11 @@ logger = structlog.get_logger(__name__)
 class UserDetail(UpdateView):
     fields = [
         "email",
-        "name",
-        "is_staff",
         "is_active",
+        "is_staff",
+        "job_title",
+        "name",
+        "organisation",
     ]
     model = User
     template_name = "staff/user_detail.html"
