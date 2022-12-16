@@ -48,7 +48,6 @@
 
         {% include "includes/form_text.html" with field=form.name label="Name" name="name" %}
         {% include "includes/form_text.html" with field=form.email label="Email address" name="email" %}
-        {% include "includes/form_text.html" with field=form.organisation label="Organisation" name="organisation" %}
         {% include "includes/form_text.html" with field=form.job_title label="Job title" name="job_title" %}
         {% include "includes/form_checkbox.html" with field=form.is_staff label="Staff?" name="is_staff" %}
         {% include "includes/form_checkbox.html" with field=form.is_active label="Active?" name="is_active" %}
@@ -63,6 +62,20 @@
             </a>
             {% empty %}
             <p class="list-group-item">No analysis requests.</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div>
+          <h4>Orgs</h4>
+
+          <div class="list-group mb-3">
+            {% for org in orgs %}
+            <a class="list-group-item list-group-item-action" href="{{ org.get_staff_url }}">
+              {{ org.name }}
+            </a>
+            {% empty %}
+            <p class="list-group-item">No orgs.</p>
             {% endfor %}
           </div>
         </div>

@@ -22,16 +22,17 @@ class UserDetail(UpdateView):
         "is_staff",
         "job_title",
         "name",
-        "organisation",
     ]
     model = User
     template_name = "staff/user_detail.html"
 
     def get_context_data(self, **kwargs):
         analysis_requests = self.object.analysis_requests.order_by(Lower("title"))
+        orgs = self.object.orgs.order_by(Lower("name"))
 
         return super().get_context_data(**kwargs) | {
             "analysis_requests": analysis_requests,
+            "orgs": orgs,
         }
 
     def get_object(self, queryset=None):

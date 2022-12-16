@@ -29,7 +29,6 @@ def test_userdetail_post_success(rf, staff_user):
     user = UserFactory(
         name="Ben",
         email="example@example.com",
-        organisation="Bennett",
         job_title="Professor",
         is_staff=False,
         is_active=False,
@@ -38,7 +37,6 @@ def test_userdetail_post_success(rf, staff_user):
     data = {
         "name": "test",
         "email": "test@example.com",
-        "organisation": "test",
         "job_title": "test",
         "is_active": False,
         "is_staff": True,

@@ -90,6 +90,22 @@ def test_org_string_repr():
     assert str(org) == "Test Org"
 
 
+def test_org_get_staff_url():
+    org = OrgFactory()
+
+    url = org.get_staff_url()
+
+    assert url == reverse("staff:org-detail", kwargs={"slug": org.slug})
+
+
+def test_org_get_staff_edit_url():
+    org = OrgFactory()
+
+    url = org.get_staff_edit_url()
+
+    assert url == reverse("staff:org-edit", kwargs={"slug": org.slug})
+
+
 def test_orgmembership_string_repr():
     org = OrgFactory(name="Test Org")
     user = UserFactory(email="test@example.com")

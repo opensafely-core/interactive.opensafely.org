@@ -219,6 +219,12 @@ class Org(models.Model):
     def __str__(self):
         return self.name
 
+    def get_staff_edit_url(self):
+        return reverse("staff:org-edit", kwargs={"slug": self.slug})
+
+    def get_staff_url(self):
+        return reverse("staff:org-detail", kwargs={"slug": self.slug})
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
