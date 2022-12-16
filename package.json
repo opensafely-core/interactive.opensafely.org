@@ -28,7 +28,6 @@
     "jsdom": "^20.0.3",
     "postcss": "^8.4.20",
     "vite": "^4.0.1",
-    "vite-plugin-static-copy": "^0.13.0",
     "vitest": "^0.25.8"
   },
   "dependencies": {

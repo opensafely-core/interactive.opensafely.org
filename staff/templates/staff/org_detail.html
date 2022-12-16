@@ -1,11 +1,6 @@
 {% extends "staff/base.html" %}
 
-{% load static %}
-
-{% block extra_styles %}
-<link rel="stylesheet" href="{% static 'vendor/select2.min.css' %}">
-<link rel="stylesheet" href="{% static 'vendor/select2-bootstrap4.min.css' %}">
-{% endblock %}
+{% load django_vite %}
 
 {% block metatitle %}{{ org.name }}: Staff Area | OpenSAFELY Jobs{% endblock metatitle %}
 
@@ -123,16 +118,5 @@
 {% endblock staff_content %}
 
 {% block extra_js %}
-<script type="text/javascript" src="{% static 'bundle/vendor/jquery.slim.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'bundle/vendor/select2.min.js' %}"></script>
-<script type="text/javascript" nonce="{{ request.csp_nonce }}">
-  $(document).ready(function() {
-    $('#id_users').select2({
-      placeholder: "Select 1 or more users to add",
-      selectionCssClass: ":all:",
-      theme: "bootstrap4",
-      width: "100%"
-    });
-  });
-</script>
+  {% vite_asset 'assets/src/scripts/select2.js' defer=true %}
 {% endblock %}
