@@ -47,19 +47,22 @@ ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     "interactive",
     "staff",
-    "whitenoise.runserver_nostatic",
     "anymail",
-    "django.contrib.staticfiles",
+    "debug_toolbar",
+    "django_browser_reload",
     "django_extensions",
     "django_vite",
+    "whitenoise.runserver_nostatic",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
     "django.contrib.sessions",
+    "django.contrib.staticfiles",
     "django.contrib.messages",
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django_permissions_policy.PermissionsPolicyMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -71,6 +74,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "csp.middleware.CSPMiddleware",
     "interactive.middleware.XSSFilteringMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = "interactive.urls"

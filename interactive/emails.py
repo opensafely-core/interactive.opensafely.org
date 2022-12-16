@@ -27,7 +27,7 @@ def send_analysis_request_email(email, analysis_request):
     output_url = furl(settings.BASE_URL) / analysis_request.get_output_url()
 
     context = {
-        "name": analysis_request.user.name,
+        "name": analysis_request.created_by.name,
         "title": analysis_request.title,
         "url": output_url,
     }
@@ -45,9 +45,9 @@ def send_analysis_request_email(email, analysis_request):
 
 def send_analysis_request_confirmation_email(email, analysis_request):
     context = {
-        "name": analysis_request.user.name,
+        "name": analysis_request.created_by.name,
         "codelist": analysis_request.codelist_name,
-        "email": analysis_request.user.email,
+        "email": analysis_request.created_by.email,
     }
 
     send(

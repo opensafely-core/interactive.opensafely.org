@@ -3,12 +3,7 @@ from datetime import date
 import pytest
 from django.urls import reverse
 
-from interactive.models import (
-    AnalysisRequest,
-    RegistrationRequest,
-    User,
-    date_of_last_extract,
-)
+from interactive.models import User, date_of_last_extract
 from tests.factories import (
     AnalysisRequestFactory,
     RegistrationRequestFactory,
@@ -69,18 +64,22 @@ def test_analysis_request_get_staff_url():
 
 
 def test_analysis_request_string_repr():
-    analysis = AnalysisRequest()
-    analysis.title = "Analysis title"
-    analysis.codelist_slug = "Test Codelist"
+    analysis = AnalysisRequestFactory(
+        title="Analysis title",
+        codelist_slug="Test Codelist",
+    )
+
     assert str(analysis) == "Analysis title (Test Codelist)"
 
 
 def test_register_interest_string_repr():
-    request = RegistrationRequest()
-    request.full_name = "Alice"
-    request.email = "alice@test.com"
-    request.organisation = "The Bennett Institute"
-    request.job_title = "Tester"
+    request = RegistrationRequestFactory(
+        full_name="Alice",
+        email="alice@test.com",
+        organisation="The Bennett Institute",
+        job_title="Tester",
+    )
+
     assert str(request) == "Alice (alice@test.com), Tester at The Bennett Institute"
 
 

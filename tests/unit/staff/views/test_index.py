@@ -21,7 +21,7 @@ def test_index_search(rf, staff_user):
     user = UserFactory(name="George Hickman")
     UserFactory.create_batch(5)
 
-    analysis_request1 = AnalysisRequestFactory(user=user)
+    analysis_request1 = AnalysisRequestFactory(created_by=user)
     analysis_request2 = AnalysisRequestFactory(title="Not George's Analysis")
     AnalysisRequestFactory.create_batch(5)
 

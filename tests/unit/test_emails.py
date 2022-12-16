@@ -27,7 +27,7 @@ def test_send_welcome_email(mailoutbox):
 
 def test_send_analysis_request_email(mailoutbox):
     user = UserFactory()
-    analysis_request = AnalysisRequestFactory(user=user)
+    analysis_request = AnalysisRequestFactory(created_by=user)
 
     send_analysis_request_email(user.email, analysis_request)
 
@@ -45,7 +45,7 @@ def test_send_analysis_request_email(mailoutbox):
 
 def test_send_analysis_request_confirmation_email(mailoutbox):
     user = UserFactory()
-    analysis_request = AnalysisRequestFactory(user=user)
+    analysis_request = AnalysisRequestFactory(created_by=user)
 
     send_analysis_request_confirmation_email(user.email, analysis_request)
 

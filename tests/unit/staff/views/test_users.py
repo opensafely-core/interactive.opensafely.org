@@ -10,7 +10,7 @@ from ....factories import AnalysisRequestFactory, UserFactory
 
 def test_userdetail_get_success(rf, staff_user):
     user = UserFactory()
-    AnalysisRequestFactory(user=user)
+    AnalysisRequestFactory(created_by=user)
 
     request = rf.get("/")
     request.user = staff_user
@@ -20,7 +20,7 @@ def test_userdetail_get_success(rf, staff_user):
     assert response.status_code == 200
 
     assert set_from_qs(response.context_data["analysis_requests"]) == set_from_qs(
-        user.analysisrequest_set.all()
+        user.analysis_requests.all()
     )
     assert response.context_data["user"] == user
 
