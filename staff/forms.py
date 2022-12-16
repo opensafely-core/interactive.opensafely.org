@@ -1,6 +1,8 @@
 from django import forms
 from django.db.models.functions import Lower
 
+from interactive.models import Org, Project
+
 
 def user_label_from_instance(obj):
     full_name = obj.get_full_name()
@@ -31,3 +33,29 @@ class PickUsersMixin:
 
 class OrgAddMemberForm(PickUsersMixin, forms.Form):
     pass
+
+
+class ProjectAddMemberForm(PickUsersMixin, forms.Form):
+    pass
+
+
+class ProjectCreateForm(forms.ModelForm):
+    application_url = forms.URLField()
+
+    class Meta:
+        fields = [
+            "org",
+            "name",
+            "number",
+            "purpose",
+            "summary",
+            "application_url",
+        ]
+        model = Project
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        orgs = Org.objects.order_by("name")
+
+        self.fields["org"] = forms.ModelChoiceField(queryset=orgs)

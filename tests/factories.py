@@ -55,6 +55,7 @@ class ProjectFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Project
 
+    name = factory.Sequence(lambda n: f"Project {n}")
     slug = factory.Sequence(lambda n: f"project-{n}")
     number = factory.Sequence(lambda n: n)
 

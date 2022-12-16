@@ -319,6 +319,17 @@ class Project(models.Model):
     def __str__(self):
         return f"{self.org.name} | {self.name}"
 
+    def get_approved_url(self):
+        f = furl("https://www.opensafely.org/approved-projects")
+        f.fragment = f"project-{self.number}"
+        return f.url
+
+    def get_staff_edit_url(self):
+        return reverse("staff:project-edit", kwargs={"slug": self.slug})
+
+    def get_staff_url(self):
+        return reverse("staff:project-detail", kwargs={"slug": self.slug})
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)

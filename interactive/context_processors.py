@@ -29,6 +29,11 @@ def staff_nav(request):
             "url": reverse("staff:org-list"),
         },
         {
+            "name": "Projects",
+            "is_active": _active(reverse("staff:project-list")),
+            "url": reverse("staff:project-list"),
+        },
+        {
             "name": "Registration Requests",
             "is_active": _active(reverse("staff:registration-request-list")),
             "url": reverse("staff:registration-request-list"),

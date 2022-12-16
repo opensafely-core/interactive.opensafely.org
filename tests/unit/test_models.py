@@ -116,6 +116,30 @@ def test_orgmembership_string_repr():
     assert str(membership) == "test@example.com | Test Org"
 
 
+def test_project_get_approved_url():
+    project = ProjectFactory(number=42)
+
+    url = project.get_approved_url()
+
+    assert url == "https://www.opensafely.org/approved-projects#project-42"
+
+
+def test_project_get_staff_edit_url():
+    project = ProjectFactory()
+
+    url = project.get_staff_edit_url()
+
+    assert url == reverse("staff:project-edit", kwargs={"slug": project.slug})
+
+
+def test_project_get_staff_url():
+    project = ProjectFactory()
+
+    url = project.get_staff_url()
+
+    assert url == reverse("staff:project-detail", kwargs={"slug": project.slug})
+
+
 def test_project_slugification():
     org = OrgFactory()
     # test with the Project model here because the factory sets a slug for us by

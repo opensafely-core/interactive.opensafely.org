@@ -7,7 +7,7 @@ from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
 from django.views.generic import View
 
-from interactive.models import AnalysisRequest, Org, RegistrationRequest, User
+from interactive.models import AnalysisRequest, Org, Project, RegistrationRequest, User
 
 from ..decorators import staff_required
 
@@ -28,6 +28,18 @@ configured_searches = [
         "model": Org,
         "fields": [
             "name",
+        ],
+        "order_by": Lower("name"),
+    },
+    {
+        "model": Project,
+        "fields": [
+            "name",
+            "number",
+            "created_by__email",
+            "created_by__name",
+            "updated_by__email",
+            "updated_by__name",
         ],
         "order_by": Lower("name"),
     },
