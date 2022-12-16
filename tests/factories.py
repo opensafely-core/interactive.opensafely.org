@@ -7,6 +7,8 @@ from interactive.models import (
     AnalysisRequest,
     Org,
     OrgMembership,
+    Project,
+    ProjectMembership,
     RegistrationRequest,
     User,
 )
@@ -46,6 +48,24 @@ class OrgMembershipFactory(factory.django.DjangoModelFactory):
         model = OrgMembership
 
     org = factory.SubFactory("tests.factories.OrgFactory")
+    user = factory.SubFactory("tests.factories.UserFactory")
+
+
+class ProjectFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Project
+
+    slug = factory.Sequence(lambda n: f"project-{n}")
+    number = factory.Sequence(lambda n: n)
+
+    org = factory.SubFactory("tests.factories.OrgFactory")
+
+
+class ProjectMembershipFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ProjectMembership
+
+    project = factory.SubFactory("tests.factories.ProjectFactory")
     user = factory.SubFactory("tests.factories.UserFactory")
 
 

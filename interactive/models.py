@@ -73,6 +73,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         through="OrgMembership",
         through_fields=["user", "org"],
     )
+    projects = models.ManyToManyField(
+        "Project",
+        related_name="members",
+        through="ProjectMembership",
+        through_fields=["user", "project"],
+    )
 
     name = models.TextField()
     email = models.EmailField(
@@ -259,6 +265,98 @@ class OrgMembership(models.Model):
 
     def __str__(self):
         return f"{self.user.email} | {self.org.name}"
+
+
+class Project(models.Model):
+    class Statuses(models.TextChoices):
+        ONGOING = "ongoing", "Ongoing"
+        POSTPONED = "postponed", "Postponed"
+        RETIRED = "retired", "Retired"
+
+        # we expect these to go away and be replaced with first class support
+        # for linking out to papers and reports but for now we need to track
+        # them so they're statuses.
+        ONGOING_LINKED = "ongoing-and-linked", "Ongoing - paper/report linked"
+        COMPLETED_LINKED = "completed-and-linked", "Completed - paper/report linked"
+        COMPLETED_AWAITING = (
+            "completed-and-awaiting",
+            "Completed - awaiting paper/report",
+        )
+
+    org = models.ForeignKey(
+        "Org",
+        on_delete=models.CASCADE,
+        related_name="projects",
+    )
+
+    name = models.TextField(unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
+    number = models.IntegerField()
+
+    status = models.TextField(choices=Statuses.choices, default=Statuses.ONGOING)
+    status_description = models.TextField(default="", blank=True)
+
+    purpose = models.TextField()
+    summary = models.TextField()
+    application_url = models.TextField()
+
+    created_at = models.DateTimeField(default=timezone.now)
+    created_by = models.ForeignKey(
+        "User",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="created_projects",
+    )
+
+    updated_at = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey(
+        "User",
+        on_delete=models.PROTECT,
+        related_name="projects_updated",
+        null=True,
+    )
+
+    def __str__(self):
+        return f"{self.org.name} | {self.name}"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+        return super().save(*args, **kwargs)
+
+    @property
+    def title(self):
+        return f"{self.number} - {self.name}"
+
+
+class ProjectMembership(models.Model):
+    """Membership of a Project for a User"""
+
+    created_by = models.ForeignKey(
+        "User",
+        on_delete=models.SET_NULL,
+        related_name="created_project_memberships",
+        null=True,
+    )
+    project = models.ForeignKey(
+        "Project",
+        on_delete=models.CASCADE,
+        related_name="memberships",
+    )
+    user = models.ForeignKey(
+        "User",
+        on_delete=models.CASCADE,
+        related_name="project_memberships",
+    )
+
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ["project", "user"]
+
+    def __str__(self):
+        return f"{self.user.email} | {self.project.title}"
 
 
 @receiver(post_save, sender=User)

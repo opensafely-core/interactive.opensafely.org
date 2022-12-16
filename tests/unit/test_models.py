@@ -3,11 +3,13 @@ from datetime import date
 import pytest
 from django.urls import reverse
 
-from interactive.models import Org, User, date_of_last_extract
+from interactive.models import Org, Project, User, date_of_last_extract
 from tests.factories import (
     AnalysisRequestFactory,
     OrgFactory,
     OrgMembershipFactory,
+    ProjectFactory,
+    ProjectMembershipFactory,
     RegistrationRequestFactory,
     UserFactory,
 )
@@ -112,6 +114,32 @@ def test_orgmembership_string_repr():
     membership = OrgMembershipFactory(org=org, user=user)
 
     assert str(membership) == "test@example.com | Test Org"
+
+
+def test_project_slugification():
+    org = OrgFactory()
+    # test with the Project model here because the factory sets a slug for us by
+    # default and calls save when creating the object so one is set anyway
+    project = Project(org=org, name="Test Project", number=42)
+    assert project.slug == ""
+
+    project.save()
+    assert project.slug == "test-project"
+
+
+def test_project_string_repr():
+    org = OrgFactory(name="Org")
+    project = ProjectFactory(org=org, name="Test Project")
+
+    assert str(project) == "Org | Test Project"
+
+
+def test_projectmembership_string_repr():
+    project = ProjectFactory(name="Test Project", number="42")
+    user = UserFactory(email="test@example.com")
+    membership = ProjectMembershipFactory(project=project, user=user)
+
+    assert str(membership) == "test@example.com | 42 - Test Project"
 
 
 def test_register_interest_string_repr():
