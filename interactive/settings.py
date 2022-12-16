@@ -201,6 +201,13 @@ WHITENOISE_SKIP_COMPRESS_EXTENSIONS = (
     "zip",
 )
 
+
+# User uploaded files
+# https://docs.djangoproject.com/en/4.0/topics/files/
+MEDIA_ROOT = Path(env.str("MEDIA_STORAGE", default="uploads"))
+MEDIA_URL = "/uploads/"
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

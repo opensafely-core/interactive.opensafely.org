@@ -117,3 +117,4 @@ node_modules
 /reports/*/metadata
 /.hypothesis
 /.pytest_cache
+/uploads
