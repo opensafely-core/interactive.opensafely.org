@@ -1,6 +1,15 @@
 {% extends "staff/base.html" %}
 
+<<<<<<< HEAD
 {% load django_vite %}
+=======
+{% load static %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'vendor/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/select2-bootstrap4.min.css' %}">
+{% endblock %}
+>>>>>>> a7d7dca (Add orgs to the staff area)
 
 {% block metatitle %}{{ org.name }}: Staff Area | OpenSAFELY Jobs{% endblock metatitle %}
 
