@@ -3,9 +3,11 @@ from datetime import date
 import pytest
 from django.urls import reverse
 
-from interactive.models import User, date_of_last_extract
+from interactive.models import Org, User, date_of_last_extract
 from tests.factories import (
     AnalysisRequestFactory,
+    OrgFactory,
+    OrgMembershipFactory,
     RegistrationRequestFactory,
     UserFactory,
 )
@@ -70,6 +72,30 @@ def test_analysis_request_string_repr():
     )
 
     assert str(analysis) == "Analysis title (Test Codelist)"
+
+
+def test_org_slugification():
+    # test with the Org model here because the factory sets a slug for us by
+    # default and calls save when creating the object so one is set anyway
+    org = Org(name="Test Org")
+    assert org.slug == ""
+
+    org.save()
+    assert org.slug == "test-org"
+
+
+def test_org_string_repr():
+    org = OrgFactory(name="Test Org")
+
+    assert str(org) == "Test Org"
+
+
+def test_orgmembership_string_repr():
+    org = OrgFactory(name="Test Org")
+    user = UserFactory(email="test@example.com")
+    membership = OrgMembershipFactory(org=org, user=user)
+
+    assert str(membership) == "test@example.com | Test Org"
 
 
 def test_register_interest_string_repr():

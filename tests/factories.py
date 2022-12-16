@@ -5,19 +5,11 @@ from interactive.models import (
     END_DATE,
     START_DATE,
     AnalysisRequest,
+    Org,
+    OrgMembership,
     RegistrationRequest,
     User,
 )
-
-
-class UserFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = User
-
-    email = factory.Sequence(lambda n: f"user-{n}@example.com")
-    name = factory.Sequence(lambda n: f"user-{n}")
-    password = factory.PostGenerationMethodCall("set_password", "password!")
-    is_active = True
 
 
 class AnalysisRequestFactory(factory.django.DjangoModelFactory):
@@ -39,3 +31,29 @@ class RegistrationRequestFactory(factory.django.DjangoModelFactory):
         model = RegistrationRequest
 
     id = factory.LazyAttribute(lambda _: timeflake.random())  # noqa: A003
+
+
+class OrgFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Org
+
+    name = factory.Sequence(lambda n: f"Org-{n}")
+    slug = factory.Sequence(lambda n: f"org-{n}")
+
+
+class OrgMembershipFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = OrgMembership
+
+    org = factory.SubFactory("tests.factories.OrgFactory")
+    user = factory.SubFactory("tests.factories.UserFactory")
+
+
+class UserFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = User
+
+    email = factory.Sequence(lambda n: f"user-{n}@example.com")
+    name = factory.Sequence(lambda n: f"user-{n}")
+    password = factory.PostGenerationMethodCall("set_password", "password!")
+    is_active = True

@@ -15,6 +15,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from django.utils.text import slugify
 from furl import furl
 from timeflake.extensions.django import TimeflakePrimaryKeyBinary
 
@@ -62,10 +63,15 @@ class CustomUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    objects = CustomUserManager()
-
     id = TimeflakePrimaryKeyBinary(  # noqa: A003
         error_messages={"invalid": "Invalid timeflake id"}
+    )
+
+    orgs = models.ManyToManyField(
+        "Org",
+        related_name="members",
+        through="OrgMembership",
+        through_fields=["user", "org"],
     )
 
     name = models.TextField()
@@ -92,6 +98,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     created_at = models.DateTimeField(default=timezone.now)
+
+    objects = CustomUserManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -185,6 +193,66 @@ class AnalysisRequest(models.Model):
 
     def get_github_commit_url(self):
         return f"{settings.WORKSPACE_REPO}/tree/{self.id}"
+
+
+class Org(models.Model):
+    """An Organisation using the platform"""
+
+    created_by = models.ForeignKey(
+        "User",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="created_orgs",
+    )
+
+    name = models.TextField(unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
+    description = models.TextField(default="", blank=True)
+    logo = models.TextField(default="", blank=True)
+    logo_file = models.FileField(upload_to="org_logos/", null=True)
+
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        verbose_name = "Organisation"
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+        return super().save(*args, **kwargs)
+
+
+class OrgMembership(models.Model):
+    """Membership of an Organistion for a User"""
+
+    created_by = models.ForeignKey(
+        "User",
+        on_delete=models.SET_NULL,
+        related_name="created_org_memberships",
+        null=True,
+    )
+    org = models.ForeignKey(
+        "Org",
+        on_delete=models.CASCADE,
+        related_name="memberships",
+    )
+    user = models.ForeignKey(
+        "User",
+        on_delete=models.CASCADE,
+        related_name="org_memberships",
+    )
+
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ["org", "user"]
+
+    def __str__(self):
+        return f"{self.user.email} | {self.org.name}"
 
 
 @receiver(post_save, sender=User)
