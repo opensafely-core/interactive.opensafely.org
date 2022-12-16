@@ -46,12 +46,12 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     "interactive",
+    "staff",
     "whitenoise.runserver_nostatic",
     "anymail",
     "django.contrib.staticfiles",
     "django_extensions",
     "django_vite",
-    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
@@ -86,6 +86,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "interactive.context_processors.staff_nav",
             ],
         },
     },

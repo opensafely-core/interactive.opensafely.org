@@ -1,0 +1,78 @@
+{% extends "staff/base.html" %}
+
+{% load humanize %}
+
+{% block metatitle %}{{ user.name }}: Staff Area | OpenSAFELY Interactive{% endblock metatitle %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb-container breadcrumb--danger" aria-label="breadcrumb">
+  <div class="container">
+    <ol class="breadcrumb rounded-0 mb-0 px-0">
+      <li class="breadcrumb-item">
+        <a href="{% url 'staff:index' %}">Staff area</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'staff:user-list' %}">Users</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ user.name }}
+      </li>
+    </ol>
+  </div>
+</nav>
+{% endblock breadcrumbs %}
+
+{% block jumbotron %}
+<div class="jumbotron jumbotron-fluid jumbotron--danger pt-md-2">
+  <div class="container">
+    <h1 class="display-4">{{ user }}</h1>
+  </div>
+</div>
+{% endblock jumbotron %}
+
+{% block staff_content %}
+<div class="container">
+  <div class="row">
+    <div class="col col-lg-9 col-xl-8">
+
+      <form method="POST">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <ul>
+          {% for error in form.non_field_errors %}
+          <li class="text-danger">{{ error }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% include "includes/form_text.html" with field=form.name label="Name" name="name" %}
+        {% include "includes/form_text.html" with field=form.email label="Email address" name="email" %}
+        {% include "includes/form_text.html" with field=form.organisation label="Organisation" name="organisation" %}
+        {% include "includes/form_text.html" with field=form.job_title label="Job title" name="job_title" %}
+        {% include "includes/form_checkbox.html" with field=form.is_staff label="Staff?" name="is_staff" %}
+        {% include "includes/form_checkbox.html" with field=form.is_active label="Active?" name="is_active" %}
+
+        <div>
+          <h4>Analysis requests</h4>
+
+          <div class="list-group mb-3">
+            {% for analysis_request in analysis_requests %}
+            <a class="list-group-item list-group-item-action" href="{{ analysis_request.get_staff_url }}">
+              {{ analysis_request.title }}
+            </a>
+            {% empty %}
+            <p class="list-group-item">No analysis requests.</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock staff_content %}

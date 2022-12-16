@@ -1,0 +1,93 @@
+{% extends "staff/base.html" %}
+
+{% load humanize %}
+
+{% block metatitle %}{{ registration_request.full_name }}: Staff Area | OpenSAFELY Interactive{% endblock metatitle %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb-container breadcrumb--danger" aria-label="breadcrumb">
+  <div class="container">
+    <ol class="breadcrumb rounded-0 mb-0 px-0">
+      <li class="breadcrumb-item">
+        <a href="{% url 'staff:index' %}">Staff area</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'staff:registration-request-list' %}">Registration Requests</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ registration_request.full_name }}
+      </li>
+    </ol>
+  </div>
+</nav>
+{% endblock breadcrumbs %}
+
+{% block jumbotron %}
+<div class="jumbotron jumbotron-fluid jumbotron--danger pt-md-2">
+  <div class="container">
+    <h1 class="display-4">{{ user.name }}</h1>
+
+    <ul class="list-unstyled lead">
+      <li>
+        <strong>Created at:</strong>
+        <time datetime="{{ registration_request.created_at }}">{{ registration_request.created_at }}</time>
+      </li>
+    </ul>
+  </div>
+</div>
+{% endblock jumbotron %}
+
+{% block staff_content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-xl-9">
+      <div class="card">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>Created at:</strong>
+            <time datetime="{{ registration_request.created_at }}">{{ registration_request.created_at }}</time>
+          </li>
+          <li class="list-group-item">
+            <strong>Full name:</strong>
+            {{ registration_request.full_name }}
+          </li>
+          <li class="list-group-item">
+            <strong>Email:</strong>
+            {{ registration_request.email }}
+          </li>
+          <li class="list-group-item">
+            <strong>Organisation:</strong>
+            {{ registration_request.organisation }}
+          </li>
+          <li class="list-group-item">
+            <strong>Job title:</strong>
+            {{ registration_request.job_title }}
+          </li>
+          <li class="list-group-item">
+            <strong>Reviewed at:</strong>
+            {% if registration_request.reviewed_at %}
+            <time datetime="{{ registration_request.reviewed_at }}">{{ registration_request.reviewed_at }}</time>
+            {% else %}
+            <span>-</span>
+            {% endif %}
+          </li>
+          <li class="list-group-item">
+            <strong>Reviewed by:</strong>
+            {% if registration_request.complete_email_sent_at %}
+            <a href="{{ registration_request.reviewed_by.get_staff_url }}">
+              {{ registration_request.reviewed_by.name }}
+            </a>
+            {% else %}
+            <span>-</span>
+            {% endif %}
+          </li>
+          <li class="list-group-item">
+            <strong>Review status:</strong>
+            {{ registration_request.get_review_status_display }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock staff_content %}

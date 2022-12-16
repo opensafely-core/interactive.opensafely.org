@@ -1,0 +1,57 @@
+{% load django_vite %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="no-js min-h-screen {% block html_class %}{% endblock html_class %}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{% block metatitle %}{% endblock metatitle %}</title>
+  <meta name="description" content="{% block meta_description %}{% endblock meta_description %}">
+
+  <link rel="manifest" href="{% static "manifest.webmanifest" %}">
+  <link rel="icon" href="{% static "favicon.ico" %}" sizes="any">
+  <link rel="icon" href="{% static "icon.svg" %}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{% static "apple-touch-icon.png" %}">
+
+  {% vite_hmr_client %}
+  {% vite_asset 'assets/src/scripts/bootstrap.js' defer=true %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-danger py-lg-2">
+    <div class="container px-0 px-sm-3">
+      <a class="navbar-brand" href="{% url 'staff:index' %}">Staff Area</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#staff-navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="staff-navbar">
+        <ul class="navbar-nav ml-auto mr-2 mt-2 mt-lg-0">
+          {% for location in staff_nav %}
+            <li class="nav-item {% if location.is_active %}active{% endif %}">
+              <a class="nav-link {% if location.is_active %}text-white{% else %}text-light{% endif %}" href="{{ location.url }}">
+                {{ location.name }}{% if location.is_active %} <span class="sr-only">(current)</span>{% endif %}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  {% include "includes/header.html" %}
+
+  <main class="main flex-grow-1">
+    {% block breadcrumbs %}{% endblock %}
+    {% block jumbotron %}{% endblock %}
+
+    <div class="pt-3">
+      {% block staff_content %}{% endblock %}
+    </div>
+  </main>
+
+  {# {% include "partials/footer.html" %} #}
+</body>
+</html>

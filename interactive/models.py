@@ -15,6 +15,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from furl import furl
 from timeflake.extensions.django import TimeflakePrimaryKeyBinary
 
 from .emails import send_welcome_email
@@ -63,7 +64,10 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
-    id = TimeflakePrimaryKeyBinary()  # noqa: A003
+    id = TimeflakePrimaryKeyBinary(  # noqa: A003
+        error_messages={"invalid": "Invalid timeflake id"}
+    )
+
     name = models.CharField(max_length=100)
     email = models.EmailField(
         verbose_name="email address",
@@ -72,16 +76,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         error_messages={"unique": "A user with this email address already exists."},
     )
     organisation = models.CharField(
-        max_length=100, verbose_name="Organisation", default="", blank=True
+        max_length=100, verbose_name="Organisation", default=""
     )
-    job_title = models.CharField(
-        max_length=100, verbose_name="Job title", default="", blank=True
-    )
+    job_title = models.CharField(max_length=100, verbose_name="Job title", default="")
 
     is_staff = models.BooleanField(
         "staff status",
         default=False,
-        help_text="Designates whether the user can log into this admin site.",
+        help_text="Designates whether the user can log into the staff area.",
     )
     is_active = models.BooleanField(
         "active",
@@ -92,21 +94,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         ),
     )
 
-    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
-
-    @classmethod
-    def create_from_registration(cls, registration_request):
-        return cls.objects.get_or_create(
-            email=registration_request.email,
-            defaults={
-                "name": registration_request.full_name,
-                "organisation": registration_request.organisation,
-                "job_title": registration_request.job_title,
-            },
-        )
 
     def get_full_name(self):
         return self.name
@@ -120,44 +111,41 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         return reverse("password_reset_confirm", kwargs={"uidb64": uid, "token": token})
 
+    def get_staff_url(self):
+        return reverse("staff:user-detail", kwargs={"pk": self.pk})
+
 
 class RegistrationRequest(models.Model):
     class ReviewStatus(models.TextChoices):
         APPROVED = "Approved"
         DENIED = "Denied"
 
-    id = TimeflakePrimaryKeyBinary()  # noqa: A003
+    id = TimeflakePrimaryKeyBinary(  # noqa: A003
+        error_messages={"invalid": "Invalid timeflake id"}
+    )
+
     full_name = models.CharField(max_length=100, verbose_name="Full name")
     email = models.CharField(max_length=100, verbose_name="Email")
     organisation = models.CharField(max_length=100, verbose_name="Organisation")
     job_title = models.CharField(max_length=100, verbose_name="Job title")
 
-    reviewed_at = models.DateTimeField(default=None, blank=True, null=True)
+    reviewed_at = models.DateTimeField(null=True)
     reviewed_by = models.ForeignKey(
         "interactive.User",
-        default=None,
-        blank=True,
         null=True,
         on_delete=models.PROTECT,
     )
-    review_status = models.TextField(
-        choices=ReviewStatus.choices,
-        null=True,
-        default=None,
-        blank=True,
-    )
+    review_status = models.TextField(choices=ReviewStatus.choices, null=True)
 
-    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
-
-    def review(self, user, datetime, review_status):
-        self.reviewed_by = user
-        self.reviewed_at = datetime
-        self.review_status = review_status
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self) -> str:
         return (
             f"{self.full_name} ({self.email}), {self.job_title} at {self.organisation}"
         )
+
+    def get_staff_url(self):
+        return reverse("staff:registration-request-detail", kwargs={"pk": self.pk})
 
 
 class AnalysisRequest(models.Model):
@@ -174,10 +162,10 @@ class AnalysisRequest(models.Model):
     commit_sha = models.CharField(
         max_length=40, verbose_name="Repo commit SHA", null=True
     )
-    complete_email_sent_at = models.DateTimeField(default=None, blank=True, null=True)
+    complete_email_sent_at = models.DateTimeField(null=True)
     job_request_url = models.TextField(default="")
 
-    created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self) -> str:
         return f"{self.title} ({self.codelist_slug})"
@@ -189,12 +177,15 @@ class AnalysisRequest(models.Model):
     def visible_to(self, user):
         return self.user == user or user.is_staff
 
-    def get_absolute_url(self):
-        # Currently only used by django admin
-        return self.get_output_url()  # pragma: no cover
+    def get_codelist_url(self):
+        oc = furl("https://www.opencodelists.org/codelist/")
+        return (oc / self.codelist_slug).url
 
     def get_output_url(self):
         return reverse("request_analysis_output", kwargs={"pk": self.id})
+
+    def get_staff_url(self):
+        return reverse("staff:analysis-request-detail", kwargs={"pk": self.pk})
 
     def get_github_commit_url(self):
         return f"{settings.WORKSPACE_REPO}/tree/{self.id}"
