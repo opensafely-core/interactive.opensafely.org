@@ -1,0 +1,64 @@
+[
+  {
+    "name": "Event",
+    "id": "codelist_events",
+    "codelists": [
+      {
+        "label": "Abdominal aortic aneurysm diagnosis codes",
+        "value": "nhsd-primary-care-domain-refsets/aaa_cod/20210127",
+        "organisation": "NHSD Primary Care Domain Refsets"
+      },
+      {
+        "label": "Active and inactive ethnicity codes",
+        "value": "nhsd-primary-care-domain-refsets/ethnall_cod/20210127",
+        "organisation": "NHSD Primary Care Domain Refsets"
+      },
+      {
+        "label": "Alanine aminotransferase (ALT) tests",
+        "value": "opensafely/alanine-aminotransferase-alt-tests/2298df3e",
+        "organisation": "OpenSAFELY"
+      },
+      {
+        "label": "Alanine aminotransferase (ALT) tests (numerical value)",
+        "value": "opensafely/alanine-aminotransferase-alt-tests-numerical-value/78d4a307",
+        "organisation": "OpenSAFELY"
+      },
+      {
+        "label": "All BMI coded terms",
+        "value": "primis-covid19-vacc-uptake/bmi_stage/v1.2",
+        "organisation": "PRIMIS Covid Vaccination Uptake Reporting"
+      }
+    ]
+  },
+  {
+    "name": "Medication",
+    "id": "codelist_medications",
+    "codelists": [
+      {
+        "label": "Abdominal aortic aneurysm diagnosis codes",
+        "value": "nhsd-primary-care-domain-refsets/aaa_cod/20210127",
+        "organisation": "NHSD Primary Care Domain Refsets"
+      },
+      {
+        "label": "Active and inactive ethnicity codes",
+        "value": "nhsd-primary-care-domain-refsets/ethnall_cod/20210127",
+        "organisation": "NHSD Primary Care Domain Refsets"
+      },
+      {
+        "label": "Alanine aminotransferase (ALT) tests",
+        "value": "opensafely/alanine-aminotransferase-alt-tests/2298df3e",
+        "organisation": "OpenSAFELY"
+      },
+      {
+        "label": "Alanine aminotransferase (ALT) tests (numerical value)",
+        "value": "opensafely/alanine-aminotransferase-alt-tests-numerical-value/78d4a307",
+        "organisation": "OpenSAFELY"
+      },
+      {
+        "label": "All BMI coded terms",
+        "value": "primis-covid19-vacc-uptake/bmi_stage/v1.2",
+        "organisation": "PRIMIS Covid Vaccination Uptake Reporting"
+      }
+    ]
+  }
+]

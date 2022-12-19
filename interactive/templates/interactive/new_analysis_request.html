@@ -62,19 +62,20 @@
   {% csrf_token %}
   {{ form.non_field_errors }}
 
-  {{ codelists|json_script:"react-dropdown-options" }}
-  {{ form.codelist_slug.errors|json_script:"react-dropdown-errors" }}
-  <div
-    data-choices="react-dropdown-options"
-    data-errors="react-dropdown-errors"
-    data-hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system"
-    data-id="{{ form.codelist_slug.id_for_label }}"
-    data-label="Select a codelist"
-    data-name="codelist_slug"
-    id="react-dropdown"
-    >
-      {% include "components/form-field-select.html" with id=form.codelist_slug.id_for_label label="Select a codelist" name="codelist_slug" required=True choices=form.codelist_slug.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" %}
-    </div>
+  {# {{ codelists|json_script:"react-dropdown-options" }} #}
+  {# {{ form.codelist_slug.errors|json_script:"react-dropdown-errors" }} #}
+  {# <div #}
+    {# data-choices="react-dropdown-options" #}
+    {# data-errors="react-dropdown-errors" #}
+    {# data-hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" #}
+    {# data-id="{{ form.codelist_slug.id_for_label }}" #}
+    {# data-label="Select a codelist" #}
+    {# data-name="codelist_slug" #}
+    {# id="react-dropdown" #}
+    {# > #}
+      {# {% include "components/form-field-select.html" with id=form.codelist_slug.id_for_label label="Select a codelist" name="codelist_slug" required=True choices=form.codelist_slug.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" %} #}
+    {# </div> #}
+  {# {% vite_hmr_client %} #}
   {% if debug %}
   <script type="module" nonce="{{ request.csp_nonce }}">
     import RefreshRuntime from 'http://localhost:5173/@react-refresh'
@@ -84,7 +85,8 @@
     window.__vite_plugin_react_preamble_installed__ = true
   </script>
   {% endif %}
-  {% vite_asset 'assets/src/scripts/form/index.jsx' defer=true %}
+  <div id="root"></div>
+  {% vite_asset 'assets/src/scripts/skeleton/main.jsx' defer=true %}
 
   <div>
     <h2 class="block mb-1 text-lg font-semibold text-slate-800">
