@@ -34,6 +34,7 @@ function Combobox({
   name,
   setFieldValue,
   initialSelectedItem,
+  placeholder,
 }) {
   const comboboxChoices = choices.filter((el, i) => i > 0);
   const [inputItems, setInputItems] = useState(comboboxChoices);
@@ -75,10 +76,7 @@ function Combobox({
 
   return (
     <>
-      <label
-        {...getLabelProps()}
-        className="block mb-1 text-lg font-semibold text-slate-800"
-      >
+      <label {...getLabelProps()} className="sr-only">
         {/* Display the label passed in via data-label attribute */}
         {label}
       </label>
@@ -86,7 +84,8 @@ function Combobox({
         <div className="relative">
           <input
             className="block w-full pl-3 pr-10 py-2 cursor-default border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-oxford-500 focus:border-oxford-500 sm:text-sm"
-            required
+            // required
+            placeholder={placeholder}
             {...getInputProps({
               // Automatically open the menu when the input is focussed
               onFocus: () => {
@@ -128,63 +127,51 @@ function Combobox({
             </button>
           )}
         </div>
-      </div>
-      <div className="w-72 flex flex-col gap-1">
-        <div className="flex shadow-sm bg-white gap-0.5">
-          <button
-            aria-label="toggle menu"
-            className="px-2"
-            type="button"
-            {...getToggleButtonProps()}
-          >
-            {isOpen ? <>&#8593;</> : <>&#8595;</>}
-          </button>
+        <div {...getMenuProps({})}>
+          {/* Display the menu when the Downshift state is configured to open.
+           *
+           *  Map over the items if they exist, otherwise display a message to
+           *  the user that they need to modify their search.
+           */}
+          {isOpen ? (
+            <ul
+              aria-label="Select a codelist"
+              className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            >
+              {inputItems.length ? (
+                <>
+                  {/* Map over the items and visually identify the highlighted
+                   *  or selected options.
+                   */}
+                  {inputItems.map((item, index) => (
+                    <li
+                      {...getItemProps({
+                        item,
+                        index,
+                        key: item.value,
+                        className: classNames(
+                          selectedItem === item && "bg-oxford-100 font-bold",
+                          highlightedIndex === index && "bg-gray-100",
+                          "flex flex-col relative cursor-pointer select-none py-2 pl-3 pr-9  font-semibold text-oxford-600 hover:bg-gray-100"
+                        ),
+                      })}
+                    >
+                      {item.label}
+                      <span className="sr-only">, </span>
+                      <span className="text-xs text-gray-600 font-normal">
+                        From: {item.organisation}
+                      </span>
+                    </li>
+                  ))}
+                </>
+              ) : (
+                <li className="relative cursor-not-allowed select-none py-2 pl-3 pr-9 text-gray-900">
+                  No codelists available your query
+                </li>
+              )}
+            </ul>
+          ) : null}
         </div>
-      </div>
-      <div {...getMenuProps({})}>
-        {/* Display the menu when the Downshift state is configured to open.
-         *
-         *  Map over the items if they exist, otherwise display a message to
-         *  the user that they need to modify their search.
-         */}
-        {isOpen ? (
-          <ul
-            aria-label="Select a codelist"
-            className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-          >
-            {inputItems.length ? (
-              <>
-                {/* Map over the items and visually identify the highlighted
-                 *  or selected options.
-                 */}
-                {inputItems.map((item, index) => (
-                  <li
-                    {...getItemProps({
-                      item,
-                      index,
-                      key: item.value,
-                      className: classNames(
-                        selectedItem === item && "bg-oxford-100 font-bold",
-                        highlightedIndex === index && "bg-gray-100",
-                        "flex flex-col relative cursor-pointer select-none py-2 pl-3 pr-9  font-semibold text-oxford-600 hover:bg-gray-100"
-                      ),
-                    })}
-                  >
-                    {item.label}
-                    <span className="sr-only">, </span>
-                    <span className="text-xs text-gray-600 font-normal">
-                      From: {item.organisation}
-                    </span>
-                  </li>
-                ))}
-              </>
-            ) : (
-              <li className="relative cursor-not-allowed select-none py-2 pl-3 pr-9 text-gray-900">
-                No codelists available your query
-              </li>
-            )}
-          </ul>
-        ) : null}
       </div>
     </>
   );

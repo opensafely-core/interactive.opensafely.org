@@ -17,7 +17,7 @@ const RadioButtonGroup = ({
       <fieldset>
         <legend className={props.hideLabel ? "sr-only" : null}>{label}</legend>
         <div className="grid grid-cols-2 gap-2">{children}</div>
-        {touched && <InputFeedback error={error} />}
+        {touched && <div>{error}</div>}
       </fieldset>
     </div>
   );
