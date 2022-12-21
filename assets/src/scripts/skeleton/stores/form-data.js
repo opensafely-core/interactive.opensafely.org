@@ -6,8 +6,7 @@ const useFormData = create(
     formData: {},
     addFormData: (data) =>
       set((state) => ({ formData: { ...state.formData, ...data } })),
-    replaceFormData: (formData) =>
-      set(() => ({ formData })),
+    replaceFormData: (formData) => set(() => ({ formData })),
   }))
 );
 
