@@ -2,19 +2,14 @@ import { Form, Formik } from "formik";
 import { default as React, useState } from "react";
 import { useWizard } from "react-use-wizard";
 import * as Yup from "yup";
-import useFormData from "../../stores/form-data";
 import codelists from "../../data/codelists.json";
 import CodelistSelect from "../CodelistSelect";
 import Button from "../Button";
 
-function Step1() {
+function Step1({ useFormState, setUseFormState }) {
   const { nextStep } = useWizard();
-
-  const formData = useFormData((state) => state.formData);
-  const { replaceFormData } = useFormData();
-
   const [isSecondCodelistVisible, setIsSecondCodelistVisible] = useState(
-    !!formData?.codelist2
+    !!useFormState?.codelists?.[1]
   );
 
   const FormSchema = Yup.object().shape({
@@ -42,36 +37,51 @@ function Step1() {
     <div>
       <Formik
         initialValues={{
-          codelist1: formData?.codelist1,
-          codelistType1: formData?.codelistType1,
-          codelist2: formData?.codelist2,
-          codelistType2: formData?.codelistType2,
+          codelist1: useFormState?.codelists?.[0],
+          codelistType1: useFormState?.codelists?.[0]?.type,
+          codelist2: useFormState?.codelists?.[1],
+          codelistType2: useFormState?.codelists?.[1]?.type,
         }}
         validationSchema={FormSchema}
         onSubmit={(values) => {
-          replaceFormData(values);
+          setUseFormState({
+            codelists: [
+              {
+                type: values.codelistType1,
+                label: values.codelist1.label,
+                value: values.codelist1.value,
+                organisation: values.codelist1.organisation,
+              },
+              {
+                type: values.codelistType2,
+                label: values.codelist2.label,
+                value: values.codelist2.value,
+                organisation: values.codelist1.organisation,
+              },
+            ],
+          });
           nextStep();
         }}
         validateOnMount
       >
         {({
           errors,
-          touched,
-          values,
-          setFieldValue,
           isValid,
-          validateForm,
+          setFieldValue,
+          touched,
           validateField,
+          validateForm,
+          values,
         }) => {
           return (
             <Form>
               <CodelistSelect
                 codelists={codelists}
                 errors={errors}
+                id={1}
                 setFieldValue={setFieldValue}
                 touched={touched}
                 values={values}
-                id={1}
               />
               <div className="my-8 flex flex-row gap-6">
                 {!isSecondCodelistVisible ? (

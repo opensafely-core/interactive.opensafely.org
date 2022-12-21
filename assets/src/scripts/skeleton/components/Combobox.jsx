@@ -30,11 +30,11 @@ function stateReducer(state, actionAndChanges) {
 
 function Combobox({
   choices,
+  initialSelectedItem,
   label,
   name,
-  setFieldValue,
-  initialSelectedItem,
   placeholder,
+  setFieldValue,
 }) {
   const comboboxChoices = choices.filter((el, i) => i > 0);
   const [inputItems, setInputItems] = useState(comboboxChoices);
