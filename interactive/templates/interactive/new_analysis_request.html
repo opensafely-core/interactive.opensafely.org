@@ -62,8 +62,8 @@
   {% csrf_token %}
   {{ form.non_field_errors }}
 
-  {# {{ codelists|json_script:"react-dropdown-options" }} #}
-  {# {{ form.codelist_slug.errors|json_script:"react-dropdown-errors" }} #}
+  {{ codelists|json_script:"react-dropdown-options" }}
+  {{ form.codelist_slug.errors|json_script:"react-dropdown-errors" }}
   {# <div #}
     {# data-choices="react-dropdown-options" #}
     {# data-errors="react-dropdown-errors" #}
@@ -85,7 +85,15 @@
     window.__vite_plugin_react_preamble_installed__ = true
   </script>
   {% endif %}
-  <div id="root"></div>
+  <div
+    id="root"
+    data-choices="react-dropdown-options"
+    data-errors="react-dropdown-errors"
+    data-hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system"
+    data-id="{{ form.codelist_slug.id_for_label }}"
+    data-label="Select a codelist"
+    data-name="codelist_slug"
+  ></div>
   {% vite_asset 'assets/src/scripts/skeleton/main.jsx' defer=true %}
 
   <div>

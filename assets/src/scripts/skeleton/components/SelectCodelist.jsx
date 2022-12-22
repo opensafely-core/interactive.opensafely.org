@@ -1,7 +1,9 @@
 import { Field, useFormikContext } from "formik";
 import React, { Fragment } from "react";
+import { usePageData } from "../context/page-data-context";
 import codelists from "../data/codelists.json";
 import { classNames } from "../utils";
+import { Combobox } from "./Combobox";
 
 function SelectCodelist({ id }) {
   const codelist = "codelist" + id;
@@ -9,8 +11,11 @@ function SelectCodelist({ id }) {
   const codelistGroup = "codelistGroup" + id;
 
   const {
+    state: { data },
+  } = usePageData();
+  const {
     errors,
-    isValid,
+    setFieldError,
     setFieldTouched,
     setFieldValue,
     touched,
@@ -23,6 +28,13 @@ function SelectCodelist({ id }) {
       setFieldValue(codelist, "");
       setFieldTouched(codelist, false);
     }
+  };
+
+  const handleSelectedItemChange = (item) => {
+    setFieldError(codelist, undefined);
+    setFieldValue(codelist, item?.selectedItem || undefined);
+    setFieldTouched(codelist, true);
+    setTimeout(() => validateForm(), 0);
   };
 
   return (
@@ -61,13 +73,24 @@ function SelectCodelist({ id }) {
         <Fragment key={item.id}>
           {item.id === values[codelistType] ? (
             <>
-              <Field as="select" name={codelist} id={codelist}>
-                <option value="">Search for a codelist</option>
-                <option value="test">Test1</option>
-                <option value="test-2">Test2</option>
-              </Field>
+              <Combobox
+                choices={data}
+                data={{
+                  choices: "",
+                  errors: "",
+                  hint: "",
+                  id: "",
+                  label: "",
+                  name: "",
+                }}
+                errors={[""]}
+                handleSelectedItemChange={(item) =>
+                  handleSelectedItemChange(item)
+                }
+                initialSelectedItem={values[codelist]}
+              />
               {errors[codelist] && touched[codelist] ? (
-                <div>{errors[codelist]}</div>
+                <div>{console.log(errors[codelist])}</div>
               ) : null}
             </>
           ) : null}

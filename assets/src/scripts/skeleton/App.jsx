@@ -15,13 +15,21 @@ function App() {
       codelistType0: Yup.string()
         .oneOf(codelistTypes)
         .required("Choose a codelist type"),
-      codelist0: Yup.string().required("Select a codelist"),
+      codelist0: Yup.object().shape({
+        label: Yup.string().required(),
+        organisation: Yup.string().required(),
+        value: Yup.string().required(),
+      }),
       ...(codelistCount === 2
         ? {
             codelistType1: Yup.string()
               .oneOf(codelistTypes)
               .required("Choose a codelist type"),
-            codelist1: Yup.string().required("Select a codelist"),
+            codelist1: Yup.object().shape({
+              label: Yup.string().required(),
+              organisation: Yup.string().required(),
+              value: Yup.string().required(),
+            }),
           }
         : {}),
     })

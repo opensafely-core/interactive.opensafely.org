@@ -4,22 +4,27 @@ import { useWizard } from "react-use-wizard";
 import SelectCodelist from "../SelectCodelist";
 
 function Step1X({ codelistCount, setCodelistCount }) {
-  const { isValid, setFieldValue, validateForm } = useFormikContext();
+  const { isValid, setFieldValue, validateForm, setTouched } =
+    useFormikContext();
   const { nextStep } = useWizard();
 
   const handleAddCodelist = () => {
     setCodelistCount(codelistCount + 1);
-    setTimeout(() => {
-      validateForm(), 100;
-    });
+    setTimeout(() => validateForm(), 0);
   };
 
   const handleRemoveCodelist = () => {
-    setCodelistCount(codelistCount - 1);
     setFieldValue("codelistType1", undefined);
     setFieldValue("codelist1", undefined);
-    setTimeout(() => {
-      validateForm(), 100;
+    setCodelistCount(codelistCount - 1);
+    setTimeout(() => validateForm(), 0);
+  };
+
+  const handleNextPage = () => {
+    validateForm().then(() => {
+      if (isValid) {
+        nextStep();
+      }
     });
   };
 
@@ -39,14 +44,7 @@ function Step1X({ codelistCount, setCodelistCount }) {
         .map((_, i) => (
           <SelectCodelist key={i} id={i} />
         ))}
-      <button
-        type="button"
-        onClick={() => {
-          validateForm().then(() => {
-            if (isValid) nextStep();
-          });
-        }}
-      >
+      <button type="button" onClick={handleNextPage}>
         Next
       </button>
     </>
