@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-import os
 import re
 from pathlib import Path
 
@@ -146,25 +145,22 @@ LOGGING = logging_config_dict
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    os.path.join(BASE_DIR, "assets", "dist"),
-]
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = [BASE_DIR / "static", BASE_DIR / "assets" / "dist"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
 
-DJANGO_VITE_ASSETS_PATH = "/static/bundle/"
+# Django Vite
+DJANGO_VITE_DEV_MODE = env.bool("DJANGO_VITE_DEV_MODE", default=False)
 DJANGO_VITE_DEV_SERVER_PORT = 5173
 DJANGO_VITE_STATIC_URL_PREFIX = "bundle"
-DJANGO_VITE_DEV_MODE = env.bool("DJANGO_VITE_DEV_MODE", default=False)
-DJANGO_VITE_MANIFEST_PATH = os.path.join(
-    BASE_DIR, "staticfiles", "bundle", "manifest.json"
+DJANGO_VITE_ASSETS_PATH = BASE_DIR / "static" / DJANGO_VITE_STATIC_URL_PREFIX
+DJANGO_VITE_MANIFEST_PATH = (
+    STATIC_ROOT / DJANGO_VITE_STATIC_URL_PREFIX / "manifest.json"
 )
+
 
 # Vite generates files with 8 hash digits
 # http://whitenoise.evans.io/en/stable/django.html#WHITENOISE_IMMUTABLE_FILE_TEST
-
-
 def immutable_file_test(path, url):
     # Match filename with 12 hex digits before the extension
     # e.g. app.db8f2edc0c8a.js
