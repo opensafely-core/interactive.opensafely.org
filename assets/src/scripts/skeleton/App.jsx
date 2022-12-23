@@ -32,6 +32,9 @@ function App() {
             }),
           }
         : {}),
+      frequency: Yup.string()
+        .oneOf(["monthly", "quarterly", "yearly"])
+        .required("Select a frequency"),
     })
   );
 

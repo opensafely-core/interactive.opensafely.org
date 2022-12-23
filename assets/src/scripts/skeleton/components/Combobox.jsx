@@ -87,7 +87,11 @@ function Combobox({
       <div className="relative">
         <div className="relative">
           <input
-            className="block w-full pl-3 pr-10 py-2 cursor-default border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-oxford-500 focus:border-oxford-500 sm:text-sm"
+            className={classNames(
+              "block w-full pl-3 pr-10 py-2 cursor-pointer border-2 border-slate-400 rounded-md shadow-sm placeholder-slate-400",
+              "focus:cursor-text focus:outline-none focus:ring-oxford-500 focus:border-oxford-500",
+              "valid:bg-white valid:text-green-800 valid:border-green-500 valid:font-semibold"
+            )}
             placeholder="Search for a codelist"
             required
             {...getInputProps({
@@ -109,7 +113,7 @@ function Combobox({
           {selectedItem ? (
             <button
               aria-label="Clear selection"
-              className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none"
+              className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 hover:scale-110 focus:outline-none"
               onClick={() => {
                 setInputItems(comboboxChoices);
                 reset();
@@ -123,7 +127,7 @@ function Combobox({
             <button
               {...getToggleButtonProps()}
               aria-label="Show dropdown"
-              className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none"
+              className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 hover:scale-110 focus:outline-none"
               tabIndex={-1}
               type="button"
             >

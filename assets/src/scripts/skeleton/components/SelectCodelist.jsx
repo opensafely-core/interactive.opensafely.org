@@ -46,30 +46,33 @@ function SelectCodelist({ description, label, id }) {
       <p className="text-base text-slate-700">{description}</p>
       <fieldset className="mt-2">
         <legend className="sr-only">Select a codelist type</legend>
-        <div className="grid grid-cols-2 gap-2">
+        <ul className="grid grid-cols-2 gap-2 mb-2">
           {codelists.map((item) => (
-            <label
-              key={item.name}
-              className={classNames(
-                "border rounded-md shadow-sm py-2 px-1 flex items-center justify-center text-sm font-semibold sm:flex-1 cursor-pointer focus:outline-none",
-                item.id === values[codelistType]
-                  ? "ring-2 ring-oxford-500"
-                  : null
-              )}
-              htmlFor={codelistType + item.id}
-            >
+            <li key={`${codelistType}_${item.id}`}>
               <Field
-                className="sr-only"
-                id={codelistType + item.id}
+                className="sr-only peer"
+                id={`${codelistType}_${item.id}`}
                 name={codelistType}
                 onClick={() => radioButtonChange(item)}
                 type="radio"
                 value={item.id}
               />
-              {item.name}
-            </label>
+              <label
+                key={item.name}
+                className={classNames(
+                  "rounded-md bg-slate-50 border-2 shadow-md border-slate-300 py-2 px-1 flex items-center justify-center text-sm text-slate-800 font-semibold cursor-pointer transition-colors",
+                  "hover:bg-oxford-100 hover:border-oxford-300",
+                  "peer-focus:bg-green-50 peer-focus:border-green-100 peer-focus:ring-2 peer-focus:ring-offset-1 peer-focus:ring-offset-white peer-focus:ring-green-600",
+                  "peer-checked:bg-white peer-checked:text-green-800 peer-checked:border-green-500",
+                  "sm:flex-1"
+                )}
+                htmlFor={`${codelistType}_${item.id}`}
+              >
+                {item.name}
+              </label>
+            </li>
           ))}
-        </div>
+        </ul>
       </fieldset>
 
       {errors[codelistType] && touched[codelistType] ? (

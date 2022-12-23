@@ -99,11 +99,14 @@
           }
         }
       ],
-      "jsx-a11y/label-has-associated-control": {
-        "inputComponents": [
-          "Field"
-        ]
-      }
+      "jsx-a11y/label-has-associated-control": [
+        2,
+        {
+          "inputComponents": [
+            "Field"
+          ]
+        }
+      ]
     },
     "env": {
       "browser": true
