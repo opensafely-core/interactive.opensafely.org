@@ -56,11 +56,11 @@ function SelectCodelist({ description, label, id }) {
                   ? "ring-2 ring-oxford-500"
                   : null
               )}
-              htmlFor={codelistType}
+              htmlFor={codelistType + item.id}
             >
               <Field
                 className="sr-only"
-                id={codelistType}
+                id={codelistType + item.id}
                 name={codelistType}
                 onClick={() => radioButtonChange(item)}
                 type="radio"

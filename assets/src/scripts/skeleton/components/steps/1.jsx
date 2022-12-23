@@ -1,4 +1,4 @@
-import { useFormikContext } from "formik";
+import { Field, useFormikContext } from "formik";
 import { func, number } from "prop-types";
 import React from "react";
 import { useWizard } from "react-use-wizard";
@@ -55,6 +55,23 @@ function Step1({ codelistCount, setCodelistCount }) {
             Remove second codelist
           </button>
         )}
+
+        <div id="my-radio-group">Select a frequency to group events by</div>
+        <div aria-labelledby="my-radio-group" role="group">
+          <label htmlFor="monthly">
+            <Field id="monthly" name="picked" type="radio" value="monthly" />
+            Monthly
+          </label>
+          <label htmlFor="quarterly">
+            <Field id="quarterly" name="picked" type="radio" value="quarterly" />
+            Quarterly
+          </label>
+          <label htmlFor="yearly">
+            <Field id="yearly" name="picked" type="radio" value="yearly" />
+            Yearly
+          </label>
+        </div>
+
         <button onClick={handleNextPage} type="button">
           Next
         </button>
