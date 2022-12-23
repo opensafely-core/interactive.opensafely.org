@@ -88,6 +88,7 @@ export function Combobox({
         <div className="relative">
           <input
             className="block w-full pl-3 pr-10 py-2 cursor-default border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-oxford-500 focus:border-oxford-500 sm:text-sm"
+            placeholder="Search for a codelist"
             required
             {...getInputProps({
               // Automatically open the menu when the input is focussed

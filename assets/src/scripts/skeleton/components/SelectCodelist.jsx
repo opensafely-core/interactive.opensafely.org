@@ -5,7 +5,7 @@ import codelists from "../data/codelists.json";
 import { classNames } from "../utils";
 import { Combobox } from "./Combobox";
 
-function SelectCodelist({ id }) {
+function SelectCodelist({ description, label, id }) {
   const codelist = "codelist" + id;
   const codelistType = "codelistType" + id;
   const codelistGroup = "codelistGroup" + id;
@@ -38,16 +38,19 @@ function SelectCodelist({ id }) {
   };
 
   return (
-    <div role="group" aria-labelledby={codelistGroup}>
-      <h2 id={codelistGroup}>Select a codelist</h2>
-      <fieldset>
+    <div className="w-full mt-6" role="group" aria-labelledby={codelistGroup}>
+      <h2 className="text-lg font-bold" id={codelistGroup}>
+        {label}
+      </h2>
+      <p className="text-base text-slate-700">{description}</p>
+      <fieldset className="mt-2">
         <legend className="sr-only">Select a codelist type</legend>
         <div className="grid grid-cols-2 gap-2">
           {codelists.map((item) => (
             <label
               key={item.name}
               className={classNames(
-                "border rounded-md py-2 px-1 flex items-center justify-center text-sm font-semibold sm:flex-1 cursor-pointer focus:outline-none",
+                "border rounded-md shadow-sm py-2 px-1 flex items-center justify-center text-sm font-semibold sm:flex-1 cursor-pointer focus:outline-none",
                 item.id === values[codelistType]
                   ? "ring-2 ring-oxford-500"
                   : null

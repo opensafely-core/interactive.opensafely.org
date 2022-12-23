@@ -3,7 +3,7 @@ import React from "react";
 import { useWizard } from "react-use-wizard";
 import SelectCodelist from "../SelectCodelist";
 
-function Step1X({ codelistCount, setCodelistCount }) {
+function Step1({ codelistCount, setCodelistCount }) {
   const { isValid, setFieldValue, validateForm, setTouched } =
     useFormikContext();
   const { nextStep } = useWizard();
@@ -29,26 +29,37 @@ function Step1X({ codelistCount, setCodelistCount }) {
   };
 
   return (
-    <>
-      {codelistCount < 2 ? (
-        <button type="button" onClick={handleAddCodelist}>
-          Add another codelist
+    <div className="grid grid-cols-2 gap-8">
+      <div className="flex flex-col items-start gap-y-8">
+        {Array(codelistCount)
+          .fill(0)
+          .map((_, i) => (
+            <SelectCodelist
+              description={
+                i === 0
+                  ? "Choose a codelist type, then search for a codelist"
+                  : "Add another codelist to the request"
+              }
+              label={i === 0 ? "Select a codelist" : "Select another codelist"}
+              key={i}
+              id={i}
+            />
+          ))}
+        {codelistCount < 2 ? (
+          <button type="button" onClick={handleAddCodelist}>
+            Add another codelist
+          </button>
+        ) : (
+          <button type="button" onClick={handleRemoveCodelist}>
+            Remove second codelist
+          </button>
+        )}
+        <button type="button" onClick={handleNextPage}>
+          Next
         </button>
-      ) : (
-        <button type="button" onClick={handleRemoveCodelist}>
-          Remove second codelist
-        </button>
-      )}
-      {Array(codelistCount)
-        .fill(0)
-        .map((_, i) => (
-          <SelectCodelist key={i} id={i} />
-        ))}
-      <button type="button" onClick={handleNextPage}>
-        Next
-      </button>
-    </>
+      </div>
+    </div>
   );
 }
 
-export default Step1X;
+export default Step1;

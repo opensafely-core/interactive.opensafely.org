@@ -1,129 +1,85 @@
-{% extends "interactive/template.html" %}
+{% extends "base.html" %}
 {% load django_vite %}
 
 {% block meta_title %}Request an analysis | OpenSAFELY Interactive{% endblock meta_title %}
 
-{% block template_heading %}
-<h1 class="text-center text-3xl font-extrabold text-slate-900 sm:w-full sm:max-w-lg mx-auto">
-  Request an analysis
-</h1>
-{% endblock template_heading %}
-
-{% block template_content %}
-<section class="prose prose-oxford sm:prose-sm text-slate-800">
-  <h2 class="text-2xl font-bold mb-4">What does an analysis show?</h2>
-  <p>An analysis automatically counts the number of events recorded per week in every GP practice for a selected Codelist.</p>
-  <p>During the pilot and dvelopment stage we have agreed with NHS England Information Governance team to restrict available codelists to pre-approved Codelists published by {% include "components/link.html" with href="https://www.opencodelists.org/" content="OpenSAFELY on OpenCodelists" newtab=True %}.</p>
-  <p>The analysis uses TPP software (covering appoximately 40% of England's practices), from prior to the pandemic to the latest available date.</p>
-  {% url 'about' as deciles_link %}
-  <p>This produces a time trend chart, with practices {% include "components/link.html" with href=deciles_link|add:"#deciles" content="represented as deciles" newtab=True %}.</p>
-  <p class="!mb-2">The report will also display:</p>
-  <ul>
-    <li>overall summary statistics</li>
-    <li>total events</li>
-    <li>number of distinct patients affected</li>
-    <li>five codes in the codelist were most commonly used, with percentages</li>
-  </ul>
-  <p>We will be developing more features in collaboration with users so please <a href="https://docs.google.com/forms/d/e/1FAIpQLScWikDx0UlqbEcnbzZhn5FiBTBHc2LtrfhqmmKwgOuKt4oFTQ/viewform" target="_blank" rel="noopener noreferrer">tell us about your experience using OpenSAFELY Interactive</a>.</p>
+{% block content %}
+<section class="bg-oxford-50 py-6">
+  <div class="container">
+    <h1 class="text-3xl font-extrabold text-slate-900 mb-6">
+      Request an analysis
+    </h1>
+    <div class="prose prose-oxford sm:prose-sm text-slate-800">
+      <h2 class="text-2xl font-bold mb-4">What does an analysis show?</h2>
+      <p>An analysis automatically counts the number of events recorded per week in every GP practice for a selected Codelist.</p>
+      <p>During the pilot and dvelopment stage we have agreed with NHS England Information Governance team to restrict available codelists to pre-approved Codelists published by {% include "components/link.html" with href="https://www.opencodelists.org/" content="OpenSAFELY on OpenCodelists" newtab=True %}.</p>
+      <p>The analysis uses TPP software (covering appoximately 40% of England's practices), from prior to the pandemic to the latest available date.</p>
+      {% url 'about' as deciles_link %}
+      <p>This produces a time trend chart, with practices {% include "components/link.html" with href=deciles_link|add:"#deciles" content="represented as deciles" newtab=True %}.</p>
+      <p class="!mb-2">The report will also display:</p>
+      <ul>
+        <li>overall summary statistics</li>
+        <li>total events</li>
+        <li>number of distinct patients affected</li>
+        <li>five codes in the codelist were most commonly used, with percentages</li>
+      </ul>
+      <p>We will be developing more features in collaboration with users so please <a href="https://docs.google.com/forms/d/e/1FAIpQLScWikDx0UlqbEcnbzZhn5FiBTBHc2LtrfhqmmKwgOuKt4oFTQ/viewform" target="_blank" rel="noopener noreferrer">tell us about your experience using OpenSAFELY Interactive</a>.</p>
+    </div>
+  </div>
 </section>
 
-<div class="border-t border-t-slate-200 mt-6 pt-6 -mx-10">
-  <h2 class="px-10 text-2xl font-bold">Submit a request</h2>
-</div>
+<section class="container py-8">
+  <h2 class="text-2xl font-bold">Submit a request</h2>
 
-{% if form.errors %}
-<div class="shadow sm:rounded-lg bg-red-50 p-4 mt-3 mb-6">
-  <div class="flex">
-    <div class="flex-shrink-0">
-      {% include "icons/solid-x-circle.svg" with html_class="h-5 w-5 text-red-400" %}
-    </div>
-    <div class="ml-3">
-      <h3 class="text-sm font-bold text-red-800">
-        There {{ form.errors|pluralize:"was,were" }} {{ form.errors|length }} error{{form.errors|pluralize}}:
-      </h3>
-      <div class="mt-2 text-sm text-red-700">
-        <ul role="list" class="list-disc pl-5 space-y-1">
-          {% for field in form %}
-            {% for error in field.errors %}
-            <li><strong>{{ field.label }}: </strong>{{ error }}</li>
-            {% endfor %}
-          {% endfor %}
-          {% for error in form.non_field_errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
 
-<form class="space-y-6" method="post">
-  {% csrf_token %}
-  {{ form.non_field_errors }}
+    {{ codelists|json_script:"analysis-request-form-data" }}
+    {{ form.codelist_slug.errors|json_script:"analysis-request-errors" }}
 
-  {{ codelists|json_script:"react-dropdown-options" }}
-  {{ form.codelist_slug.errors|json_script:"react-dropdown-errors" }}
-  {# <div #}
-    {# data-choices="react-dropdown-options" #}
-    {# data-errors="react-dropdown-errors" #}
-    {# data-hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" #}
-    {# data-id="{{ form.codelist_slug.id_for_label }}" #}
-    {# data-label="Select a codelist" #}
-    {# data-name="codelist_slug" #}
-    {# id="react-dropdown" #}
-    {# > #}
-      {# {% include "components/form-field-select.html" with id=form.codelist_slug.id_for_label label="Select a codelist" name="codelist_slug" required=True choices=form.codelist_slug.field.choices hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system" %} #}
+    {% if debug %}
+    <script type="module" nonce="{{ request.csp_nonce }}">
+      import RefreshRuntime from 'http://localhost:5173/static/bundle/@react-refresh'
+      RefreshRuntime.injectIntoGlobalHook(window)
+      window.$RefreshReg$ = () => {}
+      window.$RefreshSig$ = () => (type) => type
+      window.__vite_plugin_react_preamble_installed__ = true
+    </script>
+    {% endif %}
+    <div
+      id="root"
+      data-form-data="analysis-request-form-data"
+      data-errors="analysis-request-errors"
+    ></div>
+    {% vite_asset 'assets/src/scripts/skeleton/main.jsx' %}
+  </form>
+</section>
+
+{# {% if form.errors %} #}
+{# <div class="shadow sm:rounded-lg bg-red-50 p-4 mt-3 mb-6"> #}
+  {# <div class="flex"> #}
+    {# <div class="flex-shrink-0"> #}
+      {# {% include "icons/solid-x-circle.svg" with html_class="h-5 w-5 text-red-400" %} #}
     {# </div> #}
-  {# {% vite_hmr_client %} #}
-  {% if debug %}
-  <script type="module" nonce="{{ request.csp_nonce }}">
-    import RefreshRuntime from 'http://localhost:5173/@react-refresh'
-    RefreshRuntime.injectIntoGlobalHook(window)
-    window.$RefreshReg$ = () => {}
-    window.$RefreshSig$ = () => (type) => type
-    window.__vite_plugin_react_preamble_installed__ = true
-  </script>
-  {% endif %}
-  <div
-    id="root"
-    data-choices="react-dropdown-options"
-    data-errors="react-dropdown-errors"
-    data-hint="Codelists are published by OpenSAFELY on OpenCodelists and use the SNOMED CT coding system"
-    data-id="{{ form.codelist_slug.id_for_label }}"
-    data-label="Select a codelist"
-    data-name="codelist_slug"
-  ></div>
-  {% vite_asset 'assets/src/scripts/skeleton/main.jsx' defer=true %}
-
-  <div>
-    <h2 class="block mb-1 text-lg font-semibold text-slate-800">
-      Date range
-    </h2>
-    <p class="mt-1 text-base text-slate-600">
-      Analysis will cover period between
-      <time datetime="{{ start_date }}">{{ start_date }}</time>
-      and
-      <time datetime="{{ end_date }}">{{ end_date }}</time>.
-    </p>
-  </div>
-
-  <div class="group relative">
-    <div class="bg-transparent justify-center">
-      <span
-        class="
-          text-sm text-semibold bg-rose-300 text-rose-900 py-2 px-3 mb-4 rounded shadow-xl text-center
-          block opacity-0 scale-0 transition-all
-          group-hover:opacity-100 group-hover:scale-100
-          before:block before:absolute before:-bottom-1 before:h-3 before:w-3 before:bg-rose-300 before:left-1/2 before:-translate-x-1/2 before:rotate-45
-        "
-      >
-        This service is currently unavailable.
-      </span>
-    </div>
-    <div class="opacity-75">
-      {% include "components/button.html" with el="input" color="oxford" html_class="w-full" disabled="true" size="lg" type="submit" text="Submit" %}
-    </div>
-  </div>
-</form>
-{% endblock template_content %}
+    {# <div class="ml-3"> #}
+      {# <h3 class="text-sm font-bold text-red-800"> #}
+        {# There {{ form.errors|pluralize:"was,were" }} {{ form.errors|length }} error{{form.errors|pluralize}}: #}
+      {# </h3> #}
+      {# <div class="mt-2 text-sm text-red-700"> #}
+        {# <ul role="list" class="list-disc pl-5 space-y-1"> #}
+          {# {% for field in form %} #}
+            {# {% for error in field.errors %} #}
+            {# <li><strong>{{ field.label }}: </strong>{{ error }}</li> #}
+            {# {% endfor %} #}
+          {# {% endfor %} #}
+          {# {% for error in form.non_field_errors %} #}
+            {# <li>{{ error }}</li> #}
+          {# {% endfor %} #}
+        {# </ul> #}
+      {# </div> #}
+    {# </div> #}
+  {# </div> #}
+{# </div> #}
+{# {% endif %} #}
+{% endblock content %}

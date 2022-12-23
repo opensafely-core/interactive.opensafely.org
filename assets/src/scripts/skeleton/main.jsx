@@ -9,10 +9,10 @@ const container = document.getElementById("root");
 const root = createRoot(container);
 
 // Get the choices for the dropdown from a <script> tag loaded by Django
-const choicesEl = document.getElementById(container.dataset.choices);
+const formData = document.getElementById(container.dataset.formData);
 
 // Convert choices to an object from an array
-const choices = JSON.parse(choicesEl.textContent).map((choice, i) => {
+const choices = JSON.parse(formData.textContent).map((choice, i) => {
   return {
     value: choice.slug,
     label: choice.name,
