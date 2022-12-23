@@ -1,6 +1,7 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import legacy from "@vitejs/plugin-legacy";
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
+import { defineConfig } from "vite";
 
 export default defineConfig({
   base: "/static/bundle/",
@@ -8,9 +9,8 @@ export default defineConfig({
     manifest: true,
     rollupOptions: {
       input: {
-        main: "assets/src/scripts/main.js",
         bootstrap: "assets/src/scripts/bootstrap.js",
-        form: "assets/src/scripts/form/index.jsx",
+        main: "assets/src/scripts/main.js",
         skeleton: "assets/src/scripts/skeleton/main.jsx",
       },
     },

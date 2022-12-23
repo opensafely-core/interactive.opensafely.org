@@ -29,7 +29,7 @@ function Step1({ codelistCount, setCodelistCount }) {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-8">
+    <div className="grid grid-cols-2 gap-8 items-start">
       <div className="flex flex-col items-start gap-y-8">
         {Array(codelistCount)
           .fill(0)
@@ -58,6 +58,31 @@ function Step1({ codelistCount, setCodelistCount }) {
         <button onClick={handleNextPage} type="button">
           Next
         </button>
+      </div>
+      {/* Show a section below the Combobox explaining about codelists */}
+      <div className="max-h-fit border-l-2 border-l-oxford-200 bg-oxford-50 rounded pl-4 pr-2 py-4 mt-4 text-sm text-slate-800">
+        <ul className="list-disc pl-4 grid grid-flow-row gap-2">
+          <li>
+            <a
+              className="text-oxford-600 font-semibold underline underline-offset-1 transition-colors hover:text-oxford-500 hover:no-underline focus:text-oxford-700 focus:no-underline"
+              href="https://www.opencodelists.org/docs/#what-is-a-codelist"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              What is a codelist?
+            </a>
+          </li>
+          <li>
+            <a
+              className="text-oxford-600 font-semibold underline underline-offset-1 transition-colors hover:text-oxford-500 hover:no-underline focus:text-oxford-700 focus:no-underline"
+              href="https://www.snomed.org/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              What is SNOMED CT?
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   );

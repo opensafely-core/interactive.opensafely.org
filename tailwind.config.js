@@ -1,3 +1,6 @@
+const tailwindAspectRatio = require("@tailwindcss/aspect-ratio");
+const tailwindForms = require("@tailwindcss/forms");
+const tailwindcssTypography = require("@tailwindcss/typography");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
@@ -39,15 +42,11 @@ module.exports = {
         oxford: {
           css: {
             "--tw-prose-bullets": theme("colors.slate[600]"),
-            '--tw-prose-links': theme('colors.oxford[600]'),
+            "--tw-prose-links": theme("colors.oxford[600]"),
           },
         },
       }),
     },
   },
-  plugins: [
-    require("@tailwindcss/forms"),
-    require("@tailwindcss/aspect-ratio"),
-    require("@tailwindcss/typography"),
-  ],
+  plugins: [tailwindForms, tailwindAspectRatio, tailwindcssTypography],
 };
