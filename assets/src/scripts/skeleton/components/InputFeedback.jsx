@@ -1,7 +1,15 @@
+import { shape } from "prop-types";
 import React from "react";
 import { classNames } from "../utils";
 
-const InputFeedback = ({ error }) =>
-  error ? <div className={classNames("input-feedback")}>{error}</div> : null;
+function InputFeedback({ error }) {
+  return error ? (
+    <div className={classNames("input-feedback")}>{error}</div>
+  ) : null;
+}
 
 export default InputFeedback;
+
+InputFeedback.propTypes = {
+  error: shape().isRequired,
+};

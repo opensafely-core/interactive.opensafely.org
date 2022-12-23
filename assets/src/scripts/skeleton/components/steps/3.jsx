@@ -7,10 +7,10 @@ function Step3() {
   return (
     <>
       {/* Filters */}
-      <button type="button" onClick={() => previousStep()}>
+      <button onClick={() => previousStep()} type="button">
         Previous ⏮️
       </button>
-      <button type="button" onClick={() => nextStep()}>
+      <button onClick={() => nextStep()} type="button">
         Submit
       </button>
     </>

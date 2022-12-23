@@ -1,14 +1,15 @@
 import { Field, useFormikContext } from "formik";
+import { number, string } from "prop-types";
 import React, { Fragment } from "react";
 import { usePageData } from "../context/page-data-context";
 import codelists from "../data/codelists.json";
 import { classNames } from "../utils";
-import { Combobox } from "./Combobox";
+import Combobox from "./Combobox";
 
 function SelectCodelist({ description, label, id }) {
-  const codelist = "codelist" + id;
-  const codelistType = "codelistType" + id;
-  const codelistGroup = "codelistGroup" + id;
+  const codelist = `codelist${id}`;
+  const codelistType = `codelistType${id}`;
+  const codelistGroup = `codelistGroup${id}`;
 
   const {
     state: { data },
@@ -23,8 +24,8 @@ function SelectCodelist({ description, label, id }) {
     values,
   } = useFormikContext();
 
-  const radioButtonChange = ({ id }) => {
-    if (id !== values[codelistType]) {
+  const radioButtonChange = (item) => {
+    if (item.id !== values[codelistType]) {
       setFieldValue(codelist, "");
       setFieldTouched(codelist, false);
     }
@@ -38,7 +39,7 @@ function SelectCodelist({ description, label, id }) {
   };
 
   return (
-    <div className="w-full mt-6" role="group" aria-labelledby={codelistGroup}>
+    <div aria-labelledby={codelistGroup} className="w-full mt-6" role="group">
       <h2 className="text-lg font-bold" id={codelistGroup}>
         {label}
       </h2>
@@ -55,12 +56,14 @@ function SelectCodelist({ description, label, id }) {
                   ? "ring-2 ring-oxford-500"
                   : null
               )}
-              onClick={() => radioButtonChange({ id: item.id })}
+              htmlFor={codelistType}
             >
               <Field
                 className="sr-only"
-                type="radio"
+                id={codelistType}
                 name={codelistType}
+                onClick={() => radioButtonChange(item)}
+                type="radio"
                 value={item.id}
               />
               {item.name}
@@ -87,12 +90,11 @@ function SelectCodelist({ description, label, id }) {
                   name: "",
                 }}
                 errors={[""]}
-                handleSelectedItemChange={(item) =>
-                  handleSelectedItemChange(item)
-                }
-                initialSelectedItem={values[codelist]}
+                handleSelectedItemChange={(i) => handleSelectedItemChange(i)}
+                initialSelectedItem={values[codelist] || null}
               />
               {errors[codelist] && touched[codelist] ? (
+                // eslint-disable-next-line no-console
                 <div>{console.log(errors[codelist])}</div>
               ) : null}
             </>
@@ -104,3 +106,9 @@ function SelectCodelist({ description, label, id }) {
 }
 
 export default SelectCodelist;
+
+SelectCodelist.propTypes = {
+  description: string.isRequired,
+  label: string.isRequired,
+  id: number.isRequired,
+};

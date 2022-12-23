@@ -7,10 +7,10 @@ function Step2() {
   return (
     <>
       {/* Report builder */}
-      <button type="button" onClick={() => previousStep()}>
+      <button onClick={() => previousStep()} type="button">
         Previous ⏮️
       </button>
-      <button type="button" onClick={() => nextStep()}>
+      <button onClick={() => nextStep()} type="button">
         Next ⏭
       </button>
     </>

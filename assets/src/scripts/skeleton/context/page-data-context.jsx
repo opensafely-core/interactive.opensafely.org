@@ -1,3 +1,4 @@
+import { arrayOf, node, shape, string } from "prop-types";
 import * as React from "react";
 
 const PageDataContext = React.createContext();
@@ -12,6 +13,7 @@ function pageDataReducer(state, action) {
 
 function PageDataProvider({ children, data }) {
   const [state, dispatch] = React.useReducer(pageDataReducer, { data });
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   const value = { state, dispatch };
 
   return (
@@ -30,3 +32,13 @@ function usePageData() {
 }
 
 export { PageDataProvider, usePageData };
+
+PageDataProvider.propTypes = {
+  children: node.isRequired,
+  data: arrayOf(
+    shape({
+      value: string,
+      label: string,
+    })
+  ).isRequired,
+};

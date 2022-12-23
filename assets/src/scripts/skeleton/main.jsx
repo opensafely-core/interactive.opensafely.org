@@ -1,6 +1,7 @@
+// eslint-disable-next-line import/no-unresolved
+import "vite/modulepreload-polyfill";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import "vite/modulepreload-polyfill";
 import App from "./App";
 import { PageDataProvider } from "./context/page-data-context";
 
@@ -12,13 +13,11 @@ const root = createRoot(container);
 const formData = document.getElementById(container.dataset.formData);
 
 // Convert choices to an object from an array
-const choices = JSON.parse(formData.textContent).map((choice, i) => {
-  return {
-    value: choice.slug,
-    label: choice.name,
-    organisation: choice.organisation,
-  };
-});
+const choices = JSON.parse(formData.textContent).map((choice) => ({
+  value: choice.slug,
+  label: choice.name,
+  organisation: choice.organisation,
+}));
 
 // Get the errors for the dropdown from a <script> tag loaded by Django
 const errorsEl = document.getElementById(container.dataset.errors);
@@ -27,7 +26,7 @@ const errors = errorsEl?.textContent ? JSON.parse(errorsEl.textContent) : null;
 
 root.render(
   <React.StrictMode>
-    <PageDataProvider data={choices}>
+    <PageDataProvider data={choices} errors={errors}>
       <App />
     </PageDataProvider>
   </React.StrictMode>

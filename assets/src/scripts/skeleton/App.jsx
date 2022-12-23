@@ -36,21 +36,19 @@ function App() {
   );
 
   return (
-    <>
-      <Formik initialValues={{}} validationSchema={FormSchema} validateOnMount>
-        <>
-          <Wizard>
-            <Step1
-              codelistCount={codelistCount}
-              setCodelistCount={setCodelistCount}
-            />
-            <Step2 />
-            <Step3 />
-          </Wizard>
-          <Debug />
-        </>
-      </Formik>
-    </>
+    <Formik initialValues={{}} validateOnMount validationSchema={FormSchema}>
+      <>
+        <Wizard>
+          <Step1
+            codelistCount={codelistCount}
+            setCodelistCount={setCodelistCount}
+          />
+          <Step2 />
+          <Step3 />
+        </Wizard>
+        <Debug />
+      </>
+    </Formik>
   );
 }
 

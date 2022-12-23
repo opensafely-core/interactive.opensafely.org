@@ -1,11 +1,11 @@
 import { useFormikContext } from "formik";
+import { func, number } from "prop-types";
 import React from "react";
 import { useWizard } from "react-use-wizard";
 import SelectCodelist from "../SelectCodelist";
 
 function Step1({ codelistCount, setCodelistCount }) {
-  const { isValid, setFieldValue, validateForm, setTouched } =
-    useFormikContext();
+  const { isValid, setFieldValue, validateForm } = useFormikContext();
   const { nextStep } = useWizard();
 
   const handleAddCodelist = () => {
@@ -35,26 +35,27 @@ function Step1({ codelistCount, setCodelistCount }) {
           .fill(0)
           .map((_, i) => (
             <SelectCodelist
+              // eslint-disable-next-line react/no-array-index-key
+              key={i}
               description={
                 i === 0
                   ? "Choose a codelist type, then search for a codelist"
                   : "Add another codelist to the request"
               }
-              label={i === 0 ? "Select a codelist" : "Select another codelist"}
-              key={i}
               id={i}
+              label={i === 0 ? "Select a codelist" : "Select another codelist"}
             />
           ))}
         {codelistCount < 2 ? (
-          <button type="button" onClick={handleAddCodelist}>
+          <button onClick={handleAddCodelist} type="button">
             Add another codelist
           </button>
         ) : (
-          <button type="button" onClick={handleRemoveCodelist}>
+          <button onClick={handleRemoveCodelist} type="button">
             Remove second codelist
           </button>
         )}
-        <button type="button" onClick={handleNextPage}>
+        <button onClick={handleNextPage} type="button">
           Next
         </button>
       </div>
@@ -63,3 +64,8 @@ function Step1({ codelistCount, setCodelistCount }) {
 }
 
 export default Step1;
+
+Step1.propTypes = {
+  codelistCount: number.isRequired,
+  setCodelistCount: func.isRequired,
+};

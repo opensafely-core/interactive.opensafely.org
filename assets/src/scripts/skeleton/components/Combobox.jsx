@@ -1,7 +1,7 @@
 import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { useCombobox } from "downshift";
 import { arrayOf, func, shape, string } from "prop-types";
-import { useState } from "react";
+import React, { useState } from "react";
 import { classNames } from "../utils";
 
 /**
@@ -29,7 +29,7 @@ function stateReducer(state, actionAndChanges) {
   }
 }
 
-export function Combobox({
+function Combobox({
   choices,
   data,
   errors,
@@ -49,7 +49,6 @@ export function Combobox({
     highlightedIndex,
     isOpen,
     openMenu,
-    selectItem,
     selectedItem,
     reset,
   } = useCombobox({
@@ -77,6 +76,7 @@ export function Combobox({
 
   return (
     <>
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label
         {...getLabelProps()}
         className="block mb-1 text-lg font-semibold text-slate-800"
@@ -184,9 +184,9 @@ export function Combobox({
             <li>
               <a
                 className="text-oxford-600 font-semibold underline underline-offset-1 transition-colors hover:text-oxford-700 hover:no-underline focus:text-oxford-900 focus:no-underline"
+                href={`https://www.opencodelists.org/codelist/${selectedItem.value}`}
                 rel="noopener noreferrer"
                 target="_blank"
-                href={`https://www.opencodelists.org/codelist/${selectedItem.value}`}
               >
                 View “{selectedItem.label}” codelist &#8599;
               </a>
@@ -233,6 +233,8 @@ export function Combobox({
   );
 }
 
+export default Combobox;
+
 Combobox.propTypes = {
   choices: arrayOf(
     shape({
@@ -250,13 +252,15 @@ Combobox.propTypes = {
   }).isRequired,
   errors: arrayOf(string),
   handleSelectedItemChange: func.isRequired,
-  selectedItem: shape({
+  initialSelectedItem: shape({
     value: string,
     label: string,
+    organisation: string,
   }),
 };
 
 Combobox.defaultProps = {
+  choices: [],
   errors: null,
-  selectedItem: null,
+  initialSelectedItem: null,
 };
