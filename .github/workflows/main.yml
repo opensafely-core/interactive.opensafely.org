@@ -27,8 +27,11 @@ jobs:
       - name: Install node_modules
         run: npm ci
 
-      - name: Test assets
-        run: npm run test:coverage
+      - name: Lint assets
+        run: npm run lint
+
+      # - name: Test assets
+      #   run: npm run test:coverage
 
       - name: Build assets
         run: npm run build
