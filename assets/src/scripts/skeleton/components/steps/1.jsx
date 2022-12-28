@@ -1,13 +1,14 @@
-import { Field, useFormikContext } from "formik";
+import { useFormikContext } from "formik";
 import { func, number } from "prop-types";
 import React from "react";
 import { useWizard } from "react-use-wizard";
 import { classNames } from "../../utils";
 import InputFeedback from "../InputFeedback";
+import RadioButton from "../RadioButton";
 import SelectCodelist from "../SelectCodelist";
 
 function Step1({ codelistCount, setCodelistCount }) {
-  const { isValid, setFieldValue, validateForm, touched, errors } =
+  const { isValid, values, setFieldValue, validateForm, touched, errors } =
     useFormikContext();
   const { nextStep } = useWizard();
 
@@ -33,13 +34,13 @@ function Step1({ codelistCount, setCodelistCount }) {
 
   return (
     <div className="grid grid-cols-2 gap-x-8 items-start">
-      <div className="flex flex-col items-start">
+      <div className="grid gap-y-4">
         {Array(codelistCount)
           .fill(0)
           .map((_, i) => (
             <SelectCodelist
               // eslint-disable-next-line react/no-array-index-key
-              key={i}
+              key={i + i}
               description={
                 i === 0
                   ? "Choose a codelist type, then search for a codelist"
@@ -52,10 +53,14 @@ function Step1({ codelistCount, setCodelistCount }) {
         {codelistCount < 2 ? (
           <button
             className={classNames(
-              "inline-flex items-center justify-center rounded-md border border-transparent shadow-sm transition-buttons duration-200 px-4 py-2 text-sm font-medium bg-oxford-600 text-white",
+              "inline-flex w-fit items-center justify-center rounded-md border border-transparent shadow-sm transition-buttons duration-200 px-4 py-2 text-sm font-medium bg-oxford-600 text-white",
               "hover:bg-oxford-700 hover:shadow-lg",
-              "focus:bg-oxford-700 focus:ring-oxford-500 focus:ring-offset-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+              "focus:bg-oxford-700 focus:ring-oxford-500 focus:ring-offset-white focus:outline-none focus:ring-2 focus:ring-offset-2",
+              !values?.codelistType0
+                ? "opacity-75 cursor-not-allowed !bg-slate-700"
+                : null
             )}
+            disabled={!values?.codelistType0}
             onClick={handleAddCodelist}
             type="button"
           >
@@ -64,7 +69,7 @@ function Step1({ codelistCount, setCodelistCount }) {
         ) : (
           <button
             className={classNames(
-              "inline-flex items-center justify-center rounded-md border border-transparent shadow-sm transition-buttons duration-200 px-4 py-2 text-sm font-medium bg-red-600 text-white",
+              "inline-flex w-fit items-center justify-center rounded-md border border-transparent shadow-sm transition-buttons duration-200 px-4 py-2 text-sm font-medium bg-red-600 text-white",
               "hover:bg-red-700 hover:shadow-lg",
               "focus:bg-red-700 focus:ring-red-500 focus:ring-offset-white focus:outline-none focus:ring-2 focus:ring-offset-2"
             )}
@@ -75,63 +80,43 @@ function Step1({ codelistCount, setCodelistCount }) {
           </button>
         )}
 
-        <fieldset className="flex flex-col items-start mt-12 mb-6">
-          <legend className="text-lg font-bold mb-1">
-            Select a frequency to group events by{" "}
-            <span className="text-red-700">*</span>
+        <fieldset className="mt-12">
+          <legend className="text-4xl font-bold mb-4">
+            <h2>Select a frequency to group events by</h2>
           </legend>
-          <label
-            className="inline-flex flex-row gap-x-2 items-center cursor-pointer mb-1"
-            htmlFor="monthly"
-          >
-            <Field
-              className="h-4 w-4 border-gray-300 text-oxford-600 focus:ring-oxford-500"
+          <div className="flex flex-col gap-4">
+            <RadioButton
               id="monthly"
+              label="Monthly"
               name="frequency"
-              type="radio"
               value="monthly"
             />
-            Monthly
-          </label>
-          <label
-            className="inline-flex flex-row gap-x-2 items-center cursor-pointer mb-1"
-            htmlFor="quarterly"
-          >
-            <Field
-              className="h-4 w-4 border-gray-300 text-oxford-600 focus:ring-oxford-500"
+            <RadioButton
               id="quarterly"
+              label="Quarterly"
               name="frequency"
-              type="radio"
               value="quarterly"
             />
-            Quarterly
-          </label>
-          <label
-            className="inline-flex flex-row gap-x-2 items-center cursor-pointer"
-            htmlFor="yearly"
-          >
-            <Field
-              className="h-4 w-4 border-gray-300 text-oxford-600 focus:ring-oxford-500"
+            <RadioButton
               id="yearly"
+              label="Yearly"
               name="frequency"
-              type="radio"
               value="yearly"
             />
-            Yearly
-          </label>
-          {touched.frequency && errors.frequency ? (
-            <InputFeedback error={errors.frequency} />
-          ) : null}
+            {touched.frequency && errors.frequency ? (
+              <InputFeedback error={errors.frequency} />
+            ) : null}
+          </div>
         </fieldset>
 
         <button
           className={classNames(
-            "inline-flex items-center justify-center rounded-md border border-transparent shadow-sm transition-buttons duration-200 px-4 py-2 text-sm font-medium bg-oxford-600 text-white",
+            "inline-flex w-fit items-center justify-center rounded-md border border-transparent shadow-sm transition-buttons duration-200 px-4 py-2 text-sm font-medium bg-oxford-600 text-white",
             "hover:bg-oxford-700 hover:shadow-lg",
             "focus:bg-oxford-700 focus:ring-oxford-500 focus:ring-offset-white focus:outline-none focus:ring-2 focus:ring-offset-2",
             !isValid ? "opacity-75 cursor-not-allowed !bg-slate-700" : null
           )}
-          // disabled={!isValid}
+          disabled={!isValid}
           onClick={handleNextPage}
           type="button"
         >

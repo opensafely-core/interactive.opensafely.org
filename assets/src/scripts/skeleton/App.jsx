@@ -46,7 +46,7 @@ function App() {
             codelistCount={codelistCount}
             setCodelistCount={setCodelistCount}
           />
-          <Step2 />
+          <Step2 codelistCount={codelistCount} />
           <Step3 />
         </Wizard>
         <Debug />
