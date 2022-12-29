@@ -73,7 +73,7 @@ function SelectCodelist({ label, id }) {
                     errors: "",
                     hint: "",
                     id: "",
-                    label: "",
+                    label,
                     name: "",
                   }}
                   errors={[""]}

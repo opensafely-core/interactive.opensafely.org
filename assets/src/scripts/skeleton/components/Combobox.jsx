@@ -89,8 +89,8 @@ function Combobox({
           <input
             className={classNames(
               "block w-full pl-3 pr-10 py-2 cursor-pointer border-2 border-slate-400 rounded-md shadow-sm placeholder-slate-400",
-              "focus:cursor-text focus:outline-none focus:ring-oxford-500 focus:border-oxford-500",
-              "valid:bg-white valid:text-green-800 valid:border-green-500 valid:font-semibold"
+              "focus:cursor-text focus:outline-none focus:ring-oxford-500 focus:border-oxford-500"
+              // "valid:bg-white valid:text-green-800 valid:border-green-500 valid:font-semibold"
             )}
             placeholder="Search for a codelist"
             required

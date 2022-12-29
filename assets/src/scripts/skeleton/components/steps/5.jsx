@@ -9,7 +9,7 @@ import image5 from "../../images/image5.png";
 import Button from "../Button";
 
 function Step5() {
-  const { goToStep } = useWizard();
+  const { previousStep } = useWizard();
   const { isSubmitting } = useFormikContext();
 
   return (
@@ -23,6 +23,9 @@ function Step5() {
       <div className="flex flex-row w-full gap-2 mt-10">
         <Button disabled={isSubmitting} type="submit">
           Submit
+        </Button>
+        <Button onClick={() => previousStep()} variant="danger">
+          Go back
         </Button>
       </div>
     </>

@@ -3,6 +3,7 @@ import { func, number } from "prop-types";
 import React from "react";
 import { useWizard } from "react-use-wizard";
 import { classNames } from "../../utils";
+import Button from "../Button";
 import InputFeedback from "../InputFeedback";
 import RadioButton from "../RadioButton";
 import SelectCodelist from "../SelectCodelist";
@@ -51,33 +52,21 @@ function Step1({ codelistCount, setCodelistCount }) {
             />
           ))}
         {codelistCount < 2 ? (
-          <button
+          <Button
             className={classNames(
-              "inline-flex w-fit items-center justify-center rounded-md border border-transparent shadow-sm transition-buttons duration-200 px-4 py-2 text-sm font-medium bg-oxford-600 text-white",
-              "hover:bg-oxford-700 hover:shadow-lg",
-              "focus:bg-oxford-700 focus:ring-oxford-500 focus:ring-offset-white focus:outline-none focus:ring-2 focus:ring-offset-2",
               !values?.codelistType0
                 ? "opacity-75 cursor-not-allowed !bg-slate-700"
                 : null
             )}
             disabled={!values?.codelistType0}
             onClick={handleAddCodelist}
-            type="button"
           >
             Add another codelist
-          </button>
+          </Button>
         ) : (
-          <button
-            className={classNames(
-              "inline-flex w-fit items-center justify-center rounded-md border border-transparent shadow-sm transition-buttons duration-200 px-4 py-2 text-sm font-medium bg-red-600 text-white",
-              "hover:bg-red-700 hover:shadow-lg",
-              "focus:bg-red-700 focus:ring-red-500 focus:ring-offset-white focus:outline-none focus:ring-2 focus:ring-offset-2"
-            )}
-            onClick={handleRemoveCodelist}
-            type="button"
-          >
+          <Button onClick={handleRemoveCodelist} variant="danger">
             Remove second codelist
-          </button>
+          </Button>
         )}
 
         <fieldset className="mt-12">
@@ -109,19 +98,16 @@ function Step1({ codelistCount, setCodelistCount }) {
           </div>
         </fieldset>
 
-        <button
+        <Button
           className={classNames(
-            "inline-flex w-fit items-center justify-center rounded-md border border-transparent shadow-sm transition-buttons duration-200 px-4 py-2 text-sm font-medium bg-oxford-600 text-white",
-            "hover:bg-oxford-700 hover:shadow-lg",
-            "focus:bg-oxford-700 focus:ring-oxford-500 focus:ring-offset-white focus:outline-none focus:ring-2 focus:ring-offset-2",
             !isValid ? "opacity-75 cursor-not-allowed !bg-slate-700" : null
           )}
           disabled={!isValid}
           onClick={handleNextPage}
-          type="button"
+          variant="primary"
         >
           Next
-        </button>
+        </Button>
       </div>
       {/* Show a section below the Combobox explaining about codelists */}
       <div className="max-h-fit border-l-2 border-l-oxford-200 bg-oxford-50 shadow pl-4 pr-2 py-4 mt-4 text-sm text-slate-800">
