@@ -1,10 +1,12 @@
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { Wizard } from "react-use-wizard";
 import * as Yup from "yup";
 import Debug from "./components/Debug";
-import { Step1, Step2, Step3 } from "./components/steps";
+import { Step1, Step2, Step3, Step4, Step5 } from "./components/steps";
 import codelists from "./data/codelists.json";
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 function App() {
   const codelistTypes = codelists.map((a) => a.id);
@@ -39,8 +41,16 @@ function App() {
   );
 
   return (
-    <Formik initialValues={{}} validateOnMount validationSchema={FormSchema}>
-      <>
+    <Formik
+      initialValues={{}}
+      onSubmit={async (values) => {
+        await sleep(500);
+        alert(JSON.stringify(values, null, 2));
+      }}
+      validateOnMount
+      validationSchema={FormSchema}
+    >
+      <Form>
         <Wizard>
           <Step1
             codelistCount={codelistCount}
@@ -48,9 +58,11 @@ function App() {
           />
           <Step2 codelistCount={codelistCount} />
           <Step3 />
+          <Step4 />
+          <Step5 />
         </Wizard>
         <Debug />
-      </>
+      </Form>
     </Formik>
   );
 }

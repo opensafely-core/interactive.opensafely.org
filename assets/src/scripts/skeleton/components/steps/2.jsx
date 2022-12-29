@@ -76,7 +76,7 @@ function CodelistBuilder({ date }) {
         <option value="after">After</option>
       </Field>
       <p className="max-w-prose text-lg py-2">
-        {data.find((item) => item.value === values.codelistA).label}.
+        {data.find((item) => item.value === values?.codelistA)?.label}.
       </p>
     </>
   );
