@@ -34,7 +34,16 @@ function CodelistBuilder({ date }) {
     setFieldValue("timeValue", values.timeValue || 3);
     setFieldValue("timeScale", values.timeScale || "weeks");
     setFieldValue("timeEvent", values.timeEvent || "before");
-  }, []);
+  }, [
+    setFieldValue,
+    values.codelist0.value,
+    values.codelist1.value,
+    values?.codelistA,
+    values?.codelistB,
+    values.timeEvent,
+    values.timeScale,
+    values.timeValue,
+  ]);
 
   const handleChange = (e) => {
     if (e.target.name === "codelistA") {
@@ -117,5 +126,9 @@ OneCodelist.propTypes = {
     value: string.isRequired,
     organisation: string.isRequired,
   }).isRequired,
+  date: string.isRequired,
+};
+
+CodelistBuilder.propTypes = {
   date: string.isRequired,
 };

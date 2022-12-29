@@ -6,6 +6,7 @@ import Debug from "./components/Debug";
 import { Step1, Step2, Step3, Step4, Step5 } from "./components/steps";
 import codelists from "./data/codelists.json";
 
+// eslint-disable-next-line no-promise-executor-return
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
       initialValues={{}}
       onSubmit={async (values) => {
         await sleep(500);
+        // eslint-disable-next-line no-alert
         alert(JSON.stringify(values, null, 2));
       }}
       validateOnMount
