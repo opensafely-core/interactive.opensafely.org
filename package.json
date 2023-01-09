@@ -37,7 +37,7 @@
     "@tailwindcss/typography": "^0.5.8",
     "alpinejs": "git://github.com/ebmdatalab/alpine.git#v3.10.3-csp",
     "bootstrap": "^4.6.2",
-    "downshift": "^7.0.5",
+    "downshift": "^7.1.2",
     "jquery": "^3.6.2",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
