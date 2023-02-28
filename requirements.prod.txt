@@ -126,9 +126,9 @@ django-extensions==3.2.1 \
     --hash=sha256:2a4f4d757be2563cd1ff7cfdf2e57468f5f931cc88b23cf82ca75717aae504a4 \
     --hash=sha256:421464be390289513f86cb5e18eb43e5dc1de8b4c27ba9faa3b91261b0d67e09
     # via -r requirements.prod.in
-django-permissions-policy==4.14.0 \
-    --hash=sha256:923db75e74b1e363c84f2a7723c4af6fd78a5baa6c7fbdb0850e5b38d88e0a06 \
-    --hash=sha256:a0f20a2c56409126c67bb4f85ef0e51625aec6a0a02b912fda70b466fcf2c0ed
+django-permissions-policy==4.15.0 \
+    --hash=sha256:43f72a66c40b68c8de47ac9390a8f31994551daeaef196c9d20761b38ab324ca \
+    --hash=sha256:e80b535b771ebf166fc1452254ce07772affac9b7960975b3909510760d653ac
     # via -r requirements.prod.in
 django-vite==2.0.2 \
     --hash=sha256:5a2e11a9f08a2a0a69c9a7c637a3254ad0c8dd01e07cb40de09a3a180ed99791 \
